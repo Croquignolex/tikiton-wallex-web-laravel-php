@@ -23,7 +23,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::pattern('language', implode('|', config('app.locales')));
+        Route::pattern('email', '[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}');
 
         parent::boot();
     }
