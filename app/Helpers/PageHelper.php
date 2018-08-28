@@ -4,7 +4,7 @@ if(!function_exists('page_title'))
 {
     /**
      * @param $page
-     * @return \Illuminate\Config\Repository|mixed|string
+     * @return string
      */
     function page_title($page)
     {
@@ -34,3 +34,28 @@ if(!function_exists('active_page'))
         return '';
     }
 }
+
+if(!function_exists('seo_keywords'))
+{
+    /**
+     * @return string
+     */
+    function seo_keywords()
+    {
+         return 'wallex,argent,money,dépense,expense,gain,income,' .
+             'transfert,transfer,transaction,compte,account,dévise,currency,revenue';
+    }
+}
+
+if(!function_exists('seo_description'))
+{
+    /**
+     * @return string
+     */
+    function seo_description()
+    {
+        return 'Wallex est votre porte feuille electronique, '.
+            'qui vous permet de gerer de manière éfficace vos dépenses et gains.';
+    }
+}
+
