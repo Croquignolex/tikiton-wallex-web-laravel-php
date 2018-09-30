@@ -1,22 +1,17 @@
 #loader {
     position: fixed;
-    z-index: 9999;
-    opacity: 0.95;
-    background: url('../img/loader.gif') 50% 50% no-repeat;
-    top: 0px;
-    left: 0px;
+    z-index: 99999;
+    background: url('../img/loader.gif') 100% 100% no-repeat;
     height: 100%;
     width: 100%;
-    cursor: progress;
+    cursor: wait;
 }
 
-.bounce-theme
-{
+.bounce-theme {
     -webkit-animation: bounce 2s ease infinite;
     animation: bounce 2s ease infinite;
 }
 
-#loader,
 .btn-outline-theme-1
 { background-color: #ffffff !important; }
 .btn-theme-1, .badge-theme-1,

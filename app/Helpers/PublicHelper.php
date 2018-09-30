@@ -108,3 +108,29 @@ if(!function_exists('flag_img_asset'))
         return '/assets/img/flags/' . $flag . '.png';
     }
 }
+
+if(!function_exists('testimonial_img_asset'))
+{
+    /**
+     * @param $testimonial
+     * @param string $extension
+     * @return string
+     */
+    function testimonial_img_asset($testimonial, $extension = 'jpg')
+    {
+        return '/assets/img/testimonials/' . $testimonial . '.' . $extension;
+    }
+}
+
+if(!function_exists('partner_img_asset'))
+{
+    /**
+     * @param $partner
+     * @param string $extension
+     * @return string
+     */
+    function partner_img_asset($partner, $extension = 'jpg')
+    {
+        return '/assets/img/partners/' . $partner . '.' . $extension;
+    }
+}

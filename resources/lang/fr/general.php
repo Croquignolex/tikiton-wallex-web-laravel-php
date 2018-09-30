@@ -53,6 +53,50 @@ return [
     |
     */
 
+    'banner_bold_text' => 'Gardez un oeuil panoramique sur vos porte feuille',
+    'banner_small_text' => 'Une solution fiable et gratuite afin de gérer facilement vos gain et dépenses',
+    'getting_started' => 'Commencer',
+    'watch_video' => 'Régarder la video',
+    'responsive_design' => 'Affichage dynamique',
+    'responsive_design_desc' => 'Aillez accès à votre :app peut importe votre équipement',
+    'easy_language' => 'Gramaire facile',
+    'easy_language_desc' => ':app utilise des mots facile afin que tous puissions comprendre les données affichées',
+    'smooth_design' => 'Affichage douce',
+    'smooth_design_desc' => ':app a un affichage convivial',
+    'panoramic_view' => 'Vue panoramique',
+    'panoramic_view_desc' => 'Aillez les yeux sur plusieurs données à la fois',
+    'full_control' => 'Control total',
+    'full_control_desc' => 'Aillez la main mise sur l\'entièreté de votre :app',
+    'fast_data_processing' => 'Traitement rapide',
+    'fast_data_processing_desc' => 'Aillez le resultat de vos réquettes le plus rapudement possible',
+    'features' => 'Fonctionalités',
+    'features_desc' => ':app vous offre une large gamme de fonctionnalités, mais les principaux sont décris ci-après',
+    'wallet_management' => 'Gestion des porte-feuille',
+    'wallet_management_desc' => 'Vous pouvez créer plusieur porte-feuille et les gérer simultanément',
+    'currency_management' => 'Gestion de la dévise',
+    'currency_management_desc' => 'Vous pouvez ajouter vos dévises, la dévise de vos porte-feuille sera automatiquement converti en la dévise sélectionné',
+    'account_management' => 'Gestion du compte',
+    'account_management_desc' => 'Personalisez vos informations et vos accès pour le confort des yeux et une meilleur sécurité',
+    'transaction_management' => 'Gestion des transactions',
+    'transaction_management_desc' => 'Peut importe le porte-feuille choisis, controllez vos gains et dépenses',
+    'repport' => 'Rapports',
+    'repport_desc' => 'Les rapports vous donne une accès complèt aux données de vos différent porte-feuille',
+    'dashboard' => 'Tableau de bord',
+    'dashboard_desc' => 'Ceci est le récaputilatif de tous ce qui à été fait dans vos différent porte-feuille',
+    'contact_us_desc' => 'Vous avez besoin de n\'importe quelle infirmation sur nous?',
+    'what_people_says' => 'Ce qui les gens disent de nous',
+    'what_people_says_desc' => 'Le retour sur expérience de nos utilisatuer sont les pillers qui améliore :app de façon continue',
+    'our_partners' => 'Nos partenaires',
+    'our_partners_desc' => 'Ils nous ont fais confiance, ils nous font confiance et ils nous feront confiance',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Old common Language Lines
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+
     'at' => 'à',
     'or' => 'ou',
     'why' => 'Pourquoi',

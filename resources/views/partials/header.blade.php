@@ -1,5 +1,5 @@
 @inject('languageService', 'App\Services\LanguageService')
-<!--Header navbar-->
+<!--Start Header Area-->
 <nav class="navbar probootstrap-megamenu navbar-default probootstrap-navbar">
     <div class="container">
         <div class="navbar-header">
@@ -15,7 +15,7 @@
         <div id="navbar-collapse" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">
+                    <a href="javascript: void(0);" data-toggle="dropdown" class="dropdown-toggle">
                         <span>
                             <img src="{{ flag_img_asset($languageService->getCurrentLanguage()) }}" alt="...">
                             @lang($languageService->getLanguageFullName($languageService->getCurrentLanguage()))
@@ -51,4 +51,4 @@
         </div>
     </div>
 </nav>
-<!--/Header navbar-->
+<!--End Header Area-->

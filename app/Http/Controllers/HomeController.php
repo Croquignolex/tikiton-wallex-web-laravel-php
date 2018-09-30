@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Partner;
+use App\Models\Testimonial;
 use App\Traits\ErrorFlashMessagesTrait;
 
 class HomeController extends Controller
@@ -13,15 +15,16 @@ class HomeController extends Controller
      */
     public function __invoke()
     {
-        /*
         try
-        { }
+        {
+            $testimonials = Testimonial::all();
+            $partners = Partner::all();
+        }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
-        */
 
-        return view('home');
+        return view('home', compact('testimonials', 'partners'));
     }
 }

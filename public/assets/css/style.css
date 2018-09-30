@@ -46,7 +46,7 @@ a {
 }
 
 a:hover, a:focus, a:active {
-  color: #71bd1e;
+  color: #008f47;
   text-decoration: none;
 }
 
@@ -406,7 +406,7 @@ a:hover, a:focus, a:active {
 }
 
 .probootstrap-hero .probootstrap-hero-text {
-  padding-top: 200px;
+  padding-top: 100px;
   padding-bottom: 200px;
 }
 
@@ -503,7 +503,7 @@ a:hover, a:focus, a:active {
 }
 
 .probootstrap-feature-showcase {
-  margin-top: 100px;
+  margin-top: 50px;
   position: relative;
 }
 
@@ -700,7 +700,7 @@ a:hover, a:focus, a:active {
 }
 
 .probootstrap-section {
-  padding: 7em 0;
+  padding: 2em 0;
 }
 
 .probootstrap-section.probootstrap-border-top {
@@ -1708,7 +1708,7 @@ a:hover, a:focus, a:active {
   margin-top: 30px;
 }
 
-.pb0 {dropdown
+.pb0 {
   padding-bottom: 0 !important;
 }
 
