@@ -12,7 +12,6 @@
                     <p>@lang('general.banner_small_text')</p>
                     <p>
                         <a href="{{ locale_route('register') }}" class="btn btn-theme-1 btn-lg bounce-theme" role="button">
-                            <i class="fa fa-thumbs-up"></i>
                             @lang('general.getting_started')
                         </a>
                     </p>

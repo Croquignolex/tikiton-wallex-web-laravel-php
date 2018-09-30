@@ -31,6 +31,7 @@
         <!-- Plugin JavaScript -->
         <script src="{{ js_asset('vue.min') }}" type="text/javascript"></script>
         <script src="{{ js_asset('bootstrap-notify.min') }}" type="text/javascript"></script>
+        <script src="{{ js_asset('jquery.scrollUp.min') }}" type="text/javascript"></script>
         <!-- Global scripts -->
         <script src="{{ js_asset('master') }}" type="text/javascript"></script>
         <!-- Custom scripts for this page -->
