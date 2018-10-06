@@ -12,12 +12,16 @@
 */
 
 //--Client routes
+Route::get('/terms', function () { return redirect(locale_route('terms')); });
+Route::get('/policy', function () { return redirect(locale_route('policy')); });
 Route::get('/about', function () { return redirect(locale_route('about')); });
 Route::get('/faqs', function () { return redirect(locale_route('faqs')); });
 Route::get('/contact', function () { return redirect(locale_route('contact')); });
 
 //--Localized client routes...
 Route::get('/{language?}', 'HomeController')->name('home');
+Route::get('/{language}/terms', 'TermsController')->name('terms');
+Route::get('/{language}/policy', 'PolicyController')->name('policy');
 Route::get('/{language}/about', 'AboutController')->name('about');
 Route::get('/{language}/faqs', 'FaqsController')->name('faqs');
 Route::get('/{language}/contact', 'ContactController')->name('contact');

@@ -53,6 +53,7 @@ return [
     |
     */
 
+    'by' => 'par',
     'banner_bold_text' => 'Gardez un oeuil panoramique sur vos porte feuille',
     'banner_small_text' => 'Une solution fiable et gratuite afin de gérer facilement vos gain et dépenses',
     'getting_started' => 'Commencer',
@@ -79,8 +80,8 @@ return [
     'account_management_desc' => 'Personalisez vos informations et vos accès pour le confort des yeux et une meilleur sécurité',
     'transaction_management' => 'Gestion des transactions',
     'transaction_management_desc' => 'Peut importe le porte-feuille choisis, controllez vos gains et dépenses',
-    'repport' => 'Rapports',
-    'repport_desc' => 'Les rapports vous donne une accès complèt aux données de vos différent porte-feuille',
+    'report' => 'Rapports',
+    'report_desc' => 'Les rapports vous donne une accès complèt aux données de vos différent porte-feuille',
     'dashboard' => 'Tableau de bord',
     'dashboard_desc' => 'Ceci est le récaputilatif de tous ce qui à été fait dans vos différent porte-feuille',
     'contact_us_desc' => 'Vous avez besoin de n\'importe quelle infirmation sur nous?',
@@ -88,6 +89,9 @@ return [
     'what_people_says_desc' => 'Le retour sur expérience de nos utilisatuer sont les pillers qui améliore :app de façon continue',
     'our_partners' => 'Nos partenaires',
     'our_partners_desc' => 'Ils nous ont fais confiance, ils nous font confiance et ils nous feront confiance',
+    'app_description' => ':app est votre porte feuille electronique, qui vous permet de gerer de manière éfficace vos gains et dépenses',
+    'important_notes' => 'Notes importantes',
+    'useful_links' => 'Liens utiles',
 
     /*
     |--------------------------------------------------------------------------
@@ -283,6 +287,7 @@ return [
     */
 
     'right' => 'Tous les droits réservés',
+    'designed_developed_with' => 'Designer &amp; Développé avec',
     'terms_of_uses' => 'Conditions d\'utilisation',
     'privacy_policy' => 'Politique de confidentialité',
     'short_desc_msg' => 'Notre passion à votre service',

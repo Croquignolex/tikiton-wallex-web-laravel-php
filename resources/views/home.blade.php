@@ -36,7 +36,7 @@
                         </li>
                         <li>
                             <a href="javascript: void(0);">
-                                <i class="fa fa-pencil-alt"></i>
+                                <i class="fa fa-pencil"></i>
                                 @lang('general.easy_language')
                             </a>
                             <p>@lang('general.easy_language_desc', ['app' => mb_strtoupper(config('app.name'))])</p>
@@ -50,21 +50,21 @@
                         </li>
                         <li>
                             <a href="javascript: void(0);">
-                                <i class="fa fa-sitemap"></i>
+                                <i class="fa fa-pie-chart"></i>
                                 @lang('general.panoramic_view')
                             </a>
                             <p>@lang('general.panoramic_view_desc', ['app' => mb_strtoupper(config('app.name'))])</p>
                         </li>
                         <li>
                             <a href="javascript: void(0);">
-                                <i class="fa fa-wrench"></i>
+                                <i class="fa fa-sitemap"></i>
                                 @lang('general.full_control')
                             </a>
                             <p>@lang('general.full_control_desc', ['app' => mb_strtoupper(config('app.name'))])</p>
                         </li>
                         <li>
                             <a href="javascript: void(0);">
-                                <i class="fa fa-cog"></i>
+                                <i class="fa fa-cogs"></i>
                                 @lang('general.fast_data_processing')
                             </a>
                             <p>@lang('general.fast_data_processing_desc', ['app' => mb_strtoupper(config('app.name'))])</p>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="col-md-4 probootstrap-animate" data-animate-effect="fadeInRight">
                     <div class="service text-center">
-                        <div class="icon"><i class="fa fa-cogs"></i></div>
+                        <div class="icon"><i class="fa fa-vcard-o"></i></div>
                         <div class="text">
                             <h3>@lang('general.account_management')</h3>
                             <p>@lang('general.account_management_desc')</p>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-md-4 probootstrap-animate" data-animate-effect="fadeIn">
                     <div class="service text-center">
-                        <div class="icon"><i class="fa fa-money-bill-alt"></i></div>
+                        <div class="icon"><i class="fa fa-money"></i></div>
                         <div class="text">
                             <h3>@lang('general.currency_management')</h3>
                             <p>@lang('general.currency_management_desc')</p>
@@ -136,7 +136,7 @@
                 </div>
                 <div class="col-md-4 probootstrap-animate" data-animate-effect="fadeInLeft">
                     <div class="service text-center">
-                        <div class="icon"><i class="fa fa-exchange-alt"></i></div>
+                        <div class="icon"><i class="fa fa-exchange"></i></div>
                         <div class="text">
                             <h3>@lang('general.transaction_management')</h3>
                             <p>@lang('general.transaction_management_desc')</p>
@@ -145,16 +145,16 @@
                 </div>
                 <div class="col-md-4 probootstrap-animate" data-animate-effect="fadeInUp">
                     <div class="service text-center">
-                        <div class="icon"><i class="fa fa-file"></i></div>
+                        <div class="icon"><i class="fa fa-file-text-o"></i></div>
                         <div class="text">
-                            <h3>@lang('general.repport')</h3>
-                            <p>@lang('general.repport_desc')</p>
+                            <h3>@lang('general.report')</h3>
+                            <p>@lang('general.report_desc')</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 probootstrap-animate" data-animate-effect="fadeInRight">
                     <div class="service text-center">
-                        <div class="icon"><i class="fa fa-chart-pie"></i></div>
+                        <div class="icon"><i class="fa fa-bar-chart"></i></div>
                         <div class="text">
                             <h3>@lang('general.dashboard')</h3>
                             <p>@lang('general.dashboard_desc')</p>

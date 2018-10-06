@@ -13,7 +13,7 @@
         @stack('style.plugin')
         <link rel="stylesheet" href="{{ css_asset('animate') }}" type="text/css">
         <!-- Custom fonts for this template -->
-        <link rel="stylesheet" href="{{ css_asset('fontawesome-all.min') }}" type="text/css">
+        <link rel="stylesheet" href="{{ css_asset('font-awesome.min') }}" type="text/css">
         <!-- Global styles -->
         <link rel="stylesheet" href="{{ css_asset('master') }}" type="text/css">
         <!-- Custom styles for this page -->

@@ -34,7 +34,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ locale_route('about') }}">@lang('general.about_us')</a></li>
-                <li><a href="{{ locale_route('faqs') }}">FAQ</a></li>
+                <li><a href="{{ locale_route('faqs') }}">FAQs</a></li>
                 <li><a href="{{ locale_route('contact') }}">@lang('general.contact_us')</a></li>
                 @auth
 

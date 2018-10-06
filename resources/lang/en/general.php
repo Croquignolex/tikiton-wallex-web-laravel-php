@@ -53,6 +53,7 @@ return [
     |
     */
 
+    'by' => 'by',
     'banner_bold_text' => 'Keep an panoramical eye on your wallet',
     'banner_small_text' => 'A reliable en free solution for you to easyly manage your incomes and expenses',
     'getting_started' => 'Getting started',
@@ -74,20 +75,23 @@ return [
     'wallet_management' => 'Wallets management',
     'wallet_management_desc' => 'You can create many wallets an manage then at the same time',
     'currency_management' => 'Currency management',
-    'currency_management_desc' => 'You can add your own currency, your wallets currency will automaticaly change and converte to the choosen currency',
+    'currency_management_desc' => 'You can add your own currency, your wallets currency will automatically change and convert to the choosen currency',
     'account_management' => 'Account management',
     'account_management_desc' => 'Personalize your information and credentials for better design and good security',
     'transaction_management' => 'Transaction management',
     'transaction_management_desc' => 'Whatever the choosen wallet, control your incomes and expenses',
-    'repport' => 'Repports',
-    'repport_desc' => 'The repports gives your a complete access to any data in you different wallets',
+    'report' => 'Repports',
+    'report_desc' => 'The repports gives your a complete access to any data in you different wallets',
     'dashboard' => 'Dashboard',
     'dashboard_desc' => 'This the overview of every thing that has been done in your different wallets',
     'contact_us_desc' => 'You need any information about us?',
     'what_people_says' => 'What people says about us',
-    'what_people_says_desc' => 'Users feedback are the pillers that iprouve continuously :app',
+    'what_people_says_desc' => 'Users feedback are the pillars that improve continuously :app',
     'our_partners' => 'Our partners',
     'our_partners_desc' => 'They had trusted us, they trust us and they will trust us',
+    'app_description' => ':app is your digital wallet that help you to manage efficiently your incomes and expenses',
+    'important_notes' => 'Important notes',
+    'useful_links' => 'Useful links',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,6 +100,8 @@ return [
     |
     |
     */
+
+
     'at' => 'at',
     'or' => 'or',
     'why' => 'Why',
@@ -282,6 +288,7 @@ return [
     */
 
     'right' => 'All rights reserved',
+    'designed_developed_with' => 'Designed &amp; Developed with',
     'terms_of_uses' => 'Terms of uses',
     'privacy_policy' => 'Privacy policy',
     'short_desc_msg' => 'Our passion at you service',

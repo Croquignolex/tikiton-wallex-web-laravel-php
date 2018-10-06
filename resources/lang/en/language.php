@@ -10,7 +10,7 @@ return [
     |
     */
 
-    'languages' => 'Language(s)',
+    'languages' => 'Languages',
     'en' => 'English',
     'fr' => 'French',
     'unknown' => 'Unknown'

@@ -7,7 +7,6 @@ body {
   color: #8b8e94;
   line-height: 28px;
   font-size: 14px;
-  font-family: "Poppins", Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -813,7 +812,7 @@ a:hover, a:focus, a:active {
 }
 
 .probootstrap-footer {
-  padding: 7em 0;
+  padding: 2em 0;
   background: #303841;
   color: rgba(255, 255, 255, 0.3);
 }
@@ -826,20 +825,8 @@ a:hover, a:focus, a:active {
   color: white;
 }
 
-@media screen and (max-width: 768px) {
-  .probootstrap-footer {
-    padding: 3em 0;
-  }
-}
-
 .probootstrap-footer .copyright {
-  margin-top: 50px;
-}
-
-@media screen and (max-width: 768px) {
-  .probootstrap-footer .copyright {
-    margin-top: 0px;
-  }
+  margin-top: 20px;
 }
 
 .probootstrap-footer .copyright p {
@@ -854,7 +841,6 @@ a:hover, a:focus, a:active {
 .probootstrap-footer .probootstrap-footer-widget {
   float: left;
   width: 100%;
-  margin-bottom: 30px;
 }
 
 .probootstrap-footer .probootstrap-footer-widget h3 {
