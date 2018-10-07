@@ -1,4 +1,5 @@
 @inject('languageService', 'App\Services\LanguageService')
+
 <!--Start Header Area-->
 <nav class="navbar probootstrap-megamenu navbar-default probootstrap-navbar">
     <div class="container">
@@ -20,6 +21,7 @@
                             <img src="{{ flag_img_asset($languageService->getCurrentLanguage()) }}" alt="...">
                             @lang($languageService->getLanguageFullName($languageService->getCurrentLanguage()))
                         </span>
+                        <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
                         @foreach($languageService->getLanguages() as $language)
@@ -33,9 +35,10 @@
                         @endforeach
                     </ul>
                 </li>
-                <li><a href="{{ locale_route('about') }}">@lang('general.about_us')</a></li>
-                <li><a href="{{ locale_route('faqs') }}">FAQs</a></li>
-                <li><a href="{{ locale_route('contact') }}">@lang('general.contact_us')</a></li>
+
+                <li class="{{ active_page(about_pages()) }}"><a href="{{ locale_route('about') }}">@lang('general.about_us')</a></li>
+                <li class="{{ active_page(faqs_pages()) }}"><a href="{{ locale_route('faqs') }}">FAQs</a></li>
+                <li class="{{ active_page(contact_pages()) }}"><a href="{{ locale_route('contact') }}">@lang('general.contact_us')</a></li>
                 @auth
 
                 @endauth

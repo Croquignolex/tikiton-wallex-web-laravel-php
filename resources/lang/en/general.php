@@ -92,6 +92,14 @@ return [
     'app_description' => ':app is your digital wallet that help you to manage efficiently your incomes and expenses',
     'important_notes' => 'Important notes',
     'useful_links' => 'Useful links',
+    'about_desc' => 'We always propose trough our vision solutions to improve your daily activities' ,
+    'our_vision' => 'Our vision',
+    'our_vision_desc' => 'We have the vision of an easy life through digitizing. That\'s why :company release the best human resources for us to keep an eye to our vision',
+    'our_mission' => 'Our mission',
+    'our_mission_desc' => 'Through :app, we have the mission to vulgarise digitizing in Cameroon, Africa and in the world, :company offers you daily solutions',
+    'our_team' => 'Our team',
+    'our_team_desc' => 'All our passion and skill at your service',
+
 
     /*
     |--------------------------------------------------------------------------

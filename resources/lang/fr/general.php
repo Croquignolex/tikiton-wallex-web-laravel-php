@@ -92,6 +92,13 @@ return [
     'app_description' => ':app est votre porte feuille electronique, qui vous permet de gerer de manière éfficace vos gains et dépenses',
     'important_notes' => 'Notes importantes',
     'useful_links' => 'Liens utiles',
+    'about_desc' => 'Nous proposons toujours à travers notre vision des solutions afin d\'améliorer votre quotidient',
+    'our_vision' => 'Notre vision',
+    'our_vision_desc' => 'Nous avons la vision d\'une vie facilité par le digital. C\'est pourquoi :company deploie le meilleur de son personnel afin de garder les yeux rivés sur notre vision',
+    'our_mission' => 'Notre mission',
+    'our_mission_desc' => 'A travers :app, nous avons pour mission de vulgariser le digital au Cameroun, en Afrique et dans le monde. :company vous offre gratuitement des solution au quotidient',
+    'our_team' => 'Notre équipe',
+    'our_team_desc' => 'Toute notre passion et talent à votre service',
 
     /*
     |--------------------------------------------------------------------------

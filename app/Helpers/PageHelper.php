@@ -59,3 +59,36 @@ if(!function_exists('seo_description'))
     }
 }
 
+if(!function_exists('about_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function about_pages()
+    {
+        return collect(['about']);
+    }
+}
+
+if(!function_exists('contact_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function contact_pages()
+    {
+        return collect(['contact']);
+    }
+}
+
+if(!function_exists('faqs_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function faqs_pages()
+    {
+        return collect(['faqs']);
+    }
+}
+

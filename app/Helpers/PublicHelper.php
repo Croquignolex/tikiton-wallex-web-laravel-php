@@ -134,3 +134,16 @@ if(!function_exists('partner_img_asset'))
         return '/assets/img/partners/' . $partner . '.' . $extension;
     }
 }
+
+if(!function_exists('team_img_asset'))
+{
+    /**
+     * @param $team
+     * @param string $extension
+     * @return string
+     */
+    function team_img_asset($team, $extension = 'jpg')
+    {
+        return '/assets/img/teams/' . $team . '.' . $extension;
+    }
+}

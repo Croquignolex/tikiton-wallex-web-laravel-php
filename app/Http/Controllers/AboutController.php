@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Team;
 use App\Traits\ErrorFlashMessagesTrait;
 
 class AboutController extends Controller
@@ -13,6 +15,15 @@ class AboutController extends Controller
      */
     public function __invoke()
     {
-        return view('about');
+        try
+        {
+            $teams = Team::all();
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return view('about', compact('teams'));
     }
 }

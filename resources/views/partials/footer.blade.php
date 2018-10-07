@@ -1,4 +1,18 @@
 @inject('languageService', 'App\Services\LanguageService')
+
+<!--Start Contact Area-->
+<section class="probootstrap-cta">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="probootstrap-animate" data-animate-effect="fadeInRight">@lang('general.contact_us_desc')</h2>
+                <a href="{{ locale_route('contact') }}" role="button" class="btn btn-primary btn-lg btn-ghost probootstrap-animate" data-animate-effect="fadeInLeft">@lang('general.contact_us')</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!--End Contact Area-->
+
 <!--Start Footer Area-->
 <footer class="probootstrap-footer">
     <div class="container">
@@ -56,9 +70,8 @@
                 </div>
             </div>
         </div>
-        <!-- END row -->
         <div class="row">
-            <div class="col-md-12 copyright probootstrap-animate">
+            <div class="col-md-12 copyright">
                 <p><small>&copy; 2019 <a href="{{ config('company.web_site') }}">{{ config('company.name') }}</a>. @lang('general.right'). <br> @lang('general.designed_developed_with') <i class="fa fa-heart"></i> @lang('general.by') <a href="{{ config('company.developer_web_site') }}">{{ config('company.developer_name') }}</a></small></p>
             </div>
         </div>
