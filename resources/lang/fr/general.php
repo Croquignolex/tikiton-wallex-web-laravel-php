@@ -147,7 +147,6 @@ return [
     'subject' => 'Sujet',
     'message' => 'Méssage',
     'send' => 'Envoyé',
-    'our_team' => 'Notre équipe',
     'database_error' => 'Erreur du serveur de base de données, réessayez plus tard s\'il vous plait',
     'mail_error' => 'Erreur du serveur de mails, réessayez plus tard s\'il vous plait',
     'image_error' => 'Erreur du serveur de fichiers, réessayez plus tard s\'il vous plait',

@@ -1,21 +1,16 @@
-@extends('layouts.layout')
+@extends('layouts.landing')
 
-@section('layout.title', page_title(trans('general.about')))
+@section('landing.layout.title', page_title(trans('general.about')))
 
-@section('layout.body')
-    <!--Start Page Name Area-->
-    <section class="probootstrap-hero probootstrap-xs-hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 text-left probootstrap-hero-text probootstrap-animate" data-animate-effect="fadeIn">
-                    <h1 class="text-theme-1"><i class="fa fa-info-circle"></i> About Us</h1>
-                    <p>@lang('general.about_desc')</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--End Page Name Area-->
+@section('page_name', trans('general.about_us'))
 
+@section('page_desc', trans('general.about_desc'))
+
+@section('page_icon')
+    <i class="fa fa-info-circle"></i>
+@endsection
+
+@section('landing.layout.body')
     <!--Start About Area-->
     <section class="probootstrap-section probootstrap-bg-white">
         <div class="container">

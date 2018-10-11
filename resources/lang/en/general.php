@@ -149,7 +149,6 @@ return [
     'subject' => 'Subject',
     'message' => 'Message',
     'send' => 'Send',
-    'our_team' => 'Our team',
     'database_error' => 'Database server error, try later please',
     'mail_error' => 'Mail server error, try later please',
     'image_error' => 'File server error, try later please',
