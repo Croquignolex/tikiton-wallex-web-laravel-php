@@ -324,7 +324,7 @@ return [
         please contact us as specified below. We will take reasonable steps to update or correct 
         Personal Data in our possession that you have previously submitted through the app. 
         Please also feel free to contact us if you have any questions about :app Privacy Policy or the 
-        information practices of this app. You may contact us as follows: :support',
+        information practices of this app',
     'terms_and_conditions' => 'acceptance of the terms and conditions',
     'terms_and_conditions_desc_1' => ':app provides and makes available this app. All use of the app
         is subject to the terms and conditions contained in these Terms of Use Agreement (the “Agreement”). 

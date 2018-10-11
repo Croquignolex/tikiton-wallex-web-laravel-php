@@ -327,7 +327,7 @@ return [
         pour mettre à jour ou de corriger les données personnelles en notre possession que vous avez déjà 
         soumis via l\'application. S\'il vous plaît aussi se sentir libre de nous contacter si vous avez des 
         questions concernant cette politique de confidentialité de :app ou les pratiques d\'information 
-        de cette application. Vous pouvez nous contacter via l’adresse: :support',
+        de cette application',
     'terms_and_conditions' => ' acceptation des termes et conditions',
     'terms_and_conditions_desc_1' => ':app fournit et rend disposition de l\'application. Toute utilisation 
         de l\'application est soumise aux termes et conditions contenues dans les présentes Conditions d\'Utilisation 

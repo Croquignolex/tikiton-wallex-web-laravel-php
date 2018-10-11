@@ -1,32 +1,65 @@
-@extends('layouts.overlay')
+@extends('layouts.landing')
 
-@section('app.home.title', page_title(trans('general.privacy_policy')))
-@section('overlay', trans('general.privacy_policy'))
+@section('landing.layout.title', page_title(trans('general.privacy_policy')))
 
-@section('app.home.body')
-    @component('components.about-section')
-        @component('components.about-row', ['title' => 'our_policy'])
-            @component('components.about-row-body',
-                ['body' => 'our_policy_desc'])
-            @endcomponent
-        @endcomponent
+@section('page_name', trans('general.privacy_policy'))
 
-        @component('components.about-row', ['title' => 'information_we_collect'])
-            @component('components.about-row-body',
-                ['body' => 'information_we_collect_desc'])
-            @endcomponent
-        @endcomponent
+@section('page_desc', trans('general.privacy_policy'))
 
-        @component('components.about-row', ['title' => 'security'])
-            @component('components.about-row-body',
-                ['body' => 'security_desc'])
-            @endcomponent
-        @endcomponent
+@section('page_icon')
+    <i class="fa fa-lock"></i>
+@endsection
 
-        @component('components.about-row', ['title' => 'access_to_information'])
-            @component('components.about-row-body',
-                ['body' => 'access_to_information_desc'])
-            @endcomponent
-        @endcomponent
-    @endcomponent
+@section('landing.layout.body')
+    <!--Start Our Policy Area-->
+    <section class="probootstrap-section probootstrap-bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12  section-heading probootstrap-animate">
+                    <h2 class="text-uppercase">@lang('general.our_policy')</h2>
+                    <p class="text-justify">@lang('general.our_policy_desc', ['app' => config('app.name')]).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Our Policy Area-->
+
+    <!--Start Information We Collect Area-->
+    <section class="probootstrap-section probootstrap-bg-white probootstrap-border-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12  section-heading probootstrap-animate">
+                    <h2 class="text-uppercase">@lang('general.information_we_collect')</h2>
+                    <p class="text-justify">@lang('general.information_we_collect_desc', ['app' => config('app.name')]).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Information We Collect Area-->
+
+    <!--Start Security Area-->
+    <section class="probootstrap-section probootstrap-bg-white probootstrap-border-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12  section-heading probootstrap-animate">
+                    <h2 class="text-uppercase">@lang('general.security')</h2>
+                    <p class="text-justify">@lang('general.security_desc', ['app' => config('app.name')]).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Security Area-->
+
+    <!--Start Access To Information Area-->
+    <section class="probootstrap-section probootstrap-bg-white probootstrap-border-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12  section-heading probootstrap-animate">
+                    <h2 class="text-uppercase">@lang('general.access_to_information')</h2>
+                    <p class="text-justify">@lang('general.access_to_information_desc', ['app' => config('app.name')]).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Access To Information Area-->
 @endsection
