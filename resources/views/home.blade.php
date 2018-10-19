@@ -176,7 +176,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach($testimonials as $testimonial)
+                @forelse($testimonials as $testimonial)
                     <div class="col-md-4 probootstrap-animate" data-animate-effect="fadeIn">
                         <div class="probootstrap-testimony-wrap text-center">
                             <figure>
@@ -189,7 +189,11 @@
                             </blockquote>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-sm-12 fix alert alert-info text-center">
+                        @lang('general.no_testimonials')
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -205,11 +209,15 @@
                 </div>
             </div>
             <div class="row">
-                @foreach($partners as $partner)
+                @forelse($partners as $partner)
                     <div class="col-md-3 col-sm-6 col-xs-6 text-center client-logo probootstrap-animate" data-animate-effect="fadeIn">
                         <img src="{{ $partner->image_path }}" class="img-responsive" alt="...">
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-sm-12 fix alert alert-info text-center">
+                        @lang('general.no_partner')
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>

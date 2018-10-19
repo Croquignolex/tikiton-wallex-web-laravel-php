@@ -62,7 +62,8 @@ a#scrollUp i
 .form-invalid { border: 1px solid red !important; }
 .form-valid { border: 1px solid #178622 !important; }
 
-.modal, .btn, .modal-content, .alert, input {
+.modal, .btn, .modal-content, .alert, .pagination > li > span,
+.page-link, .page-item, input {
     border-radius: 0 !important;
 }
 .custom-alert-success,

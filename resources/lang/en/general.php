@@ -99,7 +99,14 @@ return [
     'our_mission_desc' => 'Through :app, we have the mission to vulgarise digitizing in Cameroon, Africa and in the world, :company offers you daily solutions',
     'our_team' => 'Our team',
     'our_team_desc' => 'All our passion and skill at your service',
-
+    'contact_desc' => 'Leave us a message and we will contact you soonly',
+    'faqs' => 'Frequently asked questions',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'no_faqs' => 'No FAQs yet',
+    'no_partner' => 'No partner yet',
+    'no_testimonials' => 'No testimonials yet',
+    'no_teams' => 'No team yet',
 
     /*
     |--------------------------------------------------------------------------
@@ -113,8 +120,8 @@ return [
     'at' => 'at',
     'or' => 'or',
     'why' => 'Why',
-    'choose_us' => 'choose us',
     'hot' => 'Hot',
+    'choose_us' => 'choose us',
     'pastry' => 'Pastry',
     'welcome_to_you' => 'Welcome to you',
     'welcome_on' => 'Welcome on',

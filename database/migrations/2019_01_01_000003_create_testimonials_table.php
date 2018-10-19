@@ -22,6 +22,7 @@ class CreateTestimonialsTable extends Migration
             $table->string('en_function', 255);
             $table->text('fr_description');
             $table->text('en_description');
+            $table->boolean('is_visible')->default(true);
             $table->timestamps();
         });
     }

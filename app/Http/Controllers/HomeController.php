@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Partner;
 use App\Models\Testimonial;
 use App\Traits\ErrorFlashMessagesTrait;
@@ -17,8 +18,8 @@ class HomeController extends Controller
     {
         try
         {
-            $testimonials = Testimonial::all();
-            $partners = Partner::all();
+            $testimonials = Testimonial::where('is_visible', true)->get();
+            $partners = Partner::where('is_visible', true)->get();
         }
         catch (Exception $exception)
         {

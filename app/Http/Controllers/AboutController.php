@@ -17,7 +17,7 @@ class AboutController extends Controller
     {
         try
         {
-            $teams = Team::all();
+            $teams = Team::where('is_visible', true)->get();
         }
         catch (Exception $exception)
         {

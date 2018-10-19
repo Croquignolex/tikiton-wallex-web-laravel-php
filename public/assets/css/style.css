@@ -291,15 +291,15 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-navbar .navbar-nav > li.active > a {
-    color: #00af57 !important;
-    background: transparent !important;
-    border-bottom: 1px solid #00af57;
-    font-weight: bold;
+  color: #00af57 !important;
+  background: transparent !important;
+  border-bottom: 1px solid #00af57;
+  font-weight: bold;
 }
 
 .probootstrap-navbar .navbar-nav > li.active > a:hover {
-    border-bottom: 1px solid #ffffff;
-    font-weight: normal;
+  border-bottom: 1px solid #ffffff;
+  font-weight: normal;
 }
 
 @media screen and (max-width: 768px) {
@@ -313,8 +313,8 @@ only screen and (min-resolution: 2dppx) {
 .probootstrap-navbar .navbar-nav > li > a:hover,
 .probootstrap-navbar .navbar-nav > li > a:focus,
 .probootstrap-navbar .navbar-nav > li > a:active {
-    border-top: 2px solid #00af57;
-    color: #00af57;
+  border-top: 2px solid #00af57;
+  color: #00af57;
 }
 
 @media screen and (max-width: 480px) {
@@ -383,25 +383,25 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-navbar .dropdown-submenu > a:before {
-    font-family: 'FontAwesome', sans-serif;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-right: 10px;
-    margin-top: -11px;
-    content: "\f0d7";
-    font-size: 20px;
-    color: rgba(255, 255, 255, 0.5);
-    -webkit-transition: .3s all;
-    transition: .3s all;
+  font-family: 'FontAwesome', sans-serif;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-right: 10px;
+  margin-top: -11px;
+  content: "\f0d7";
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: .3s all;
+  transition: .3s all;
 }
 
 .probootstrap-navbar .dropdown-submenu > a:hover:before {

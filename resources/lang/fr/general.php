@@ -99,6 +99,14 @@ return [
     'our_mission_desc' => 'A travers :app, nous avons pour mission de vulgariser le digital au Cameroun, en Afrique et dans le monde. :company vous offre gratuitement des solution au quotidient',
     'our_team' => 'Notre équipe',
     'our_team_desc' => 'Toute notre passion et talent à votre service',
+    'contact_desc' => 'Laisser nous un méssage et on vous recontactera dans les plus brefs délais',
+    'faqs' => 'Questions fréquentes',
+    'next' => 'Suivant',
+    'previous' => 'Précédent',
+    'no_faqs' => 'Pas de FAQs pour le moment',
+    'no_partner' => 'Pas de partenaires pour le moment',
+    'no_testimonials' => 'Pas de témoignages pour le moment',
+    'no_teams' => 'Pas d\'équipe pour le moment',
 
     /*
     |--------------------------------------------------------------------------
@@ -111,8 +119,8 @@ return [
     'at' => 'à',
     'or' => 'ou',
     'why' => 'Pourquoi',
-    'choose_us' => 'nous choisir',
     'hot' => 'Patisserie',
+    'choose_us' => 'nous choisir',
     'pastry' => 'Chaude',
     'welcome_to_you' => 'Bienvenue a vous',
     'welcome_on' => 'Bienvenue sur',

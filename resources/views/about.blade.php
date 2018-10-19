@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="row">
-                @foreach($teams as $team)
+                @forelse($teams as $team)
                     <div class="col-md-3 col-sm-6 col-xs-6 probootstrap-animate">
                         <a href="javascript: void(0);" class="probootstrap-team">
                             <img src="{{ $team->image_path }}" alt="..." class="img-responsive">
@@ -57,7 +57,11 @@
                             </div>
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-sm-12 fix alert alert-info text-center">
+                        @lang('general.no_teams')
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>

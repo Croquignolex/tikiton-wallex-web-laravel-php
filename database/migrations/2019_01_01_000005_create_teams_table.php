@@ -20,6 +20,7 @@ class CreateTeamsTable extends Migration
             $table->string('name', 255);
             $table->string('fr_function', 255);
             $table->string('en_function', 255);
+            $table->boolean('is_visible')->default(true);
             $table->timestamps();
         });
     }
