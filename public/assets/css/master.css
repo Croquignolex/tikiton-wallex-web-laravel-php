@@ -22,7 +22,7 @@ body {
 }
 
 a#scrollUp {
-    bottom: 0px;
+    bottom: 0;
     right: 10px;
     padding: 5px 10px;
     background: #00af57;
@@ -56,14 +56,12 @@ a#scrollUp i
 { border-top: 1px solid #00af57 !important; }
 .btn-theme-1:hover
 { background-color: #008f47 !important; }
-.btn-theme-1:hover
-{ background-color: #008f47 !important; }
 
 .form-invalid { border: 1px solid red !important; }
-.form-valid { border: 1px solid #178622 !important; }
+.form-valid { border: 1px solid #00af57 !important; }
 
 .modal, .btn, .modal-content, .alert, .pagination > li > span,
-.page-link, .page-item, input {
+.page-link, .page-item, input, textarea {
     border-radius: 0 !important;
 }
 .custom-alert-success,

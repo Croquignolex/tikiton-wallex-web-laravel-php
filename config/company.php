@@ -13,6 +13,10 @@ return [
     'developer_name' => env('COMPANY_DEVELOPER_NAME', 'Laravel'),
     'email_1' => env('COMPANY_EMAIL_1', 'hello@example.com'),
     'email_2' => env('COMPANY_EMAIL_2', 'hello@example.com'),
+    'address_1' => env('COMPANY_ADDRESS_1', 'Laravel'),
+    'address_2' => env('COMPANY_ADDRESS_2', 'Laravel'),
+    'phone_1' => env('COMPANY_PHONE_1', 'Laravel'),
+    'phone_2' => env('COMPANY_PHONE_2', 'Laravel'),
     'web_site' => env('COMPANY_WEB_SITE', 'http://laravel.com'),
     'developer_web_site' => env('COMPANY_DEVELOPER_WEB_SITE', 'http://laravel.com'),
 

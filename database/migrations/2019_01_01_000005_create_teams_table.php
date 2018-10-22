@@ -15,9 +15,9 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('image', 255);
-            $table->string('extension', 50)->default('jpg');
             $table->string('name', 255);
+            $table->string('image', 255);
+            $table->string('extension', 50)->default('png');
             $table->string('fr_function', 255);
             $table->string('en_function', 255);
             $table->boolean('is_visible')->default(true);

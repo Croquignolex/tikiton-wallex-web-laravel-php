@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Faq;
+use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
 
 class FaqsTableSeeder extends Seeder
@@ -12,15 +13,14 @@ class FaqsTableSeeder extends Seeder
      */
     public function run()
     {
-        Faq::create([
-            'fr_question' => 'A combien coûte l\'accès à WALLEX?',
-            'en_question' => 'What is teh cost of WALLEX access',
-            'fr_answer' => 'WALLEX est totalement gratuit et le sera toujour.' .
-                ' Par contre les publicité et autre contenue supplémentaires sont payants.' .
-                ' Veillez vous rapprocher de la direction pour plus de détails',
-            'en_answer' => 'WALLEX is totaly free an it will always be free.' .
-                ' But advising and other supply content are not free.' .
-                ' Get close to the direction for more details.',
-        ]);
+        for($i = 1; $i <= 60; $i++)
+        {
+            Faq::create([
+                'fr_answer' => ucfirst(Lorem::text(300)),
+                'en_answer' => ucfirst(Lorem::text(300)),
+                'fr_question' => ucfirst(Lorem::sentence()),
+                'en_question' => ucfirst(Lorem::sentence()),
+            ]);
+        }
     }
 }

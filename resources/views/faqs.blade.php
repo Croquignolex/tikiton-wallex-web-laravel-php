@@ -14,12 +14,20 @@
     <!--Start FAQs Area-->
     <section class="probootstrap-section probootstrap-bg-white probootstrap-zindex-above-showcase">
         <div class="container">
-            <!-- END row -->
+            <!--Start Pagination Area-->
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    @component('components.pagination',
+                        ['paginationTools' => $paginationTools])
+                    @endcomponent
+                </div>
+            </div>
+            <!--End Pagination Area-->
             <div class="row">
                 @forelse($paginationTools->displayItems as $faq)
                     <div class="col-md-6 probootstrap-animate" data-animate-effect="fadeIn">
                         <h3>{{ $faq->format_question }}</h3>
-                        <p class="text-justify">{{ $faq->format_answer }}</p>
+                        <p>{{ $faq->format_answer }}</p>
                     </div>
                 @empty
                     <div class="col-sm-12 fix alert alert-info text-center">
@@ -27,6 +35,7 @@
                     </div>
                 @endforelse
             </div>
+            <!--Start Pagination Area-->
             <div class="row">
                 <div class="col-md-12">
                     @component('components.pagination',
@@ -34,6 +43,7 @@
                     @endcomponent
                 </div>
             </div>
+            <!--End Pagination Area-->
         </div>
     </section>
     <!--End FAQs Area-->

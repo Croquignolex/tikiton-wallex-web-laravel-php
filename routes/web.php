@@ -24,7 +24,9 @@ Route::get('/{language}/terms', 'TermsController')->name('terms');
 Route::get('/{language}/policy', 'PolicyController')->name('policy');
 Route::get('/{language}/about', 'AboutController')->name('about');
 Route::get('/{language}/faqs', 'FaqsController')->name('faqs');
-Route::get('/{language}/contact', 'ContactController')->name('contact');
+Route::get('/{language}/contact', 'ContactController@index')->name('contact');
+
+Route::post('/{language}/contact', 'ContactController@send');
 
 Route::group(['namespace' => 'App'], function() {
     //--App routes...

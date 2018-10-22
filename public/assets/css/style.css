@@ -168,18 +168,8 @@ a:hover, a:focus, a:active {
 .probootstrap-navbar .dropdown:hover > a,
 .probootstrap-navbar .dropdown:focus > a,
 .probootstrap-navbar .dropdown:active > a {
-  border-top: 2px solid #00af57;
   -webkit-transition: .3s all;
   transition: .3s all;
-}
-
-@media screen and (max-width: 768px) {
-  .probootstrap-navbar .dropdown.open > a,
-  .probootstrap-navbar .dropdown:hover > a,
-  .probootstrap-navbar .dropdown:focus > a,
-  .probootstrap-navbar .dropdown:active > a {
-    border-top: 2px solid transparent;
-  }
 }
 
 .probootstrap-navbar .dropdown.open > a:before,
@@ -201,6 +191,9 @@ a:hover, a:focus, a:active {
   color: #00af57 !important;
 }
 
+.probootstrap-navbar .dropdown > .dropdown-menu > li a:hover,
+.probootstrap-navbar .dropdown > .dropdown-menu > li a:focus,
+.probootstrap-navbar .dropdown > .dropdown-menu > li a:active,
 .probootstrap-navbar .dropdown > .dropdown-menu > li.open > a,
 .probootstrap-navbar .dropdown > .dropdown-menu > li:hover > a,
 .probootstrap-navbar .dropdown > .dropdown-menu > li:focus > a,
@@ -223,10 +216,8 @@ a:hover, a:focus, a:active {
 
 .probootstrap-navbar .dropdown-menu {
   border: none;
-  background: #303841 !important;
+  background: #00af57 !important;
   border-radius: 0;
-  -webkit-box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, 0.15);
   min-width: 200px;
   white-space: normal !important;
   word-wrap: break-word !important;
@@ -278,27 +269,18 @@ only screen and (min-resolution: 2dppx) {
   }
 }
 
-.probootstrap-navbar .navbar-nav .dropdown li.active > a {
-  color: #ffffff !important;
-  background: transparent !important;
-}
-
 .probootstrap-navbar .navbar-nav > li > a {
   color: #181920;
   font-size: 14px;
   position: relative;
-  border-top: 2px solid transparent;
 }
 
 .probootstrap-navbar .navbar-nav > li.active > a {
   color: #00af57 !important;
   background: transparent !important;
-  border-bottom: 1px solid #00af57;
-  font-weight: bold;
 }
 
 .probootstrap-navbar .navbar-nav > li.active > a:hover {
-  border-bottom: 1px solid #ffffff;
   font-weight: normal;
 }
 
@@ -313,20 +295,7 @@ only screen and (min-resolution: 2dppx) {
 .probootstrap-navbar .navbar-nav > li > a:hover,
 .probootstrap-navbar .navbar-nav > li > a:focus,
 .probootstrap-navbar .navbar-nav > li > a:active {
-  border-top: 2px solid #00af57;
   color: #00af57;
-}
-
-@media screen and (max-width: 480px) {
-  .probootstrap-navbar .navbar-nav > li > a:hover,
-  .probootstrap-navbar .navbar-nav > li > a:focus,
-  .probootstrap-navbar .navbar-nav > li > a:active {
-    border-top: 2px solid transparent;
-  }
-}
-
-.probootstrap-navbar .navbar-nav > li.open > a {
-  border-top: 2px solid transparent;
 }
 
 .probootstrap-navbar .navbar-nav > li.open > a:hover,
@@ -353,7 +322,6 @@ only screen and (min-resolution: 2dppx) {
 .probootstrap-navbar .navbar-nav > li.probootstra-cta-button > a.btn-ghost {
   background: transparent;
   color: #00af57;
-  border-top: 1px solid #00af57 !important;
 }
 
 .probootstrap-navbar .navbar-nav > li.probootstra-cta-button.last > a {
@@ -851,10 +819,12 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-footer a {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(0, 175, 87, 0.7);
 }
 
-.probootstrap-footer a:hover {
+.probootstrap-footer a:hover,
+.probootstrap-footer a:focus,
+.probootstrap-footer a:active {
   color: white;
 }
 

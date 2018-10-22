@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Partner;
+use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
 
 class PartnersTableSeeder extends Seeder
@@ -12,28 +13,13 @@ class PartnersTableSeeder extends Seeder
      */
     public function run()
     {
-        Partner::create([
-            'image' => 'partner_1',
-            'name' => 'Partner',
-            'extension' => 'png'
-        ]);
-
-        Partner::create([
-            'image' => 'partner_2',
-            'name' => 'Partner',
-            'extension' => 'png'
-        ]);
-
-        Partner::create([
-            'image' => 'partner_3',
-            'name' => 'Partner',
-            'extension' => 'png'
-        ]);
-
-        Partner::create([
-            'image' => 'partner_4',
-            'name' => 'Partner',
-            'extension' => 'png'
-        ]);
+        for($i = 1; $i <= 15; $i++)
+        {
+            Partner::create([
+                'image' => 'default',
+                'is_visible' => $i <= 4,
+                'name' => title_case(Lorem::word())
+            ]);
+        }
     }
 }

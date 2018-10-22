@@ -19,3 +19,7 @@
     <!--End Page Name Area-->
     @yield('landing.layout.body')
 @endsection
+
+@push('layout.script.page')
+    @stack('landing.layout.script.page')
+@endpush

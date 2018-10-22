@@ -28,7 +28,7 @@ class FaqsController extends Controller
             $this->databaseError($exception);
         }
 
-        $this->paginate($request, $faqs);
+        $this->paginate($request, $faqs, 6, 5);
         $paginationTools = $this->paginationTools;
 
         return view('faqs', compact('faqs', 'paginationTools'));
