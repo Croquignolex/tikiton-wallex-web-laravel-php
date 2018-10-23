@@ -43,5 +43,7 @@ return [
     'well_reset_sent' => 'Le lien de réinitialisation vous a été envoyé par mail, veillez consulter vos mails',
     'account_validation' => 'Validation du compte',
     'enter_email' => 'Entrez votre email',
+    'enter_password' => 'Entrez votre mot de passe',
     'fill_form' => 'Remplissez le formulaire',
+    'reset' => 'Réinitialiser',
 ];

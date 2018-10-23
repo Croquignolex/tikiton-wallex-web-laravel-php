@@ -15,6 +15,16 @@
     <section class="probootstrap-section probootstrap-bg-white probootstrap-zindex-above-showcase">
         <div class="container">
             <div class="row">
+                @if(session()->has('notification.message'))
+                    <div class="text-center col-sm-10 col-sm-offset-1">
+                        <div class="alert alert-{{ session('notification.type') }} alert-dismissable" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session('notification.message') }}
+                        </div>
+                    </div>
+                @endif
                 <form action="" method="POST" class="probootstrap-form" @submit="validateFormElements">
                     {{ csrf_field() }}
                     <div class="col-md-6 col-md-offset-3 probootstrap-animate" data-animate-effect="fadeIn">

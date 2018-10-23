@@ -1,51 +1,67 @@
-@extends('layouts.overlay')
+@extends('layouts.landing')
 
-@section('app.home.title', page_title(trans('general.pwd_reset')))
-@section('overlay_text', trans('general.pwd_reset'))
-@section('overlay_font', font('repeat'))
+@section('landing.layout.title', page_title(trans('general.pwd_reset')))
 
-@section('app.home.body')
-    <!--start login Area-->
-    <div class="login-page page fix">
+@section('page_name', trans('general.pwd_reset'))
+
+@section('page_desc', trans('auth.enter_email'))
+
+@section('page_icon')
+    <i class="fa fa-repeat"></i>
+@endsection
+
+@section('landing.layout.body')
+    <!--Start FAQs Area-->
+    <section class="probootstrap-section probootstrap-bg-white probootstrap-zindex-above-showcase">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <div class="login">
-                        <h2>@lang('auth.enter_email')</h2>
-                        @if(session()->has('notification.message'))
-                            <div class="text-center col-sm-10 custom-alert-{{ session('notification.type') }} col-sm-offset-1">
-                                {{ session('notification.message') }}
-                            </div>
-                        @endif
-                        <form id="signup-form" action="" method="POST" @submit="validateFormElements">
-                            {{ csrf_field() }}
+                @if(session()->has('notification.message'))
+                    <div class="text-center col-sm-10 col-sm-offset-1">
+                        <div class="alert alert-{{ session('notification.type') }} alert-dismissable" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session('notification.message') }}
+                        </div>
+                    </div>
+                @endif
+                <form action="" method="POST" class="probootstrap-form" @submit="validateFormElements">
+                    {{ csrf_field() }}
+                    <div class="col-md-6 col-md-offset-3 probootstrap-animate" data-animate-effect="fadeIn">
+                        <div class="form-group">
                             @component('components.label-input', [
-                                    'name' => 'email', 'label' => 'email',
+                                    'name' => 'email', 'label' => trans('general.email'),
+                                    'star' => '*'
                                     ])
                                 @component('components.input', [
                                     'type' => 'email', 'name' => 'email',
-                                     'value' => old('email'), 'auto_focus' => 'autofocus'
+                                    'class' => 'form-control', 'value' => old('email')
                                     ])
                                 @endcomponent
                             @endcomponent
-                            <div class="remember">
-                                <a href="{{ locale_route('register') }}">@lang('auth.register_sign_upped')</a><br>
-                                <a href="{{ locale_route('login') }}">@lang('auth.login_sign_upped')</a>
-                            </div>
+                        </div>
+                        <div class="form-group text-right">
                             @component('components.submit', [
-                               'class' => 'submit', 'value' => trans('auth.send_reset_link')
-                               ])
+                                'class' => 'btn btn-outline-theme-1 btn-lg',
+                                'id' => 'submit', 'name' => 'submit',
+                                'value' => trans('auth.send_reset_link'),
+                                'title' => trans('auth.enter_email')
+                                ])
                             @endcomponent
-                        </form>
+                        </div>
+                        <div class="form-group text-right">
+                            <a href="{{ locale_route('register') }}">@lang('auth.register_sign_upped')</a> <br>
+                            <a href="{{ locale_route('login') }}">@lang('auth.login_sign_upped')</a>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
-    <!--End login Area-->
+    </section>
+    <!--End FAQs Area-->
 @endsection
 
-@push('overlay.app.script.page')
+@push('landing.layout.script.page')
     <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
     <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
     <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>

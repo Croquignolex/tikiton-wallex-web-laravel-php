@@ -40,7 +40,6 @@ return [
     'pwd_reset' => 'Password reset',
     'old_password' => 'Old password',
     'new_password' => 'New password',
-    'reset' => 'Reset',
     'my_account' => 'My account',
     'my_wish_list' => 'My wish list',
     'log_out' => 'Logout',
@@ -167,7 +166,7 @@ return [
 
     'admin_thanks' => 'Thanks (:app team)',
     'bad_link' => 'Bad link or expired',
-    'well_confirmed' => 'Your account is successfully validate. Login and start your shopping',
+    'well_confirmed' => 'Your account is successfully validate. Login and start management your wallets',
     'category' => 'Category',
     'price' => 'Price',
     'tags' => 'Tags',

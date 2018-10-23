@@ -40,7 +40,6 @@ return [
     'pwd_reset' => 'Réinitialisation',
     'old_password' => 'Ancien mot de passe',
     'new_password' => 'Nouveau mot de passe',
-    'reset' => 'Réinitialiser',
     'my_account' => 'Mon compte',
     'my_wish_list' => 'Mes favoris',
     'log_out' => 'Deconnection',
@@ -166,7 +165,7 @@ return [
 
     'admin_thanks' => 'Merci (Equipe :app)',
     'bad_link' => 'Le lien a expiré ou n\'est pas correct',
-    'well_confirmed' => 'Votre compte est validé avec succèss. connectez-vous et commencez vos achat',
+    'well_confirmed' => 'Votre compte est validé avec succèss. connectez-vous et commencez à gérer vos porte-feuilles',
     'category' => 'Catégorie',
     'price' => 'Prix',
     'tags' => 'Etiquettes',

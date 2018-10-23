@@ -6,9 +6,7 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
-use App\Mail\UserPasswordResetMail;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 use App\Traits\ResetPasswordUserTrait;
 use App\Traits\ErrorFlashMessagesTrait;
 use Illuminate\Support\Facades\Password;
@@ -39,6 +37,16 @@ class ForgotPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLinkRequestForm()
+    {
+        return view('auth.app.passwords.email');
     }
 
     /**
@@ -103,7 +111,8 @@ class ForgotPasswordController extends Controller
 
             try
             {
-                Mail::to($user->email)->send(new UserPasswordResetMail($user));
+                //TODO: Edit contact form email
+                //Mail::to($user->email)->send(new UserPasswordResetMail($user));
                 return true;
             }
             catch (Exception $exception)

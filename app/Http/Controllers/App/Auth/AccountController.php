@@ -6,28 +6,16 @@ use Exception;
 use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use App\Mail\NewCustomerMail;
-use App\Mail\UserEmailChangeMail;
 use App\Http\Requests\EmailRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordRequest;
 use App\Traits\ErrorFlashMessagesTrait;
-use App\Http\Requests\UserInfoUpdateRequest;
 
 class AccountController extends Controller
 {
     use ErrorFlashMessagesTrait;
-
-    const ADD_PRODUCT_TO_CART = 0;
-    const REMOVE_PRODUCT_FROM_CART = 1;
-    const ADD_PRODUCT_TO_WISH_LIST = 3;
-    const REMOVE_PRODUCT_FROM_WISH_LIST = 4;
-
-    const LIGHT_JSON_RESPONSE = 5;
-    const NORMAL_JSON_RESPONSE = 6;
 
     /**
      * AccountController constructor.
@@ -45,26 +33,6 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         return view('account.index', compact('user'));
-    }
-
-    /**
-     * @param UserInfoUpdateRequest $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
-    public function update(UserInfoUpdateRequest $request)
-    {
-        try
-        {
-            $user = Auth::user();
-            $user->update($request->all());
-            success_flash_message(trans('auth.success'),  trans('general.info_updated'));
-        }
-        catch (Exception $exception)
-        {
-            $this->databaseError($exception);
-        }
-
-        return $this->redirectTo();
     }
 
     /**
@@ -127,7 +95,8 @@ class AccountController extends Controller
 
             try
             {
-                Mail::to($user->email)->send(new UserEmailChangeMail($user));
+                //TODO: Edit contact form email
+                //Mail::to($user->email)->send(new UserEmailChangeMail($user));
                 info_flash_message(trans('auth.info'), trans('auth.email_sent'));
             }
             catch (Exception $exception)
@@ -174,7 +143,8 @@ class AccountController extends Controller
                     {
                         try
                         {
-                            Mail::to(config('company.email_1'))->send(new NewCustomerMail($user));
+                            //TODO: Edit contact form email
+                            //Mail::to(config('company.email_1'))->send(new NewCustomerMail($user));
                         }
                         catch (Exception $exception)
                         {

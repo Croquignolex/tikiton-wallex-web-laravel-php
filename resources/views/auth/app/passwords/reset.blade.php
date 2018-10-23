@@ -1,65 +1,87 @@
-@extends('layouts.overlay')
+@extends('layouts.landing')
 
-@section('app.home.title', page_title(trans('general.new_password')))
-@section('overlay_text', trans('general.new_password'))
-@section('overlay_font', font('lock'))
+@section('landing.layout.title', page_title(trans('general.new_password')))
 
-@section('app.home.body')
-    <!--start login Area-->
-    <div class="login-page page fix">
+@section('page_name', trans('general.new_password'))
+
+@section('page_desc', trans('auth.enter_password'))
+
+@section('page_icon')
+    <i class="fa fa-lock"></i>
+@endsection
+
+@section('landing.layout.body')
+    <!--Start FAQs Area-->
+    <section class="probootstrap-section probootstrap-bg-white probootstrap-zindex-above-showcase">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <div class="login">
-                        <h2>@lang('auth.fill_form')</h2>
-                        @if(session()->has('notification.message'))
-                            <div class="text-center col-sm-10 custom-alert-{{ session('notification.type') }} col-sm-offset-1">
-                                {{ session('notification.message') }}
-                            </div>
-                        @endif
-                        <form id="signup-form" action="" method="POST" @submit="validateFormElements">
-                            {{ csrf_field() }}
+                @if(session()->has('notification.message'))
+                    <div class="text-center col-sm-10 col-sm-offset-1">
+                        <div class="alert alert-{{ session('notification.type') }} alert-dismissable" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session('notification.message') }}
+                        </div>
+                    </div>
+                @endif
+                <form action="" method="POST" class="probootstrap-form" @submit="validateFormElements">
+                    {{ csrf_field() }}
+                    <div class="col-md-6 col-md-offset-3 probootstrap-animate" data-animate-effect="fadeIn">
+                        <div class="form-group">
                             @component('components.label-input', [
-                                    'name' => 'email', 'label' => 'email',
+                                    'name' => 'email', 'label' => trans('general.email'),
+                                    'star' => '*'
                                     ])
                                 @component('components.input', [
                                     'type' => 'email', 'name' => 'email',
-                                     'value' => old('email'), 'auto_focus' => 'autofocus'
+                                    'class' => 'form-control', 'value' => old('email')
                                     ])
                                 @endcomponent
                             @endcomponent
+                        </div>
+                        <div class="form-group">
                             @component('components.label-input', [
-                                    'name' => 'password', 'label' => 'password'
+                                    'name' => 'password', 'label' => trans('general.password'),
+                                    'star' => '*'
                                     ])
                                 @component('components.input', [
-                                    'type' => 'password', 'name' => 'password',
-                                     'value' => old('password'), 'minlength' => 6
+                                    'type' => 'password', 'name' => 'password', 'min_length' => 6,
+                                    'value' => old('password'), 'class' => 'form-control'
                                     ])
                                 @endcomponent
                             @endcomponent
+                        </div>
+                        <div class="form-group">
                             @component('components.label-input', [
-                                    'name' => 'password_confirmation', 'label' => 'pwd_cfm'
+                                    'name' => 'password_confirmation', 'star' => '*',
+                                    'label' => trans('general.pwd_cfm')
                                     ])
                                 @component('components.input', [
-                                    'type' => 'password', 'name' => 'password_confirmation',
-                                     'value' => old('password_confirmation'), 'minlength' => 6
+                                    'type' => 'password', 'name' => 'password_confirmation', 'min_length' => 6,
+                                    'value' => old('password_confirmation'), 'class' => 'form-control'
                                     ])
                                 @endcomponent
                             @endcomponent
+                        </div>
+                        <div class="form-group text-right">
                             @component('components.submit', [
-                               'class' => 'submit', 'value' => trans('general.reset')
-                               ])
+                                'class' => 'btn btn-outline-theme-1 btn-lg',
+                                'id' => 'submit', 'name' => 'submit',
+                                'value' => trans('auth.reset'),
+                                'title' => trans('auth.enter_password')
+                                ])
                             @endcomponent
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
-    <!--End login Area-->
+    </section>
+    <!--End FAQs Area-->
 @endsection
 
-@push('overlay.app.script.page')
+@push('landing.layout.script.page')
     <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
     <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
     <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>

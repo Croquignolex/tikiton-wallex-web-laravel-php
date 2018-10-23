@@ -43,5 +43,7 @@ return [
     'well_reset_sent' => 'The reset link has been send to your through e-mail, check your e-mail',
     'account_validation' => 'Account validation',
     'enter_email' => 'Enter your email',
-    'fill_form' => 'Fill the form'
+    'enter_password' => 'Enter your password',
+    'fill_form' => 'Fill the form',
+    'reset' => 'Reset',
 ];
