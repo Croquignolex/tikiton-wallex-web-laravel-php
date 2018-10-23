@@ -18,13 +18,13 @@ class UsersTableSeeder extends Seeder
         {
             $user = new User();
             $user->is_admin = $i <= 4;
+            $user->password = 'wallex';
             $user->is_confirmed = true;
             $user->is_super_admin = $i == 1;
             $user->token = str_random(64);
             $user->city = title_case(Lorem::word());
             $user->country = title_case(Lorem::word());
             $user->phone = str_shuffle('0123456789');
-            $user->password = Hash::make('wallex');
             $user->last_name = title_case(Lorem::word());
             $user->post_code = title_case(Lorem::word());
             $user->first_name = title_case(Lorem::word());

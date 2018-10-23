@@ -40,12 +40,17 @@
                 <li class="{{ active_page(faqs_pages()) }}"><a href="{{ locale_route('faqs') }}">FAQs</a></li>
                 <li class="{{ active_page(contact_pages()) }}"><a href="{{ locale_route('contact') }}">@lang('general.contact_us')</a></li>
                 @auth
-
+                    <li class="probootstra-cta-button last">
+                        <a href="{{ locale_route('dashboard') }}" class="btn btn-outline-theme-1">
+                            <i class="fa fa-user"></i>
+                            {{ \Illuminate\Support\Facades\Auth::user()->format_first_name }}
+                        </a>
+                    </li>
                 @endauth
                 @guest
                     <li class="probootstra-cta-button last">
                         <a href="{{ locale_route('login') }}" class="btn btn-outline-theme-1">
-                            <i class="fa fa-user"></i>
+                            <i class="fa fa-unlock"></i>
                             @lang('general.login')
                         </a>
                     </li>

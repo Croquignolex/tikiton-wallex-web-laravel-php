@@ -32,6 +32,16 @@ class LoginController extends Controller
     }
 
     /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        return view('auth.app.login');
+    }
+
+    /**
      * @param LoginRequest $request
      * @return \Illuminate\Http\Response|void
      * @throws ValidationException

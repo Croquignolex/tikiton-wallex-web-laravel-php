@@ -30,8 +30,10 @@ Route::post('/{language}/contact', 'ContactController@send');
 
 Route::group(['namespace' => 'App'], function() {
     //--App routes...
+    Route::get('/dashboard', function () { return redirect(route('dashboard')); });
 
     //--Localized app routes...
+    Route::get('/{language}/dashboard', 'DashboardController@index')->name('dashboard');
 
     //--Localized auth routes...
     Route::group(['namespace' => 'Auth'], function() {
