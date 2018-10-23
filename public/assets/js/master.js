@@ -25,7 +25,7 @@ function notification(notificationTitle, notificationMessage, notificationType, 
         },
         placement: {
             from: 'top',
-            align: 'center'
+            align: 'right'
         },
         template:
             '<div data-notify="container" class="col-xs-10 col-sm-6 col-md-5 col-lg-4 alert alert-{0}" role="alert">' +

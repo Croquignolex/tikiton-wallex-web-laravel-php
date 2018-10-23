@@ -17,8 +17,8 @@ class SettingsTableSeeder extends Seeder
         {
             Setting::create([
                 'is_activated' => $i == 1,
-                'tva' => $i == 1 ? null : 0,
-                'label' => $i == 1 ? 'Default' : ucfirst(Lorem::word()),
+                'tva' => $i > 1 ? 19.25 : rand(1, 100),
+                'label' => $i == 1 ? 'Default' : ucfirst(Lorem::sentence(3)),
                 'description' => $i == 1 ? 'Default configuration' : ucfirst(Lorem::text())
             ]);
         }

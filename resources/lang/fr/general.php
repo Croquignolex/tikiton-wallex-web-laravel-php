@@ -119,6 +119,9 @@ return [
     'mail_error' => 'Erreur du serveur de mails, réessayez plus tard s\'il vous plait',
     'image_error' => 'Erreur du serveur de fichiers, réessayez plus tard s\'il vous plait',
     'send_your_message' => 'Envoyez votre méssage',
+    'user' => 'Utilisateur',
+    'super_admin' => 'Super administrateur',
+    'admin' => 'Administrateur',
 
     /*
     |--------------------------------------------------------------------------

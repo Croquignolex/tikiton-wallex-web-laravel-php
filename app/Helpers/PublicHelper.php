@@ -147,3 +147,16 @@ if(!function_exists('team_img_asset'))
         return '/assets/img/teams/' . $team . '.' . $extension;
     }
 }
+
+if(!function_exists('user_img_asset'))
+{
+    /**
+     * @param $user
+     * @param string $extension
+     * @return string
+     */
+    function user_img_asset($user, $extension = 'jpg')
+    {
+        return '/assets/img/users/' . $user . '.' . $extension;
+    }
+}

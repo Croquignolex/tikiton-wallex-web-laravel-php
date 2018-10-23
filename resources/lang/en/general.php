@@ -119,6 +119,9 @@ return [
     'mail_error' => 'Mail server error, try later please',
     'image_error' => 'File server error, try later please',
     'send_your_message' => 'Send your message',
+    'user' => 'User',
+    'super_admin' => 'Super administrator',
+    'admin' => 'Administrator',
 
     /*
     |--------------------------------------------------------------------------

@@ -4,9 +4,6 @@ namespace App\Http\Controllers\App\Auth;
 
 use Exception;
 use App\Models\User;
-use App\Mail\UserRegisterMail;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Traits\ErrorFlashMessagesTrait;
@@ -36,6 +33,16 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        return view('auth.app.register');
+    }
+
+    /**
      * @param RegisterRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -44,21 +51,21 @@ class RegisterController extends Controller
         try
         {
             $user = new User();
-            $user->first_name = $request->input('first_name');
-            $user->last_name = $request->input('last_name');
             $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
+            $user->password = $request->input('password');
+            $user->last_name = $request->input('last_name');
+            $user->first_name = $request->input('first_name');
             $user->save();
-
             try
             {
-                Mail::to($user->email)->send(new UserRegisterMail($user));
+                //TODO: Edit contact form email
+                //Mail::to($user->email)->send(new UserRegisterMail($user));
                 success_flash_message(trans('auth.success'), trans('auth.registration_message'));
             }
             catch (Exception $exception)
             {
                 $user->delete();
-                $this->databaseError($exception);
+                $this->mailError($exception);
             }
         }
         catch (Exception $exception)

@@ -1,11 +1,15 @@
 function setValidIndicator(element){
-    element.classList.remove('form-invalid');
-    element.classList.add('form-valid');
+    element.classList.remove('input-invalid');
+    element.classList.add('input-valid');
+    element.previousElementSibling.classList.remove('label-invalid');
+    element.previousElementSibling.classList.add('label-valid');
 }
 
 function setInvalidIndicator(element){
-    element.classList.remove('form-valid');
-    element.classList.add('form-invalid');
+    element.classList.remove('input-valid');
+    element.classList.add('input-invalid');
+    element.previousElementSibling.classList.remove('label-valid');
+    element.previousElementSibling.classList.add('label-invalid');
 }
 
 function validation(element){
@@ -18,7 +22,7 @@ function validation(element){
 
         if(type === 'email')
         {
-            let match = value.match(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/i);
+            let match = value.match(/^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,6}$/i);
             isValid = match && isMinMaxValidation(element);
         }
         else if(type === 'number')

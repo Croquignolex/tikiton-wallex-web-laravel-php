@@ -16,7 +16,6 @@ class PartnersTableSeeder extends Seeder
         for($i = 1; $i <= 15; $i++)
         {
             Partner::create([
-                'image' => 'default',
                 'is_visible' => $i <= 4,
                 'name' => title_case(Lorem::word())
             ]);

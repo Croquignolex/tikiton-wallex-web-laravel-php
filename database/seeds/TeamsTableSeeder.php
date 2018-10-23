@@ -16,7 +16,6 @@ class TeamsTableSeeder extends Seeder
         for($i = 1; $i <= 9; $i++)
         {
             Team::create([
-                'image' => 'default',
                 'is_visible' => $i <= 4,
                 'name' => title_case(Lorem::sentence(2)),
                 'en_function' => ucfirst(Lorem::sentence(3)),

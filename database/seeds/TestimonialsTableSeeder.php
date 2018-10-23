@@ -16,7 +16,6 @@ class TestimonialsTableSeeder extends Seeder
         for($i = 1; $i <= 9; $i++)
         {
             Testimonial::create([
-                'image' => 'default',
                 'is_visible' => $i <= 3,
                 'fr_description' => ucfirst(Lorem::sentence()),
                 'en_description' => ucfirst(Lorem::sentence()),

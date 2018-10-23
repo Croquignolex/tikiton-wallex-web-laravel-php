@@ -50,8 +50,8 @@ if(!function_exists('info_flash_message'))
      * @param string $exit
      * @param int $delay
      */
-    function info_flash_message($title, $message, $icon = 'fa fa-info-circle',
-                                $delay = 8000, $enter = 'flipInY',
+    function info_flash_message($title, $message,  $delay = 8000,
+                                $icon = 'fa fa-info-circle', $enter = 'flipInY',
                                 $exit = 'flipOutX')
     {
         flash_message($title, $message, $icon,
@@ -69,8 +69,8 @@ if(!function_exists('success_flash_message'))
      * @param string $exit
      * @param int $delay
      */
-    function success_flash_message($title, $message, $icon = 'fa fa-check',
-                                   $delay = 5000, $enter = 'lightSpeedIn',
+    function success_flash_message($title, $message, $delay = 5000,
+                                   $icon = 'fa fa-check', $enter = 'lightSpeedIn',
                                    $exit = 'lightSpeedOut')
     {
         flash_message($title, $message, $icon,
@@ -88,9 +88,8 @@ if(!function_exists('danger_flash_message'))
      * @param string $exit
      * @param int $delay
      */
-    function danger_flash_message($title, $message,
-                                  $icon = 'fa fa-times',
-                                  $delay = 10000, $enter = 'bounceIn',
+    function danger_flash_message($title, $message, $delay = 10000,
+                                  $icon = 'fa fa-times', $enter = 'bounceIn',
                                   $exit = 'bounceOut')
     {
         flash_message($title, $message, $icon,
