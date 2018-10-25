@@ -1,4 +1,4 @@
-@extends('layouts.landing')
+@extends('layouts.landing.landing')
 
 @section('landing.layout.title', page_title(trans('general.privacy_policy')))
 

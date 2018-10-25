@@ -12,6 +12,20 @@ function setInvalidIndicator(element){
     element.previousElementSibling.classList.add('label-invalid');
 }
 
+function setValidBottomIndicator(element){
+    element.classList.remove('input-invalid-bottom');
+    element.classList.add('input-valid-bottom');
+    element.parentElement.previousElementSibling.firstElementChild.classList.remove('label-invalid');
+    element.parentElement.previousElementSibling.firstElementChild.classList.add('label-valid');
+}
+
+function setInvalidBottomIndicator(element){
+    element.classList.remove('input-valid-bottom');
+    element.classList.add('input-invalid-bottom');
+    element.parentElement.previousElementSibling.firstElementChild.classList.remove('label-valid');
+    element.parentElement.previousElementSibling.firstElementChild.classList.add('label-invalid');
+}
+
 function validation(element){
     let isValid = true;
 
@@ -76,6 +90,25 @@ function isFormValidation(element){
             {
                 isValid = false;
                 setInvalidIndicator(element[i]);
+            }
+        }
+    }
+
+    return isValid;
+}
+
+function isFormBottomValidation(element){
+    let isValid = true;
+
+    for(let i = 0; i < element.length; i++)
+    {
+        if(!(element[i].type === 'hidden') && !(element[i].type === 'submit') && (element[i].dataset.validate === 'true'))
+        {
+            if(validation(element[i])) setValidBottomIndicator(element[i]);
+            else
+            {
+                isValid = false;
+                setInvalidBottomIndicator(element[i]);
             }
         }
     }

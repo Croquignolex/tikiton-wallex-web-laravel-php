@@ -1,4 +1,4 @@
-@extends('layouts.landing')
+@extends('layouts.landing.landing')
 
 @section('landing.layout.title', page_title(trans('general.contact')))
 
@@ -15,6 +15,16 @@
     <section class="probootstrap-section probootstrap-bg-white">
         <div class="container">
             <div class="row">
+                @if(session()->has('notification.message'))
+                    <div class="text-center col-sm-10 col-sm-offset-1">
+                        <div class="alert alert-{{ session('notification.type') }} alert-dismissable" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ session('notification.message') }}
+                        </div>
+                    </div>
+                @endif
                 <div class="col-xs-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
                     <h2 class="text-theme-1"><i class="fa fa-map-marker"></i></h2>
                     <p>

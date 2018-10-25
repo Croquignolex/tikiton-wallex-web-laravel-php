@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.landing.layout')
 
 @section('layout.title')
     @yield('landing.layout.title')

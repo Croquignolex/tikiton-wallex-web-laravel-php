@@ -78,6 +78,25 @@ if(!function_exists('success_flash_message'))
     }
 }
 
+if(!function_exists('warning_flash_message'))
+{
+    /**
+     * @param $title
+     * @param $message
+     * @param string $icon
+     * @param string $enter
+     * @param string $exit
+     * @param int $delay
+     */
+    function warning_flash_message($title, $message,  $delay = 8000,
+                                $icon = 'fa fa-exclamation-triangle', $enter = 'flipInY',
+                                $exit = 'flipOutX')
+    {
+        flash_message($title, $message, $icon,
+            'warning', $enter, $exit, $delay);
+    }
+}
+
 if(!function_exists('danger_flash_message'))
 {
     /**
