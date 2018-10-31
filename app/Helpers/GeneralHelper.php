@@ -51,7 +51,7 @@ if(!function_exists('info_flash_message'))
      * @param int $delay
      */
     function info_flash_message($title, $message,  $delay = 8000,
-                                $icon = 'fa fa-info-circle', $enter = 'flipInY',
+                                $icon = 'fa fa-info-circle', $enter = 'flipInX',
                                 $exit = 'flipOutX')
     {
         flash_message($title, $message, $icon,
@@ -89,8 +89,8 @@ if(!function_exists('warning_flash_message'))
      * @param int $delay
      */
     function warning_flash_message($title, $message,  $delay = 8000,
-                                $icon = 'fa fa-exclamation-triangle', $enter = 'flipInY',
-                                $exit = 'flipOutX')
+                                $icon = 'fa fa-exclamation-triangle', $enter = 'flash',
+                                $exit = 'fadeOut')
     {
         flash_message($title, $message, $icon,
             'warning', $enter, $exit, $delay);

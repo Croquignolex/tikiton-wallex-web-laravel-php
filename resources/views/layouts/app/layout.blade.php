@@ -21,8 +21,9 @@
 
 @push('style.page')
     <!--Start Page Style Area-->
-    <link rel="stylesheet" href="{{ css_app_asset('style') }}" type="text/css">
     @stack('layout.style.page')
+    <link rel="stylesheet" href="{{ css_app_asset('style') }}" type="text/css">
+    <link rel="stylesheet" href="{{ css_app_asset('responsive') }}" type="text/css">
     <!--End Page Style Area-->
 @endpush
 
@@ -40,7 +41,7 @@
 
 @push('script.page')
     <!--Start Page Scripts Area-->
-    <script src="{{ js_app_asset('script') }}" type="text/javascript"></script>
     @stack('layout.script.page')
+    <script src="{{ js_app_asset('script') }}" type="text/javascript"></script>
     <!--End Page Scripts Area-->
 @endpush

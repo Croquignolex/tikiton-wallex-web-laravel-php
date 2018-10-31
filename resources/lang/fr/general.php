@@ -113,6 +113,7 @@ return [
     'email' => 'Email',
     'subject' => 'Sujet',
     'message' => 'Méssage',
+    'messages' => 'Méssages',
     'send' => 'Envoyé',
     'database_error' => 'Erreur du serveur de base de données, réessayez plus tard s\'il vous plait',
     'mail_error' => 'Erreur du serveur de mails, réessayez plus tard s\'il vous plait',
@@ -121,6 +122,8 @@ return [
     'user' => 'Utilisateur',
     'super_admin' => 'Super administrateur',
     'admin' => 'Administrateur',
+    'view_all' => 'Tout voir',
+    'notifications' => 'Notifications',
 
     /*
     |--------------------------------------------------------------------------

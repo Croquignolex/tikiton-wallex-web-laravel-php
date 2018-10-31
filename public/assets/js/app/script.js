@@ -179,15 +179,5 @@ new Vue({
 	   }
 	  });
 	  $( "#amount" ).val( "£" + $( "#slider-range" ).slider( "values", 0 ) +
-	   " - £" + $( "#slider-range" ).slider( "values", 1 ) );  
-	   
-	/*--------------------------
-	 scrollUp
-	---------------------------- */	
-	$.scrollUp({
-        scrollText: '<i class="fa fa-angle-up"></i>',
-        easingType: 'linear',
-        scrollSpeed: 900,
-        animation: 'fade'
-    });
+	   " - £" + $( "#slider-range" ).slider( "values", 1 ) );
 })(jQuery); 

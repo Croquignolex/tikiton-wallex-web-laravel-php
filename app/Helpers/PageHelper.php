@@ -92,3 +92,36 @@ if(!function_exists('faqs_pages'))
     }
 }
 
+if(!function_exists('app_dashboard_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_dashboard_pages()
+    {
+        return collect(['dashboard']);
+    }
+}
+
+if(!function_exists('app_account_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_account_pages()
+    {
+        return collect();
+    }
+}
+
+if(!function_exists('app_user_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_user_pages()
+    {
+        return collect();
+    }
+}
+

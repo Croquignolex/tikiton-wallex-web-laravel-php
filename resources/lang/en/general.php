@@ -113,6 +113,7 @@ return [
     'email' => 'Email',
     'subject' => 'Subject',
     'message' => 'Message',
+    'messages' => 'Messages',
     'send' => 'Send',
     'database_error' => 'Database server error, try later please',
     'mail_error' => 'Mail server error, try later please',
@@ -121,6 +122,8 @@ return [
     'user' => 'User',
     'super_admin' => 'Super administrator',
     'admin' => 'Administrator',
+    'view_all' => 'View all',
+    'notifications' => 'Notifications',
 
     /*
     |--------------------------------------------------------------------------
