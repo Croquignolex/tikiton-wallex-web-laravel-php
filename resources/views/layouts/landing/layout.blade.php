@@ -41,7 +41,6 @@
     <script src="{{ js_asset('owl.carousel.min') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.countTo') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.appear') }}" type="text/javascript"></script>
-    <script src="{{ js_asset('jquery.easing.1.3') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.stellar.min') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.waypoints.min') }}" type="text/javascript"></script>
     <script src="{{ js_asset('respond.min') }}" type="text/javascript"></script>

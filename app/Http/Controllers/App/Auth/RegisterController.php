@@ -50,12 +50,13 @@ class RegisterController extends Controller
     {
         try
         {
-            $user = new User();
-            $user->email = $request->input('email');
-            $user->password = $request->input('password');
-            $user->last_name = $request->input('last_name');
-            $user->first_name = $request->input('first_name');
-            $user->save();
+            User::create([
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+                'last_name' => $request->input('last_name'),
+                'first_name' => $request->input('first_name')
+            ]);
+
             try
             {
                 //TODO: Edit contact form email

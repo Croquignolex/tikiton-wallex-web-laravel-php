@@ -30,6 +30,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
+    //TODO:Create user default settings where a new user is added
     use LocaleDateTimeTrait, DescriptionTrait;
 
     /**
@@ -61,6 +62,30 @@ class User extends Authenticatable
             $user->token = str_random(64);
             $user->password = Hash::make($user->password);
         });
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wallets()
+    {
+        return $this->hasMany('App\Models\Wallet');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function currencies()
+    {
+        return $this->hasMany('App\Models\Currency');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function user_settings()
+    {
+        return $this->hasMany('App\Models\UserSetting');
     }
 
     /**

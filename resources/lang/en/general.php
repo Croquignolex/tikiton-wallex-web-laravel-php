@@ -24,6 +24,7 @@ return [
     'contact_us' => 'Contact us',
     'blog' => 'Blog',
     'account' => 'Account',
+    'accounts' => 'Accounts',
     'wish_list' => 'Wish list',
 
     /*
@@ -53,6 +54,7 @@ return [
     */
 
     'by' => 'by',
+    'add' => 'Add',
     'banner_bold_text' => 'Keep an panoramical eye on your wallet',
     'banner_small_text' => 'A reliable en free solution for you to easyly manage your incomes and expenses',
     'getting_started' => 'Getting started',
@@ -124,6 +126,47 @@ return [
     'admin' => 'Administrator',
     'view_all' => 'View all',
     'notifications' => 'Notifications',
+    'transaction' => 'Transaction',
+    'new_account' => 'New account',
+    'no_data' => 'No data',
+    'details' => 'Details',
+    'movements' => 'Movements',
+    'description' => 'Description',
+    'threshold' => 'Threshold',
+    'balance' => 'Balance',
+    'stated' => 'Statistical',
+    'not_stated' => 'Not statistical',
+    'currency' => 'Currency',
+    'currencies' => 'Currencies',
+    'new_currency' => 'New currency',
+    'setting' => 'Setting',
+    'settings' => 'Settings',
+    'new_setting' => 'New setting',
+    'update_setting' => 'Update setting',
+    'setting_details' => 'Setting details',
+    'symbol' => 'Symbol',
+    'tips' => 'Tips',
+    'activated' => 'Active',
+    'not_activated' => 'Inactive',
+    'c_n_d_setting' => 'You can not delete this setting because it is activated',
+    'c_n_a_setting' => 'You can not activate this setting because it is already activated',
+    'delete' => 'Delete',
+    'activate' => 'Activate',
+    'delete_setting' => 'Delete setting :name',
+    'activate_setting' => 'Activate setting :name',
+    'cfm_action' => 'Do you confirm this action',
+    'delete_successful' => ':name is successfully deleted',
+    'add_successful' => ':name is successfully added',
+    'update_successful' => ':name is successfully updated',
+    'activate_successful' => ':name is successfully activated',
+    'disable_tips_successful' => 'Tips are successfully disabled',
+    'enable_tips_successful' => 'Tips are successfully enabled',
+    'not_authorise' => 'You are not authorise, contact the administrator for more information',
+    'disable' => 'Disable',
+    'enable' => 'Enable',
+    'disable_tips' => 'Disable tips',
+    'enable_tips' => 'Enable tips',
+    'already_exist' => ':name already exist, chose a different name',
 
     /*
     |--------------------------------------------------------------------------
@@ -132,7 +175,6 @@ return [
     |
     |
     */
-
 
     'at' => 'at',
     'or' => 'or',
@@ -181,7 +223,7 @@ return [
     'out_of_stock' => 'Out of stock',
     'connect_to_review' => 'Connect to review and rate this product',
     'connect_to_see_review' => 'Connect to see this product reviews and rates',
-    'description' => 'Description',
+
     'no_reviews' => 'This product have not yet bee reviewed',
     'no_tags' => 'This product have no related product',
     'related_products' => 'Related products',

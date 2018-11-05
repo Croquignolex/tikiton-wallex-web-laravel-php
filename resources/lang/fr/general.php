@@ -24,6 +24,7 @@ return [
     'contact_us' => 'Nous contacter',
     'blog' => 'Blog',
     'account' => 'Compte',
+    'accounts' => 'Comptes',
     'wish_list' => 'Favoris',
 
     /*
@@ -53,6 +54,7 @@ return [
     */
 
     'by' => 'par',
+    'add' => 'Ajouter',
     'banner_bold_text' => 'Gardez un oeuil panoramique sur vos porte feuille',
     'banner_small_text' => 'Une solution fiable et gratuite afin de gérer facilement vos gain et dépenses',
     'getting_started' => 'Commencer',
@@ -124,6 +126,47 @@ return [
     'admin' => 'Administrateur',
     'view_all' => 'Tout voir',
     'notifications' => 'Notifications',
+    'transaction' => 'Transaction',
+    'new_account' => 'Nouveau compte',
+    'no_data' => 'Pas de données',
+    'details' => 'Details',
+    'movements' => 'Movements',
+    'description' => 'Description',
+    'threshold' => 'Seuil',
+    'balance' => 'Solde',
+    'stated' => 'Statistical',
+    'not_stated' => 'Non statistical',
+    'currency' => 'Dévise',
+    'currencies' => 'Dévises',
+    'new_currency' => 'Nouvelle dévise',
+    'setting' => 'Paramètre',
+    'settings' => 'Paramètres',
+    'new_setting' => 'Nouveau paramètre',
+    'update_setting' => 'Mettre à jour le paramètre',
+    'setting_details' => 'Détais du paramètre',
+    'symbol' => 'Symbole',
+    'tips' => 'Astuces',
+    'activated' => 'Actif',
+    'not_activated' => 'Inactif',
+    'c_n_d_setting' => 'Vous ne pouvez pas supprimer ce paramètre car il est actif',
+    'c_n_a_setting' => 'Vous ne pouvez pas activer ce paramètre car il est déjà actif',
+    'delete' => 'Supprimer',
+    'activate' => 'Activer',
+    'delete_setting' => 'Supprimer le paramètre :name',
+    'activate_setting' => 'Activer le paramètre :name',
+    'cfm_action' => 'Vous confirmez cette action',
+    'delete_successful' => ':name à été supprimé(e) avec succès',
+    'add_successful' => ':name à été ajouté(e) avec succès',
+    'update_successful' => ':name à été mis(e) à jour avec succès',
+    'activate_successful' => ':name à été activé(e) avec succès',
+    'disable_tips_successful' => 'Les astuces sont désactivées avec succès',
+    'enable_tips_successful' => 'Les astuces sont activées avec succès',
+    'not_authorise' => 'Vous n\'êtes pas autorisé, contactez l\'administrateur pour plus d\'information',
+    'disable' => 'Désactiver',
+    'enable' => 'Activer',
+    'disable_tips' => 'Désactiver les astuces',
+    'enable_tips' => 'Activer les astuces',
+    'already_exist' => ':name exist déjà, chosisez un nom différent',
 
     /*
     |--------------------------------------------------------------------------
@@ -132,7 +175,6 @@ return [
     |
     |
     */
-
     'at' => 'à',
     'or' => 'ou',
     'why' => 'Pourquoi',

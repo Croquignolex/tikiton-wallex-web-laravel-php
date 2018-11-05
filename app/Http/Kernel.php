@@ -27,6 +27,7 @@ class Kernel extends HttpKernel
         TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         TrustProxies::class,
+        LanguageMiddleware::class,
     ];
 
     /**
@@ -43,7 +44,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
            VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            LanguageMiddleware::class,
         ],
 
         'api' => [

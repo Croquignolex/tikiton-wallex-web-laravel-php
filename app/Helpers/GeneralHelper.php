@@ -130,13 +130,13 @@ if(!function_exists('flash_message'))
     function flash_message($title, $message, $icon, $type,
                            $enter, $exit, $delay)
     {
-        session()->flash('notification.icon', $icon);
-        session()->flash('notification.type', $type);
-        session()->flash('notification.title', $title);
-        session()->flash('notification.delay', $delay);
-        session()->flash('notification.message', $message);
-        session()->flash('notification.animate.exit', $exit);
-        session()->flash('notification.animate.enter', $enter);
+        session()->flash('popup.icon', $icon);
+        session()->flash('popup.type', $type);
+        session()->flash('popup.title', $title);
+        session()->flash('popup.delay', $delay);
+        session()->flash('popup.message', $message);
+        session()->flash('popup.animate.exit', $exit);
+        session()->flash('popup.animate.enter', $enter);
     }
 }
 

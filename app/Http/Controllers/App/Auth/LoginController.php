@@ -42,9 +42,12 @@ class LoginController extends Controller
     }
 
     /**
-     * @param LoginRequest $request
-     * @return \Illuminate\Http\Response|void
-     * @throws ValidationException
+     * Handle a login request to the application.
+     *
+     * @param  \App\Http\Requests\LoginRequest  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function login(LoginRequest $request)
     {
@@ -58,7 +61,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            $this->sendLoginResponse($request);
+            return $this->sendLoginResponse($request);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -66,7 +69,7 @@ class LoginController extends Controller
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
 
-        $this->sendFailedLoginResponse();
+        return $this->sendFailedLoginResponse();
     }
 
     /**
@@ -100,7 +103,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        info_flash_message(trans('auth.info'), trans('auth.welcome', ['name' => $user->name]));
+        info_flash_message(trans('auth.info'), trans('auth.welcome', ['name' => $user->format_full_name]));
     }
 
     /**
@@ -125,6 +128,6 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-        return  locale_route('home');
+        return  locale_route('dashboard');
     }
 }

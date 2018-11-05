@@ -27,21 +27,10 @@
         @stack('script.plugin')
         <script src="{{ js_asset('vue.min') }}" type="text/javascript"></script>
         <script src="{{ js_asset('bootstrap-notify.min') }}" type="text/javascript"></script>
+        <script src="{{ js_asset('jquery.easing.1.3') }}" type="text/javascript"></script>
         <script src="{{ js_asset('jquery.scrollUp.min') }}" type="text/javascript"></script>
         <script src="{{ js_asset('master') }}" type="text/javascript"></script>
         @stack('script.page')
-        @if(session()->has('notification.message'))
-            <script>
-                notification(
-                    "{{ session('notification.title') }}",
-                    "{{ session('notification.message') }}",
-                    "{{ session('notification.type') }}",
-                    "{{ session('notification.icon') }}",
-                    "{{ session('notification.animate.enter') }}",
-                    "{{ session('notification.animate.exit') }}",
-                    "{{ session('notification.delay') }}"
-                );
-            </script>
-        @endif
+        @include('partials.popup-alert')
     </body>
 </html>

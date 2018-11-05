@@ -17,5 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PartnersTableSeeder::class);
         $this->call(SettingsTableSeeder::class);
         $this->call(TestimonialsTableSeeder::class);
+        $this->call(CurrenciesTableSeeder::class);
+        $this->call(WalletsTableSeeder::class);
+        $this->call(UserSettingsTableSeeder::class);
     }
 }

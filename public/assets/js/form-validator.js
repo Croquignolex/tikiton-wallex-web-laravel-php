@@ -1,29 +1,41 @@
 function setValidIndicator(element){
     element.classList.remove('input-invalid');
     element.classList.add('input-valid');
-    element.previousElementSibling.classList.remove('label-invalid');
-    element.previousElementSibling.classList.add('label-valid');
+    try
+    {
+        element.previousElementSibling.classList.remove('label-invalid');
+        element.previousElementSibling.classList.add('label-valid');
+    } catch (e) {}
 }
 
 function setInvalidIndicator(element){
     element.classList.remove('input-valid');
     element.classList.add('input-invalid');
-    element.previousElementSibling.classList.remove('label-valid');
-    element.previousElementSibling.classList.add('label-invalid');
+    try
+    {
+        element.previousElementSibling.classList.remove('label-valid');
+        element.previousElementSibling.classList.add('label-invalid');
+    } catch (e) {}
 }
 
 function setValidBottomIndicator(element){
     element.classList.remove('input-invalid-bottom');
     element.classList.add('input-valid-bottom');
-    element.parentElement.previousElementSibling.firstElementChild.classList.remove('label-invalid');
-    element.parentElement.previousElementSibling.firstElementChild.classList.add('label-valid');
+    try
+    {
+        element.parentElement.previousElementSibling.firstElementChild.classList.remove('label-invalid');
+        element.parentElement.previousElementSibling.firstElementChild.classList.add('label-valid');
+    } catch (e) {}
 }
 
 function setInvalidBottomIndicator(element){
     element.classList.remove('input-valid-bottom');
     element.classList.add('input-invalid-bottom');
-    element.parentElement.previousElementSibling.firstElementChild.classList.remove('label-valid');
-    element.parentElement.previousElementSibling.firstElementChild.classList.add('label-invalid');
+    try
+    {
+        element.parentElement.previousElementSibling.firstElementChild.classList.remove('label-valid');
+        element.parentElement.previousElementSibling.firstElementChild.classList.add('label-invalid');
+    } catch (e) {}
 }
 
 function validation(element){

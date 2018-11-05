@@ -36,6 +36,7 @@ return [
     'success'  => 'Succès',
     'info'  => 'Information',
     'error' => 'Erreur',
+    'warning' => 'Avertissement',
     'welcome'  => 'Bienvenue :name',
     'confirmed' => 'Confirmation',
     'bad_link' => 'Le lien a expiré ou n\'est pas correct',

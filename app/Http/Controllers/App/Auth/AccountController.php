@@ -144,6 +144,7 @@ class AccountController extends Controller
                         try
                         {
                             //TODO: Edit contact form email
+                            $this->userFactoryData($user);
                             //Mail::to(config('company.email_1'))->send(new NewCustomerMail($user));
                         }
                         catch (Exception $exception)
@@ -169,5 +170,66 @@ class AccountController extends Controller
     private function redirectTo()
     {
         return redirect(locale_route('account.index'));
+    }
+
+    private function userFactoryData(User $user)
+    {
+        //Default settings
+        $user->settings()->create([
+            'name' => 'Novice',
+            'is_current' => true,
+            'description' => 'This is the best way for you to learn'
+        ]);
+        $user->settings()->create([
+            'tips' => false,
+            'name' => 'Expert',
+            'is_current' => false,
+            'description' => 'You know what you are doing, feel free'
+        ]);
+        //Default currencies
+        $user->currencies()->create([
+            'name' => 'FCFA',
+            'description' => 'Center Africa currency',
+            'devaluation' => 0,
+            'symbol' => 'XAF',
+            'is_current' => true
+        ]);
+        $user->currencies()->create([
+            'name' => 'US DOLLAR',
+            'description' => 'USA currency',
+            'devaluation' => 550,
+            'symbol' => '$',
+        ]);
+        $user->currencies()->create([
+            'name' => 'POUNDS',
+            'description' => 'England currency',
+            'devaluation' => 1000,
+            'symbol' => '£'
+        ]);
+        //Default wallet
+        $user->wallets()->create([
+            'balance' => 0,
+            'threshold' => 1000,
+            'stated' => true,
+            'description' => 'Personal wallet',
+            'color' => '#C257B8',
+            'name' => 'Wallet'
+        ]);
+        $user->wallets()->create([
+            'balance' => 0,
+            'threshold' => 15000,
+            'stated' => true,
+            'description' => 'Current account in UBA bank: 115165469269',
+            'color' => '#4CAF50',
+            'name' => 'Current'
+        ]);
+        $user->wallets()->create([
+            'balance' => 0,
+            'threshold' => 50000,
+            'stated' => false,
+            'description' => 'Saving account in UBA bank: 115165469269',
+            'color' => '#F44336',
+            'name' => 'Saving'
+        ]);
     }
 }

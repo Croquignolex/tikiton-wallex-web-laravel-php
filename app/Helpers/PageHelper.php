@@ -103,14 +103,47 @@ if(!function_exists('app_dashboard_pages'))
     }
 }
 
-if(!function_exists('app_account_pages'))
+if(!function_exists('app_transaction_pages'))
 {
     /**
      * @return \Illuminate\Support\Collection
      */
-    function app_account_pages()
+    function app_transaction_pages()
     {
         return collect();
+    }
+}
+
+if(!function_exists('app_wallet_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_wallet_pages()
+    {
+        return collect(['wallets.index', 'wallets.create', 'wallets.edit', 'wallets.show']);
+    }
+}
+
+if(!function_exists('app_currency_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_currency_pages()
+    {
+        return collect(['currencies.index', 'currencies.create', 'currencies.edit', 'currencies.show']);
+    }
+}
+
+if(!function_exists('app_setting_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_setting_pages()
+    {
+        return collect(['settings.index', 'settings.create', 'settings.edit', 'settings.show']);
     }
 }
 

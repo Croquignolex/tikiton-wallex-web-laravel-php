@@ -8,7 +8,9 @@
         <!-- Login -->
         <div class="nk-block toggled">
             <div class="logo">
-                <img src="{{ img_asset('logo') }}" alt="...">
+                <a href="{{ locale_route('home') }}">
+                    <img src="{{ img_asset('logo') }}" alt="...">
+                </a>
             </div>
             <div class="nk-form">
                 <h5 class="text-uppercase">
@@ -27,9 +29,7 @@
                 <form action="" method="POST" @submit="validateFormElements">
                     {{ csrf_field() }}
                     <div class="input-group">
-                        @component('components.app.label-input', [
-                            'name' => 'first_name'
-                        ])
+                        @component('components.app.label-input', ['name' => 'first_name'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-user"></i>
                             </span>
@@ -44,9 +44,7 @@
                         @endcomponent
                     </div>
                     <div class="input-group mg-t-15">
-                        @component('components.app.label-input', [
-                            'name' => 'last_name'
-                        ])
+                        @component('components.app.label-input', ['name' => 'last_name'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-user"></i>
                             </span>
@@ -61,9 +59,7 @@
                         @endcomponent
                     </div>
                     <div class="input-group mg-t-15">
-                        @component('components.app.label-input', [
-                            'name' => 'email'
-                        ])
+                        @component('components.app.label-input', ['name' => 'email'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-at"></i>
                             </span>
@@ -78,9 +74,7 @@
                         @endcomponent
                     </div>
                     <div class="input-group mg-t-15">
-                        @component('components.app.label-input', [
-                            'name' => 'password'
-                        ])
+                        @component('components.app.label-input', ['name' => 'password'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-lock"></i>
                             </span>
@@ -96,9 +90,7 @@
                         @endcomponent
                     </div>
                     <div class="input-group mg-t-15">
-                        @component('components.app.label-input', [
-                            'name' => 'password_confirmation'
-                        ])
+                        @component('components.app.label-input', ['name' => 'password_confirmation'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-lock"></i>
                             </span>
