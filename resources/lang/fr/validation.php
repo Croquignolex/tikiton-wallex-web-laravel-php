@@ -18,7 +18,7 @@ return [
     'email'                => 'Ce champ doit être une addresse mail valide',
     'unique'               => 'Ce champ doit être unique',
     'confirmed'            => 'Ce champ doit être confimé',
-    'numeric'              => 'Ce champ doit être un entier',
+    'numeric'              => 'Ce champ doit être un entier ou une réel avec . comme séparateur',
     'file'                 => 'Ce champ doit être un fichier',
     'image'                => 'Ce champ doit être une image',
     'dimensions'           => 'Ce fichier à une dimension invalide',

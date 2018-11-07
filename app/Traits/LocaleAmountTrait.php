@@ -8,61 +8,10 @@ use Illuminate\Support\Facades\App;
 trait LocaleAmountTrait
 {
     /**
-     * @return string
-     */
-    public function getAmountAttribute()
-    {
-        return $this->formatAmount($this->price);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFrAmountAttribute()
-    {
-        return $this->frFormatAmount($this->price);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEnAmountAttribute()
-    {
-        return $this->enFormatAmount($this->price);
-    }
-
-    /**
-     * @return string
-     */
-    public function getNewPriceAttribute()
-    {
-        $discount = ($this->price * $this->discount) / 100;
-        return $this->formatAmount($this->price - $discount);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFrNewPriceAttribute()
-    {
-        $discount = ($this->price * $this->discount) / 100;
-        return $this->frFormatAmount($this->price - $discount);
-    }
-
-    /**
-     * @return string
-     */
-    public function getEnNewPriceAttribute()
-    {
-        $discount = ($this->price * $this->discount) / 100;
-        return $this->enFormatAmount($this->price - $discount);
-    }
-
-    /**
      * @param $amount
      * @return string
      */
-    public function frFormatAmount($amount)
+    public function frFormatNumber($amount)
     {
         $separator = $this->separator('fr');
         return number_format(
@@ -76,7 +25,7 @@ trait LocaleAmountTrait
      * @param $amount
      * @return string
      */
-    public function enFormatAmount($amount)
+    public function enFormatNumber($amount)
     {
         $separator = $this->separator('en');
         return number_format(
@@ -90,7 +39,7 @@ trait LocaleAmountTrait
      * @param $amount
      * @return string
      */
-    private function formatAmount($amount)
+    private function formatNumber($amount)
     {
         $separator = $this->separator(App::getLocale());
         return number_format(

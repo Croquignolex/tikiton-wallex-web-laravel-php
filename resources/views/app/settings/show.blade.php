@@ -27,24 +27,10 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
-                            <a href="{{ locale_route('settings.edit', [$setting]) }}" class="btn btn-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
-                            @if($setting->is_current)
-                                <button type="button" class="btn btn-danger disabled" title="@lang('general.c_n_d_setting')">
-                                    <i class="fa fa-trash-o"></i>
-                                </button>
-                            @else
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-setting" title="@lang('general.delete')">
-                                    <i class="fa fa-trash-o"></i>
-                                </button>
-                            @endif
-                            @if($setting->is_current)
-                                <button type="button" class="btn btn-success disabled" title="@lang('general.c_n_a_setting')">
-                                    <i class="fa fa-check"></i>
-                                </button>
-                            @else
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#activate-setting" title="@lang('general.activate')">
-                                    <i class="fa fa-check"></i>
-                                </button>
+                            <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                            @if(!$setting->is_current)
+                                <a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-setting" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
+                                <a href="javascript: void(0);" class="text-success hand-cursor" data-toggle="modal" data-target="#activate-setting" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                             @endif
                         </div>
                     </div>
@@ -57,23 +43,32 @@
                             </div>
                             <div class="widget-tabs-list">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#tips">@lang('general.tips')</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
                                     <li><a data-toggle="tab" href="#description">@lang('general.description')</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="tips" class="tab-pane fade in active">
+                                    <div id="details" class="tab-pane fade in active">
                                         <div class="tab-ctn">
-                                            @if($setting->tips)
-                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#disable-tips">
-                                                    <i class="fa fa-times"></i>
-                                                    @lang('general.disable')
-                                                </button>
-                                            @else
-                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#enable-tips">
-                                                    <i class="fa fa-check"></i>
-                                                    @lang('general.enable')
-                                                </button>
-                                            @endif
+                                            <ul>
+                                                <li>
+                                                    <strong>@lang('general.tips') :</strong>
+                                                    @if($setting->tips)
+                                                        <a href="javascript: void(0);" class="text-warning" data-toggle="modal" data-target="#disable-tips"
+                                                           title="@lang('general.disable')"><i class="fa fa-times"></i></a>
+                                                    @else
+                                                        <a href="javascript: void(0);" class="text-info" data-toggle="modal" data-target="#enable-tips"
+                                                           title="@lang('general.enable')"><i class="fa fa-check"></i></a>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    <strong>@lang('general.creation_date') :</strong>
+                                                    {{ $setting->created_date }} @lang('general.at') {{ $setting->created_time }}
+                                                </li>
+                                                <li>
+                                                    <strong>@lang('general.last_update') :</strong>
+                                                    {{ $setting->updated_date }} @lang('general.at') {{ $setting->updated_time }}
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                     <div id="description" class="tab-pane fade">
@@ -99,7 +94,6 @@
             ])
             @lang('general.cfm_action')?
         @endcomponent
-
         @component('components.modal', [
             'title' => trans('general.activate_setting', ['name' => $setting->name]),
             'id' => 'activate-setting', 'color' => 'modal-success', 'method' => 'PUT',

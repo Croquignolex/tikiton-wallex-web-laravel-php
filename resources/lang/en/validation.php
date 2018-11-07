@@ -18,7 +18,7 @@ return [
     'email'                => 'This field must be a valid email address',
     'unique'               => 'This field must be required',
     'confirmed'            => 'This field must be confirmed',
-    'numeric'              => 'This field must be a number',
+    'numeric'              => 'This field must be a number or a decimal with . as separator',
     'file'                 => 'This field must be a file',
     'image'                => 'This field must be an image',
     'dimensions'           => 'This field has invalid dimension',

@@ -49,19 +49,11 @@ class Wallet extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function currency()
-    {
-        return $this->belongsTo('App\Models\Currency');
-    }
-
-    /**
      * @return string
      */
     public function getFormatThresholdAttribute()
     {
-        return $this->formatAmount($this->threshold);
+        return $this->formatNumber($this->threshold);
     }
 
     /**
@@ -69,7 +61,7 @@ class Wallet extends Model
      */
     public function getFormatBalanceAttribute()
     {
-        return $this->formatAmount($this->balance);
+        return $this->formatNumber($this->balance);
     }
 
     /**

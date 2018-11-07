@@ -7,9 +7,10 @@ use App\Utils\FormatBoolean;
 use App\Traits\SlugSaveTrait;
 use App\Traits\SlugRouteTrait;
 use App\Traits\DescriptionTrait;
+use App\Traits\CurrentElementTrait;
 use App\Traits\LocaleDateTimeTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property mixed id
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 class UserSetting extends Model
 {
     use LocaleDateTimeTrait, NameTrait, DescriptionTrait,
-        SlugSaveTrait, SlugRouteTrait;
+        SlugSaveTrait, SlugRouteTrait, CurrentElementTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -55,8 +56,8 @@ class UserSetting extends Model
     public function getFormatTipsAttribute()
     {
         return $this->tips
-            ? new FormatBoolean('success', 'fa fa-check', trans('general.yes'))
-            : new FormatBoolean('danger', 'fa fa-times', trans('general.no'));
+            ? new FormatBoolean('info', 'fa fa-check', trans('general.yes'))
+            : new FormatBoolean('warning', 'fa fa-times', trans('general.no'));
     }
 
     /**

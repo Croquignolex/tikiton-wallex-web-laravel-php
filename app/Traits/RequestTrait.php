@@ -8,9 +8,10 @@ trait RequestTrait
     private $numeric = 'numeric';
     private $required = 'required';
     private $required_string = 'required|string';
-    private $required_numeric = 'required|numeric';
+    private $required_numeric = 'required|numeric|min:0';
     private $required_email = 'required|string|min:2|max:255|email';
     private $required_string_2_255 = 'required|string|min:2|max:255';
+    private $required_string_2_10 = 'required|string|min:2|max:10';
     private $required_string_2_510 = 'required|string|min:2|max:510';
 
     /**

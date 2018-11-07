@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\App;
 
 use Exception;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Traits\ErrorFlashMessagesTrait;
+use App\Http\Requests\CurrencyRequest;
+use Illuminate\Validation\ValidationException;
 
 class CurrencyController extends Controller
 {
@@ -31,17 +34,18 @@ class CurrencyController extends Controller
 
         try
         {
-            $currencies = Auth::user()->currencies->sortByDesc('updated_at');
+            $currencies = Auth::user()->currencies
+                ->sortByDesc('updated_at')->sortByDesc('is_current');
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        $this->paginate($request, $currencies, 6, 3);
+        $this->paginate($request, $currencies, 10, 3);
         $paginationTools = $this->paginationTools;
 
-        return view('app.currency.index', compact('paginationTools'));
+        return view('app.currencies.index', compact('paginationTools'));
     }
 
     /**
@@ -51,36 +55,47 @@ class CurrencyController extends Controller
      */
     public function create()
     {
-        return view('accounts.create');
+        return view('app.currencies.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AccountRequest $request
+     * @param CurrencyRequest $request
      * @return \Illuminate\Http\Response
-     * @throws ValidationException
      */
-    public function store(AccountRequest $request)
+    public function store(CurrencyRequest $request)
     {
-        $data = [
-            'name' => $request->name,
-            'description' => $request->description,
-            'color' => $request->color,
-            'amount' => $request->amount,
-            'threshold' => $request->threshold,
-            'stated' => $request->stated == null ? false : true,
-            'currency_id' => $request->currency
-        ];
+        $this->currencyExist($request->input('name'));
 
-        $this->accountExist($request->name);
+        try
+        {
+            if($request->input('current') != null)
+            {
+                foreach (Auth::user()->currencies as $currency)
+                {
+                    $currency->is_current = false;
+                    $currency->save();
+                }
+            }
 
-        Auth::user()->accounts()->create($data);
+            $currency = Auth::user()->currencies()->create([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'symbol' => $request->input('symbol'),
+                'devaluation' => $request->input('devaluation'),
+                'is_current' => $request->input('current') == null ? false : true
+            ]);
 
-        flash_message(
-            __('general.success'), 'Compte ajouté avec succès',
-            'success', 'fa fa-thumbs-up'
-        );
+            success_flash_message(trans('auth.success'),
+                trans('general.add_successful', ['name' => $request->input('name')]));
+
+            return redirect(locale_route('currencies.show', [$currency]));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
         return redirect($this->redirectTo());
     }
@@ -90,82 +105,96 @@ class CurrencyController extends Controller
      *
      * @param Request $request
      * @param $language
-     * @param Account $account
+     * @param Currency $currency
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $language, Account $account)
+    public function show(Request $request, $language, Currency $currency)
     {
-        if($request->query('date') == null) $date_range = 0;
-        else $date_range = $request->query('date');
+        try
+        {
+            if($currency->authorised)
+                return view('app.currencies.show', compact('currency'));
+            else
+                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
-        if(!is_numeric($date_range)) return back();
-
-        $date = Carbon::now();
-
-        $transactions = Transaction::where('transfer_account_id', $account->id)
-            ->orwhere('account_id', $account->id)
-            ->get();
-
-        $transactions = $transactions
-            ->where('created_at', '>=', $date->addMonth($date_range)->startOfMonth())
-            ->where('created_at', '<=', $date->addMonth($date_range)->endOfMonth())
-            ->sortByDesc('created_at');
-
-        $expensesNumber = $transactions->where('type', Group::EXPENSE)->count();
-        $transfersNumber = $transactions->where('type', Group::TRANSFER)->count();
-        $incomesNumber = $transactions->where('type', Group::INCOME)->count();
-
-        return view('accounts.show', [
-            'transactions' => $transactions,
-            'date_range' => $date_range,
-            'account' => $account,
-            'expenses' => $expensesNumber,
-            'transfers' => $transfersNumber,
-            'incomes' => $incomesNumber
-        ]);
+        return back();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param $language
-     * @param Account $account
+     * @param Currency $currency
      * @return \Illuminate\Http\Response
      */
-    public function edit($language, Account $account)
+    public function edit(Request $request, $language, Currency $currency)
     {
-        return view('accounts.edit', compact('account'));
+        try
+        {
+            if($currency->authorised)
+                return view('app.currencies.edit', compact('currency'));
+            else
+                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param AccountRequest $request
+     * @param CurrencyRequest $request
      * @param $language
-     * @param Account $account
+     * @param Currency $currency
      * @return \Illuminate\Http\Response
-     * @throws ValidationException
      */
-    public function update(AccountRequest $request, $language, Account $account)
+    public function update(CurrencyRequest $request, $language, Currency $currency)
     {
-        $data = [
-            'name' => strtolower($request->name),
-            'description' => $request->description,
-            'color' => $request->color,
-            'amount' => $request->amount,
-            'threshold' => $request->threshold,
-            'stated' => $request->stated == null ? false : true,
-            'currency_id' => $request->currency
-        ];
+        $this->currencyExist($request->input('name'), $currency->id);
 
-        $this->accountExist($request->name, $account->id);
+        try
+        {
+            $current = false;
+            if($request->input('current') != null && $currency->is_current === 0)
+            {
+                foreach (Auth::user()->currencies as $user_currency)
+                {
+                    $user_currency->is_current = false;
+                    $user_currency->save();
+                }
+                $current = true;
+            }
 
-        $account->update($data);
+            if($currency->is_current === 1)
+                $current = true;
 
-        flash_message(
-            __('general.success'), 'Compte modifié avec succès.',
-            'success', 'fa fa-thumbs-up'
-        );
+            $currency->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'symbol' => $request->input('symbol'),
+                'devaluation' => $request->input('devaluation'),
+                'is_current' => $current
+            ]);
+
+            success_flash_message(trans('auth.success'),
+                trans('general.update_successful', ['name' => $request->input('name')]));
+
+            return redirect(locale_route('currencies.show', [$currency]));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
         return redirect($this->redirectTo());
     }
@@ -173,39 +202,86 @@ class CurrencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param $language
-     * @param Account $account
+     * @param Currency $currency
      * @return \Illuminate\Http\Response
-     * @throws \Exception
      */
-    public function destroy($language, Account $account)
+    public function destroy(Request $request, $language, Currency $currency)
     {
-        $account->delete();
-
-        flash_message(
-            'Information', 'Compte supprimé avec succès. '
-        );
+        try
+        {
+            if($currency->authorised)
+            {
+                if(!$currency->is_current)
+                {
+                    $currency->delete();
+                    info_flash_message(trans('auth.info'),
+                        trans('general.delete_successful', ['name' => $currency->name]));
+                }
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_currency'));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
         return redirect($this->redirectTo());
+    }
+
+    /**
+     * @param Request $request
+     * @param $language
+     * @param Currency $currency
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function activate(Request $request, $language, Currency $currency)
+    {
+        try
+        {
+            if($currency->authorised)
+            {
+                if(!$currency->is_current)
+                {
+                    foreach (Auth::user()->currencies as $user_currency)
+                    {
+                        $user_currency->is_current = false;
+                        $user_currency->save();
+                    }
+
+                    $currency->is_current = true;
+                    $currency->save();
+                    info_flash_message(trans('auth.info'),
+                        trans('general.activate_successful', ['name' => $currency->name]));
+                }
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_a_currency'));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
     }
 
     /**
      * Check if the account already exist
      *
      * @param  string $name
-     * @param int $account_id
+     * @param int $id
      * @return void
-     * @throws ValidationException
      */
-    private function accountExist($name, $account_id = 0)
+    private function currencyExist($name, $id = 0)
     {
-        if(Auth::user()->accounts
-                ->where('slug', str_slug($name))
-                ->where('id', '<>', $account_id)
-                ->count() > 0)
+        if(Auth::user()->currencies->where('slug', Auth::user()->id . '-' . str_slug($name))
+                ->where('id', '<>', $id)->count() > 0)
         {
             throw ValidationException::withMessages([
-                'name' => 'Un compte existe déjà avec ce nom',
+                'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
     }
@@ -217,6 +293,6 @@ class CurrencyController extends Controller
      */
     private function redirectTo()
     {
-        return route_manager('accounts.index');
+        return locale_route('currencies.index');
     }
 }

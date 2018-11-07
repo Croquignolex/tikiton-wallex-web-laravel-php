@@ -43,7 +43,7 @@
                                     @forelse($paginationTools->displayItems as $setting)
                                         <tr class="{{ $setting->is_current ? 'current' : '' }}">
                                             <td>{{ ($loop->index + 1) + ($paginationTools->itemsPerPage * ($paginationTools->currentPage - 1)) }}</td>
-                                            <td>{{ $setting->name }}</td>
+                                            <td><a href="{{ locale_route('settings.show', [$setting]) }}" title="@lang('general.details')">{{ text_format($setting->name, 30) }}</a></td>
                                             <td>
                                                 <small class="text-{{ $setting->format_tips->color }}">
                                                     <i class="{{ $setting->format_tips->icon }}"></i>
@@ -51,25 +51,10 @@
                                                 </small>
                                             </td>
                                             <td class="text-right">
-                                                <a href="{{ locale_route('settings.edit', [$setting]) }}" class="btn btn-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
-                                                @if($setting->is_current)
-                                                    <button type="button" class="btn btn-danger disabled" title="@lang('general.c_n_d_setting')">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete-setting-{{ $setting->id }}" title="@lang('general.delete')">
-                                                        <i class="fa fa-trash-o"></i>
-                                                    </button>
-                                                @endif
-                                                <a href="{{ locale_route('settings.show', [$setting]) }}" class="btn btn-info" title="@lang('general.details')"><i class="fa fa-list"></i></a>
-                                                @if($setting->is_current)
-                                                    <button type="button" class="btn btn-success disabled" title="@lang('general.c_n_a_setting')">
-                                                        <i class="fa fa-check"></i>
-                                                    </button>
-                                                @else
-                                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#activate-setting-{{ $setting->id }}" title="@lang('general.activate')">
-                                                        <i class="fa fa-check"></i>
-                                                    </button>
+                                                <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                                                @if(!$setting->is_current)
+                                                    <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-setting-{{ $setting->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
+                                                    <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-setting-{{ $setting->id }}" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -84,12 +69,12 @@
                                     @endforelse
                                 </tbody>
                                 <thead>
-                                <tr class="text-uppercase">
-                                    <th class="text-theme-1">#</th>
-                                    <th class="text-theme-1">@lang('general.name')</th>
-                                    <th class="text-theme-1">@lang('general.tips')</th>
-                                    <th class="text-theme-1">@lang('general.actions')</th>
-                                </tr>
+                                    <tr class="text-uppercase">
+                                        <th class="text-theme-1">#</th>
+                                        <th class="text-theme-1">@lang('general.name')</th>
+                                        <th class="text-theme-1">@lang('general.tips')</th>
+                                        <th class="text-theme-1">@lang('general.actions')</th>
+                                    </tr>
                                 </thead>
                             </table>
                         </div>
@@ -114,7 +99,6 @@
                 ])
                 @lang('general.cfm_action')?
             @endcomponent
-
             @component('components.modal', [
                 'title' => trans('general.activate_setting', ['name' => $setting->name]),
                 'id' => 'activate-setting-' . $setting->id, 'color' => 'modal-success',
