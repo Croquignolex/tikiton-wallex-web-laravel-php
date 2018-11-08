@@ -56,20 +56,13 @@ class UserSetting extends Model
     public function getFormatTipsAttribute()
     {
         return $this->tips
-            ? new FormatBoolean('info', 'fa fa-check', trans('general.yes'))
-            : new FormatBoolean('warning', 'fa fa-times', trans('general.no'));
+            ? new FormatBoolean('info', trans('general.yes'))
+            : new FormatBoolean('warning', trans('general.no'));
     }
 
     /**
      * @return mixed
      */
-    public function getFormatCurrentAttribute()
-    {
-        return $this->is_current
-            ? new FormatBoolean('success', 'fa fa-check', trans('general.activated'))
-            : new FormatBoolean('danger', 'fa fa-times', trans('general.not_activated'));
-    }
-
     public function getAuthorisedAttribute()
     {
        return Auth::user()->user_settings->contains($this);

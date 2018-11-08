@@ -22,8 +22,8 @@ class CurrenciesTableSeeder extends Seeder
                     'name' => strtoupper($this->getUniqueName()),
                     'description' => ucfirst(Lorem::text()),
                     'devaluation' => rand(100, 9999),
-                    'is_current' => $j == 1,
-                    'symbol' => $i == 1 ? 'XAF' : str_shuffle('ABCDEF')
+                    'is_current' => $j === 1,
+                    'symbol' => str_shuffle('ABCDEF')
                 ]);
             }
         }

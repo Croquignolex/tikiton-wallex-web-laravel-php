@@ -190,7 +190,7 @@ class AccountController extends Controller
         $user->currencies()->create([
             'name' => 'FCFA',
             'description' => 'Center Africa currency',
-            'devaluation' => 0,
+            'devaluation' => 1,
             'symbol' => 'XAF',
             'is_current' => true
         ]);
@@ -218,7 +218,6 @@ class AccountController extends Controller
         $user->wallets()->create([
             'balance' => 0,
             'threshold' => 15000,
-            'stated' => true,
             'description' => 'Current account in UBA bank: 115165469269',
             'color' => '#4CAF50',
             'name' => 'Current'
@@ -226,7 +225,7 @@ class AccountController extends Controller
         $user->wallets()->create([
             'balance' => 0,
             'threshold' => 50000,
-            'stated' => false,
+            'is_stated' => false,
             'description' => 'Saving account in UBA bank: 115165469269',
             'color' => '#F44336',
             'name' => 'Saving'

@@ -22,24 +22,6 @@ if(!function_exists('locale_route'))
     }
 }
 
-if(!function_exists('currency'))
-{
-    /**
-     * @param $amount
-     * @param string $symbol
-     * @return string
-     * @internal param $name
-     */
-    function currency($amount, $symbol = 'C$')
-    {
-        if(Illuminate\Support\Facades\App::getLocale() === 'fr')
-            return $amount . $symbol;
-        else if (Illuminate\Support\Facades\App::getLocale() === 'en')
-            return $symbol . $amount;
-        else return $amount . $symbol;
-    }
-}
-
 if(!function_exists('info_flash_message'))
 {
     /**

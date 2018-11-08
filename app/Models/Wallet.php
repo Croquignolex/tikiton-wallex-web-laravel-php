@@ -9,12 +9,17 @@ use App\Traits\SlugRouteTrait;
 use App\Traits\DescriptionTrait;
 use App\Traits\LocaleAmountTrait;
 use App\Traits\LocaleDateTimeTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property mixed stated
+ * @property mixed id
+ * @property mixed name
  * @property mixed balance
  * @property mixed threshold
+ * @property mixed is_stated
+ * @property mixed can_delete
+ * @property mixed authorised
  */
 class Wallet extends Model
 {
@@ -28,7 +33,7 @@ class Wallet extends Model
      */
     protected $fillable = [
         'name', 'description', 'color', 'balance',
-        'threshold', 'stated', 'user_id', 'currency_id'
+        'threshold', 'is_stated', 'user_id'
     ];
 
     /**
@@ -53,7 +58,7 @@ class Wallet extends Model
      */
     public function getFormatThresholdAttribute()
     {
-        return $this->formatNumber($this->threshold);
+        return $this->formatCurrency($this->formatNumber($this->threshold));
     }
 
     /**
@@ -61,7 +66,7 @@ class Wallet extends Model
      */
     public function getFormatBalanceAttribute()
     {
-        return $this->formatNumber($this->balance);
+        return $this->formatCurrency($this->formatNumber($this->balance));
     }
 
     /**
@@ -69,8 +74,25 @@ class Wallet extends Model
      */
     public function getFormatStatedAttribute()
     {
-        return $this->stated
-            ? new FormatBoolean('success', 'fa fa-check', trans('general.stated'))
-            : new FormatBoolean('danger', 'fa fa-times', trans('general.not_stated'));
+        return $this->is_stated
+            ? new FormatBoolean('info', trans('general.stated'))
+            : new FormatBoolean('warning', trans('general.not_stated'));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCanDeleteAttribute()
+    {
+        return true;
+        //return $this->transactions->count === 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthorisedAttribute()
+    {
+        return Auth::user()->wallets->contains($this);
     }
 }

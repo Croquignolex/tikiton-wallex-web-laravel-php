@@ -46,7 +46,6 @@
                                             <td><a href="{{ locale_route('settings.show', [$setting]) }}" title="@lang('general.details')">{{ text_format($setting->name, 30) }}</a></td>
                                             <td>
                                                 <small class="text-{{ $setting->format_tips->color }}">
-                                                    <i class="{{ $setting->format_tips->icon }}"></i>
                                                     {{ $setting->format_tips->text }}
                                                 </small>
                                             </td>

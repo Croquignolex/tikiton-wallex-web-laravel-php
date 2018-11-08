@@ -21,7 +21,7 @@ class WalletsTableSeeder extends Seeder
                     'user_id' => $i,
                     'balance' => rand(100000, 999999),
                     'threshold' => rand(10000, 99999),
-                    'stated' => $i < 4 ? false : true,
+                    'is_stated' => $i < 4 ? false : true,
                     'description' => ucfirst(Lorem::text()),
                     'color' => '#' . str_shuffle('ABCDEF'),
                     'name' => ucfirst($this->getUniqueName())

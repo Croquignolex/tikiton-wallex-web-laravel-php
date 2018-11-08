@@ -1,33 +1,34 @@
 @extends('layouts.app.breadcrumb')
 
-@section('breadcrumb.app.layout.title', page_title(trans('general.new_currency')))
+@section('breadcrumb.app.layout.title', page_title(trans('general.new_account')))
 
-@section('breadcrumb.title', trans('general.new_currency'))
+@section('breadcrumb.title', trans('general.new_account'))
 
 @section('breadcrumb.message')
-    <a href="{{ locale_route('currencies.index') }}">@lang('general.currencies')</a>
+    <a href="{{ locale_route('wallets.index') }}">@lang('general.accounts')</a>
     <i class="fa fa-caret-right"></i>
-    @lang('general.new_currency')
+    @lang('general.new_account')
 @endsection
 
 @section('breadcrumb.icon')
-    <i class="fa fa-dollar"></i>
+    <i class="fa fa-credit-card"></i>
 @endsection
 
 @section('breadcrumb.app.layout.body')
-    <!--Start Currency Area-->
+    <!--Start Setting Area-->
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        @component('components.tips', ['title' => trans('general.currencies')])
-                            @lang('tips.currencies_new')
+                        @component('components.tips', ['title' => trans('general.accounts')])
+                            @lang('tips.accounts_new')
                         @endcomponent
                     </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="white-container color-preview"></div></div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
-                            <form action="{{ locale_route('currencies.store') }}" method="POST" @submit="validateFormElements">
+                            <form action="{{ locale_route('wallets.store') }}" method="POST" @submit="validateFormElements">
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -44,24 +45,36 @@
                                             @endcomponent
                                         </div>
                                         <div class="form-group">
-                                            @component('components.app.label-input', ['name' => 'symbol'])
+                                            @component('components.app.label-input', ['name' => 'balance'])
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
-                                                       'name' => 'symbol',
-                                                       'class' => 'form-control', 'value' => old('symbol'),
-                                                       'placeholder'  => trans('general.symbol') . '*'
+                                                       'name' => 'balance', 'min_length' => 1,
+                                                       'class' => 'form-control', 'value' => old('balance'),
+                                                       'placeholder'  => trans('general.balance') . '*'
                                                        ])
                                                     @endcomponent
                                                 </div>
                                             @endcomponent
                                         </div>
                                         <div class="form-group">
-                                            @component('components.app.label-input', ['name' => 'devaluation'])
+                                            @component('components.app.label-input', ['name' => 'threshold'])
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
-                                                       'name' => 'devaluation', 'min_length' => 1,
-                                                       'class' => 'form-control', 'value' => old('devaluation'),
-                                                       'placeholder'  => trans('general.devaluation') . '*'
+                                                       'name' => 'threshold', 'min_length' => 1,
+                                                       'class' => 'form-control', 'value' => old('threshold'),
+                                                       'placeholder'  => trans('general.threshold') . '*'
+                                                       ])
+                                                    @endcomponent
+                                                </div>
+                                            @endcomponent
+                                        </div>
+                                        <div class="form-group">
+                                            @component('components.app.label-input', ['name' => 'color'])
+                                                <div class="nk-int-st">
+                                                    @component('components.input', [
+                                                       'name' => 'color', 'min_length' => 7, 'max_length' => 7,
+                                                       'class' => 'form-control', 'value' => old('color'),
+                                                       'placeholder'  => trans('general.color') . '*'
                                                        ])
                                                     @endcomponent
                                                 </div>
@@ -84,15 +97,15 @@
                                         <div class="form-group text-left">
                                             <div class="toggle-select-act">
                                                 @component('components.app.checkbox', [
-                                                    'name' => 'current', 'color' => 'green',
-                                                    'label' => trans('general.activated'),
-                                                    'attribute_1' => old('current') === 'on' ? 'checked' : ''
+                                                    'name' => 'stated', 'color' => 'green',
+                                                    'label' => trans('general.stated'),
+                                                    'attribute_1' => old('stated') === 'on' ? 'checked' : ''
                                                 ])
                                                 @endcomponent
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success waves-effect" title="@lang('general.new_currency')">
+                                            <button type="submit" class="btn btn-success waves-effect" title="@lang('general.new_setting')">
                                                 <i class="fa fa-plus"></i>
                                                 @lang('general.add')
                                             </button>
@@ -106,13 +119,26 @@
             </div>
         </div>
     </div>
-    <!--End Currency Area-->
+    <!--End Setting Area-->
 @endsection
+
+@push('breadcrumb.app.layout.style.page')
+    <link rel="stylesheet" href="{{ css_app_asset('bootstrap-colorpicker.min') }}" type="text/css">
+@endpush
 
 @push('breadcrumb.app.layout.script.page')
     <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
     <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
     <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>
+    <script src="{{ js_app_asset('bootstrap-colorpicker') }}" type="text/javascript"></script>
+    <script>
+        $(function() {
+            $('.color-preview')[0].style.background = $('#color').val();
+            $('#color').colorpicker({ format: 'hex' }).on('changeColor', function (e) {
+                $('.color-preview')[0].style.background = e.color.toString();
+            });
+        }); 
+    </script>
 @endpush
 
 

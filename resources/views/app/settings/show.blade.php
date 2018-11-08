@@ -52,6 +52,9 @@
                                             <ul>
                                                 <li>
                                                     <strong>@lang('general.tips') :</strong>
+                                                    <small class="text-{{ $setting->format_tips->color }}">
+                                                        {{ $setting->format_tips->text }}
+                                                    </small>
                                                     @if($setting->tips)
                                                         <a href="javascript: void(0);" class="text-warning" data-toggle="modal" data-target="#disable-tips"
                                                            title="@lang('general.disable')"><i class="fa fa-times"></i></a>

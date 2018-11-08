@@ -50,7 +50,7 @@ class RegisterController extends Controller
     {
         try
         {
-            User::create([
+            $user = User::create([
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'last_name' => $request->input('last_name'),

@@ -18,10 +18,10 @@ class CreateWalletsTable extends Migration
             $table->string('slug')->unique();
             $table->string('name', 255);
             $table->text('description');
-            $table->integer('balance')->unsigned();
-            $table->integer('threshold')->unsigned();
-            $table->string('color', 10);
-            $table->boolean('stated');
+            $table->double('balance')->unsigned();
+            $table->double('threshold')->unsigned();
+            $table->string('color', 7);
+            $table->boolean('is_stated')->default(true);
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 

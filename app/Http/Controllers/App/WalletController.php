@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\App;
 
 use Exception;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WalletRequest;
 use App\Traits\ErrorFlashMessagesTrait;
+use Illuminate\Validation\ValidationException;
 
 class WalletController extends Controller
 {
@@ -41,7 +44,7 @@ class WalletController extends Controller
         $this->paginate($request, $wallets, 6, 3);
         $paginationTools = $this->paginationTools;
 
-        return view('app.wallet.index', compact('paginationTools'));
+        return view('app.wallets.index', compact('paginationTools'));
     }
 
     /**
@@ -51,36 +54,39 @@ class WalletController extends Controller
      */
     public function create()
     {
-        return view('accounts.create');
+        return view('app.wallets.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AccountRequest $request
+     * @param WalletRequest $request
      * @return \Illuminate\Http\Response
-     * @throws ValidationException
      */
-    public function store(AccountRequest $request)
+    public function store(WalletRequest $request)
     {
-        $data = [
-            'name' => $request->name,
-            'description' => $request->description,
-            'color' => $request->color,
-            'amount' => $request->amount,
-            'threshold' => $request->threshold,
-            'stated' => $request->stated == null ? false : true,
-            'currency_id' => $request->currency
-        ];
+        $this->walletExist($request->input('name'));
 
-        $this->accountExist($request->name);
+        try
+        {
+            $wallet = Auth::user()->wallets()->create([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'is_stated' => $request->input('stated') == null ? false : true,
+                'balance' => $request->input('balance'),
+                'threshold' => $request->input('threshold'),
+                'color' => $request->input('color')
+            ]);
 
-        Auth::user()->accounts()->create($data);
+            success_flash_message(trans('auth.success'),
+                trans('general.add_successful', ['name' => $request->input('name')]));
 
-        flash_message(
-            __('general.success'), 'Compte ajouté avec succès',
-            'success', 'fa fa-thumbs-up'
-        );
+            return redirect(locale_route('wallets.show', [$wallet]));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
         return redirect($this->redirectTo());
     }
@@ -90,12 +96,26 @@ class WalletController extends Controller
      *
      * @param Request $request
      * @param $language
-     * @param Account $account
+     * @param Wallet $wallet
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $language, Account $account)
+    public function show(Request $request, $language, Wallet $wallet)
     {
-        if($request->query('date') == null) $date_range = 0;
+        try
+        {
+            if($wallet->authorised)
+                return view('app.wallets.show', compact('wallet'));
+            else
+                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+
+        /*if($request->query('date') == null) $date_range = 0;
         else $date_range = $request->query('date');
 
         if(!is_numeric($date_range)) return back();
@@ -122,50 +142,66 @@ class WalletController extends Controller
             'expenses' => $expensesNumber,
             'transfers' => $transfersNumber,
             'incomes' => $incomesNumber
-        ]);
+        ]);*/
     }
 
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param $language
-     * @param Account $account
+     * @param Wallet $wallet
      * @return \Illuminate\Http\Response
      */
-    public function edit($language, Account $account)
+    public function edit(Request $request, $language, Wallet $wallet)
     {
-        return view('accounts.edit', compact('account'));
+        try
+        {
+            if($wallet->authorised)
+                return view('app.wallets.edit', compact('wallet'));
+            else
+                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param AccountRequest $request
+     * @param WalletRequest $request
      * @param $language
-     * @param Account $account
+     * @param Wallet $wallet
      * @return \Illuminate\Http\Response
-     * @throws ValidationException
      */
-    public function update(AccountRequest $request, $language, Account $account)
+    public function update(WalletRequest $request, $language, Wallet $wallet)
     {
-        $data = [
-            'name' => strtolower($request->name),
-            'description' => $request->description,
-            'color' => $request->color,
-            'amount' => $request->amount,
-            'threshold' => $request->threshold,
-            'stated' => $request->stated == null ? false : true,
-            'currency_id' => $request->currency
-        ];
+        $this->walletExist($request->input('name'), $wallet->id);
 
-        $this->accountExist($request->name, $account->id);
+        try
+        {
+            $wallet->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'is_stated' => $request->input('stated') == null ? false : true,
+                'balance' => $request->input('balance'),
+                'threshold' => $request->input('threshold'),
+                'color' => $request->input('color')
+            ]);
 
-        $account->update($data);
+            success_flash_message(trans('auth.success'),
+                trans('general.update_successful', ['name' => $request->input('name')]));
 
-        flash_message(
-            __('general.success'), 'Compte modifié avec succès.',
-            'success', 'fa fa-thumbs-up'
-        );
+            return redirect(locale_route('wallets.show', [$wallet]));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
         return redirect($this->redirectTo());
     }
@@ -173,39 +209,101 @@ class WalletController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param $language
-     * @param Account $account
+     * @param Wallet $wallet
      * @return \Illuminate\Http\Response
-     * @throws \Exception
      */
-    public function destroy($language, Account $account)
+    public function destroy(Request $request, $language, Wallet $wallet)
     {
-        $account->delete();
-
-        flash_message(
-            'Information', 'Compte supprimé avec succès. '
-        );
+        try
+        {
+            if($wallet->authorised)
+            {
+                if($wallet->can_delete)
+                {
+                    $wallet->delete();
+                    info_flash_message(trans('auth.info'),
+                        trans('general.delete_successful', ['name' => $wallet->name]));
+                }
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_account'));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
 
         return redirect($this->redirectTo());
+    }
+
+    /**
+     * @param Request $request
+     * @param Wallet $wallet
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function disableStat(Request $request, $language, Wallet $wallet)
+    {
+        try
+        {
+            if($wallet->authorised)
+            {
+                $wallet->is_stated = false;
+                $wallet->save();
+                info_flash_message(trans('auth.info'),
+                    trans('general.disable_stat_successful', ['name' => $wallet->name]));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+    /**
+     * @param Request $request
+     * @param Wallet $wallet
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function enableStat(Request $request, $language, Wallet $wallet)
+    {
+        try
+        {
+            if($wallet->authorised)
+            {
+                $wallet->is_stated = true;
+                $wallet->save();
+                info_flash_message(trans('auth.info'),
+                    trans('general.enable_stat_successful', ['name' => $wallet->name]));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
     }
 
     /**
      * Check if the account already exist
      *
      * @param  string $name
-     * @param int $account_id
+     * @param int $id
      * @return void
-     * @throws ValidationException
      */
-    private function accountExist($name, $account_id = 0)
+    private function walletExist($name, $id = 0)
     {
-        if(Auth::user()->accounts
-                ->where('slug', str_slug($name))
-                ->where('id', '<>', $account_id)
-                ->count() > 0)
+        if(Auth::user()->wallets->where('slug', Auth::user()->id . '-' . str_slug($name))
+                ->where('id', '<>', $id)->count() > 0)
         {
             throw ValidationException::withMessages([
-                'name' => 'Un compte existe déjà avec ce nom',
+                'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
     }
@@ -217,6 +315,6 @@ class WalletController extends Controller
      */
     private function redirectTo()
     {
-        return route_manager('accounts.index');
+        return locale_route('wallets.index');
     }
 }

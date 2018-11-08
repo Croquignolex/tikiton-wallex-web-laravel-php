@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property mixed name
+ * @property mixed symbol
  * @property mixed authorised
  * @property mixed is_current
  * @property mixed devaluation
@@ -56,6 +57,9 @@ class Currency extends Model
         return Auth::user()->currencies->contains($this);
     }
 
+    /**
+     * @return string
+     */
     public function getFormatDevaluationAttribute()
     {
         $devaluation = $this->formatNumber($this->devaluation);
