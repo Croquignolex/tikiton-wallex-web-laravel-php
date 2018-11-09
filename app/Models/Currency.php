@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\SlugRouteTrait;
 use App\Traits\SlugSaveTrait;
 use App\Traits\LocaleAmountTrait;
 use App\Traits\CurrentElementTrait;
@@ -11,8 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property mixed id
  * @property mixed name
  * @property mixed symbol
+ * @property mixed wallets
  * @property mixed authorised
  * @property mixed is_current
  * @property mixed devaluation
@@ -20,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 class Currency extends Model
 {
     use LocaleDateTimeTrait, LocaleAmountTrait,
-        SlugSaveTrait, SlugSaveTrait, CurrentElementTrait;
+        SlugSaveTrait, SlugRouteTrait, CurrentElementTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -28,8 +31,7 @@ class Currency extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'symbol', 'user_id',
-        'is_current', 'devaluation'
+        'name', 'description', 'symbol', 'user_id', 'devaluation'
     ];
 
     /**
@@ -47,6 +49,14 @@ class Currency extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function wallets()
+    {
+        return $this->hasMany('App\Models\Wallet');
     }
 
     /**
@@ -71,5 +81,13 @@ class Currency extends Model
         else  return $this->formatNumber($this->devaluation) . ' XAF';
 
         return $devaluation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCanBeDeletedAttribute()
+    {
+        return $this->wallets->isEmpty();
     }
 }

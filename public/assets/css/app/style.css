@@ -18,8 +18,8 @@
     font-weight: bold;
 }
 /* ==========================================================================
-   Base styles: opinionated defaults (Extra)
-   ========================================================================== */
+Base styles: opinionated defaults (Extra)
+========================================================================== */
 html {
     color: #222;
     font-size: 1em;
@@ -276,8 +276,14 @@ body {}
 .mg-t-30{
     margin-top:30px;
 }
+.mg-t-40{
+    margin-top:40px;
+}
 .mg-b-15{
     margin-bottom:15px;
+}
+.mg-b-40{
+    margin-bottom:40px;
 }
 .mg-t-15{
     margin-top:15px;
@@ -3140,18 +3146,13 @@ textarea.auto-size {
     content: "";
     height: calc(100% - 2px);
     width: 30px;
-    background-color: #FFF;
-    background-position: right calc(100% - 7px);
-    background-repeat: no-repeat;
-    background-image: url(images/select.png);
+    background: #FFF no-repeat right calc(100% - 7px);
     pointer-events: none;
     z-index: 5;
 }
 .bootstrap-select>.btn-default {
-    border-top: 0px solid #ccc;
-    border-left: 0px solid #ccc;
-    border-right: 0px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border: 0px solid #ccc;
+    border-bottom-width: 1px;
     border-radius: 0px;
     background:none !important;
     box-shadow: none !important;
@@ -3168,6 +3169,7 @@ textarea.auto-size {
 }
 .bootstrap-select .dropdown-menu>.active>a, .bootstrap-select .dropdown-menu>.active>a:focus, .bootstrap-select .dropdown-menu>.active>a:hover {
     background-color: #c257b8;
+    color: #FFFFFF !important;
 }
 .bootstrap-select .bs-searchbox {
     padding: 5px 5px 5px 40px;
@@ -3176,14 +3178,13 @@ textarea.auto-size {
     margin-top: -10px;
 }
 .bootstrap-select .bs-searchbox:before {
-    /*TODO: Put this in Fontawesome*/
     position: absolute;
     left: 0;
     top: 0;
     width: 40px;
     height: 100%;
-    content: "\e928";
-    font-family: 'notika-icon' !important;
+    content: "\f002";
+    font-family: 'FontAwesome' !important;
     font-size: 16px;
     padding: 12px 0 0 15px;
 }
@@ -3208,87 +3209,6 @@ textarea.auto-size {
 .bootstrap-select .dropdown-menu {
     top: 0px;
 }
-.chosen-select-act .chosen-container {
-    padding: 6px 2px;
-}
-.chosen-select-act .chosen-single {
-    border-top: 0px solid #ccc;
-    border-left: 0px solid #ccc;
-    border-right: 0px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    box-shadow: none;
-    background: #fff;
-    font-size: 14px;
-    color: #333;
-    border-radius:0px;
-}
-.chosen-select-act .chosen-container .chosen-drop {
-    border: 0px solid #ccc;
-}
-.chosen-select-act .chosen-container-active.chosen-with-drop .chosen-single {
-    border: 0px solid #ccc;
-    background-image:none;
-}
-.chosen-select-act .chosen-container .chosen-drop{
-    top:0px;
-}
-.chosen-select-act .chosen-container .chosen-results li.highlighted{
-    background:#c257b8;
-    color:#fff;
-}
-.chosen-select-act .chosen-container .chosen-results li{
-    position:relative;
-}
-.chosen-select-act .chosen-container .chosen-results li.result-selected:before {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 14px;
-}
-.chosen-select-act .chosen-container .chosen-results li.result-selected:before {
-    /*TODO: Put this in Fontawesome*/
-    content: "\e906";
-    font-family: 'notika-icon' !important;
-    font-size:16px;
-}
-.chosen-select-act .chosen-container .chosen-results li{
-    padding:10px 10px;
-    font-size:14px;
-    color:#333;
-}
-.chosen-select-act .chosen-container-single .chosen-search {
-    padding: 5px 5px 5px 40px !important;
-    background: #F7F7F7;
-}
-.chosen-select-act .chosen-container-single .chosen-search {
-    position: relative;
-    z-index: 1010;
-    margin: 0;
-    padding: 3px 4px;
-    white-space: nowrap;
-}
-.chosen-select-act .chosen-container-single .chosen-search:before {
-    /*TODO: Put this in Fontawesome*/
-    content: "\e928";
-    font-family: 'notika-icon' !important;
-    position: absolute;
-    left: 0;
-    top: 3px;
-    width: 40px;
-    height: 100%;
-    font-size: 16px;
-    padding: 5px 0 0 15px;
-}
-.chosen-select-act .chosen-container-single .chosen-search input[type="text"] {
-    border:0px solid #ccc;
-}
-.chosen-select-act .chosen-container .chosen-results li.disabled-result {
-    color: #ccc;
-}
-.chosen-select-act .chosen-container-active .chosen-choices{
-    border: 0px solid #ccc;
-    box-shadow:none;
-}
 .bootstrap-select.btn-group .no-results{
     padding: 10px 15px;
     margin: 0 0px;
@@ -3297,60 +3217,6 @@ textarea.auto-size {
 .bootstrap-select .dropdown-menu>li>a:focus, .bootstrap-select .dropdown-menu>li>a:hover, .bootstrap-select .dropdown-menu>li>a:active {
     background-color: #c257b8 !important;
     color:#fff !important;
-}
-.chosen-select-act .chosen-container-multi .chosen-choices{
-    background-image:none;
-    border-top: 0px solid #ccc;
-    border-left: 0px solid #ccc;
-    border-right: 0px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-.chosen-select-act .chosen-container-multi .chosen-choices li.search-choice{
-    border-top: 0px solid #ccc;
-    border-left: 0px solid #ccc;
-    border-right: 0px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-radius: 2px;
-    background-color: #c257b8;
-    background-image:none;
-    color:#fff;
-    padding: 5px 10px;
-}
-.chosen-select-act .chosen-container-multi .chosen-choices li.search-choice span{
-
-}
-.chosen-container-multi .chosen-choices li.search-choice .search-choice-close{
-    width: 15px;
-    height: 10px;
-    background: url(img/chosen-sprite.png) -38px 1px no-repeat;
-    display: inline-block;
-    text-align: center;
-    color:#333;
-    position: unset;
-}
-.chosen-container-multi .chosen-choices li.search-choice .search-choice-close:hover {
-    background-position: -38px -10px;
-    color:#fff !important;
-}
-.chosen-select-act{
-    position:relative;
-}
-.chosen-select-act:before{
-    position: absolute;
-    top: -6px;
-    right: 0;
-    content: "";
-    height: calc(100% - 2px);
-    width: 30px;
-    background-color: #FFF;
-    background-position: right calc(100% - 7px);
-    background-repeat: no-repeat;
-    background-image: url(images/select.png);
-    pointer-events: none;
-    z-index: 5;
-}
-.chosen-container .chosen-results li.group-result{
-    font-weight:600;
 }
 .nk-toggle-switch{
     display:inline-block;

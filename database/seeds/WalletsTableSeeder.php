@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Wallet;
 use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
@@ -19,6 +20,7 @@ class WalletsTableSeeder extends Seeder
             {
                 Wallet::create([
                     'user_id' => $i,
+                    'currency_id' => rand((($i - 1) * 32) + 1, (($i - 1) * 32) + 32),
                     'balance' => rand(100000, 999999),
                     'threshold' => rand(10000, 99999),
                     'is_stated' => $i < 4 ? false : true,
@@ -30,6 +32,9 @@ class WalletsTableSeeder extends Seeder
         }
     }
 
+    /**
+     * @return string
+     */
     private function getUniqueName()
     {
         $name = Lorem::sentence(3);

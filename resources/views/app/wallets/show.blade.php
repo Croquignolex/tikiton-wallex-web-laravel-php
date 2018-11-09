@@ -28,7 +28,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
                             <a href="{{ locale_route('wallets.edit', [$wallet]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
-                            @if($wallet->can_delete)
+                            @if($wallet->can_be_deleted)
                                 <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-wallet" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                             @endif
                         </div>
@@ -55,29 +55,44 @@
                                         <div class="tab-ctn">
                                             <ul>
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.balance') :</strong>
                                                     <span class="text-success">{{ $wallet->format_balance }}</span>
                                                 </li>
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.threshold') :</strong>
                                                     <span class="text-danger">{{ $wallet->format_threshold }}</span>
                                                 </li>
-                                                <strong>@lang('general.stated') :</strong>
-                                                <small class="text-{{ $wallet->format_stated->color }}">
-                                                    {{ $wallet->format_stated->text }}
-                                                </small>
-                                                @if($wallet->is_stated)
-                                                    <a href="javascript: void(0);" class="text-warning" data-toggle="modal" data-target="#disable-stat"
-                                                       title="@lang('general.disable')"><i class="fa fa-times"></i></a>
-                                                @else
-                                                    <a href="javascript: void(0);" class="text-info" data-toggle="modal" data-target="#enable-stat"
-                                                       title="@lang('general.enable')"><i class="fa fa-check"></i></a>
-                                                @endif
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
+                                                    <strong>@lang('general.currency') :</strong>
+                                                    <a href="{{ locale_route('currencies.show', [$wallet->currency]) }}"
+                                                        title="@lang('general.details')">
+                                                        {{ $wallet->currency->name }} ({{ $wallet->currency->symbol }})
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-caret-right"></i>
+                                                    <strong>@lang('general.stated') :</strong>
+                                                    <small class="text-{{ $wallet->format_stated->color }}">
+                                                        {{ $wallet->format_stated->text }}
+                                                    </small>
+                                                    @if($wallet->is_stated)
+                                                        <a href="javascript: void(0);" class="text-warning" data-toggle="modal" data-target="#disable-stat"
+                                                           title="@lang('general.disable')"><i class="fa fa-times"></i></a>
+                                                    @else
+                                                        <a href="javascript: void(0);" class="text-info" data-toggle="modal" data-target="#enable-stat"
+                                                           title="@lang('general.enable')"><i class="fa fa-check"></i></a>
+                                                    @endif
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.creation_date') :</strong>
                                                     {{ $wallet->created_date }} @lang('general.at') {{ $wallet->created_time }}
                                                 </li>
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.last_update') :</strong>
                                                     {{ $wallet->updated_date }} @lang('general.at') {{ $wallet->updated_time }}
                                                 </li>
@@ -99,7 +114,7 @@
     </div>
     <!--End Setting Area-->
 
-    @if($wallet->can_delete)
+    @if($wallet->can_be_deleted)
         @component('components.modal', [
             'title' => trans('general.delete_account', ['name' => $wallet->name]),
             'id' => 'delete-wallet', 'color' => 'modal-danger',

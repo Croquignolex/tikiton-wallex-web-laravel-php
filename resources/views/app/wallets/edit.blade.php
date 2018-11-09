@@ -83,6 +83,18 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group mg-b-40">
+                                            @component('components.app.label-input', ['name' => 'currency'])
+                                                @component('components.app.select', [
+                                                   'name' => 'currency', 'header' => trans('general.select_currency')
+                                                   ])
+                                                    @foreach($currencies as $currency)
+                                                        <option value="{{ $currency->id }}" data-subtext="{{ $currency->symbol }}"
+                                                            {{ $currency->id === $wallet->currency_id ? 'selected' : '' }}>{{ $currency->name }}</option>
+                                                    @endforeach
+                                                @endcomponent
+                                            @endcomponent
+                                        </div>
                                         <div class="form-group">
                                             @component('components.app.label-input', ['name' => 'description'])
                                             <div class="nk-int-st">
@@ -125,12 +137,14 @@
 
 @push('breadcrumb.app.layout.style.page')
     <link rel="stylesheet" href="{{ css_app_asset('bootstrap-colorpicker.min') }}" type="text/css">
+    <link rel="stylesheet" href="{{ css_app_asset('bootstrap-select') }}" type="text/css">
 @endpush
 
 @push('breadcrumb.app.layout.script.page')
     <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
     <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
     <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>
+    <script src="{{ js_app_asset('bootstrap-select') }}" type="text/javascript"></script>
     <script src="{{ js_app_asset('bootstrap-colorpicker') }}" type="text/javascript"></script>
     <script>
         $(function() {

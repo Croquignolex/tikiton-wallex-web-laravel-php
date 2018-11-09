@@ -41,15 +41,14 @@
                                 </thead>
                                 <tbody>
                                     @forelse($paginationTools->displayItems as $currency)
-                                        <tr class="{{ $currency->is_current ? 'current' : '' }}">
+                                        <tr>
                                             <td>{{ ($loop->index + 1) + ($paginationTools->itemsPerPage * ($paginationTools->currentPage - 1)) }}</td>
                                             <td><a href="{{ locale_route('currencies.show', [$currency]) }}" title="@lang('general.details')">{{ text_format($currency->name, 30) }}</a></td>
                                             <td>{{ $currency->symbol }}</td>
                                             <td class="text-right">
                                                 <a href="{{ locale_route('currencies.edit', [$currency]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
-                                                @if(!$currency->is_current)
-                                                    <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-currency-{{ $currency->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
-                                                    <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-currency-{{ $currency->id }}" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
+                                                @if($currency->can_be_deleted)
+                                                    <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-currency-{{ $currency->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -86,19 +85,11 @@
     <!--End Currencies Area-->
 
     @foreach($paginationTools->displayItems as $currency)
-        @if(!$currency->is_current)
+        @if($currency->can_be_deleted)
             @component('components.modal', [
                 'title' => trans('general.delete_currency', ['name' => $currency->name]),
                 'id' => 'delete-currency-' . $currency->id, 'color' => 'modal-danger',
                 'action_route' => locale_route('currencies.destroy', [$currency])
-                ])
-                @lang('general.cfm_action')?
-            @endcomponent
-            @component('components.modal', [
-                'title' => trans('general.activate_currency', ['name' => $currency->name]),
-                'id' => 'activate-currency-' . $currency->id, 'color' => 'modal-success',
-                'action_route' => locale_route('currencies.activate', [$currency]),
-                'method' => 'PUT'
                 ])
                 @lang('general.cfm_action')?
             @endcomponent

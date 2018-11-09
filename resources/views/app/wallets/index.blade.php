@@ -50,7 +50,7 @@
                                                 {{ $wallet->format_stated->text }}
                                             </small>&nbsp;
                                             <a href="{{ locale_route('wallets.edit', [$wallet]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
-                                            @if($wallet->can_delete)
+                                            @if($wallet->can_be_deleted)
                                                 <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-wallet-{{ $wallet->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                                             @endif
                                         </div>
@@ -81,7 +81,7 @@
     <!--End Wallets Area-->
 
     @foreach($paginationTools->displayItems as $wallet)
-        @if($wallet->can_delete)
+        @if($wallet->can_be_deleted)
             @component('components.modal', [
                 'title' => trans('general.delete_account', ['name' => $wallet->name]),
                 'id' => 'delete-wallet-' . $wallet->id, 'color' => 'modal-danger',

@@ -185,6 +185,7 @@ return [
     'last_update' => 'Dernière modification',
     'devaluation' => 'Dévaluation par rapport au XAF',
     'color' => 'Couleur',
+    'select_currency' => 'Sélectionner une dévise',
 
     /*
     |--------------------------------------------------------------------------

@@ -22,13 +22,15 @@ class CurrenciesTableSeeder extends Seeder
                     'name' => strtoupper($this->getUniqueName()),
                     'description' => ucfirst(Lorem::text()),
                     'devaluation' => rand(100, 9999),
-                    'is_current' => $j === 1,
-                    'symbol' => str_shuffle('ABCDEF')
+                    'symbol' => $this->getUniqueSymbol()
                 ]);
             }
         }
     }
 
+    /**
+     * @return string
+     */
     private function getUniqueName()
     {
         $name = Lorem::sentence(2);
@@ -37,5 +39,18 @@ class CurrenciesTableSeeder extends Seeder
             return $this->getUniqueName();
 
         return $name;
+    }
+
+    /**
+     * @return string
+     */
+    private function getUniqueSymbol()
+    {
+        $symbol = str_shuffle('ABCDEF');
+
+        if(Currency::where(['symbol' => $symbol])->count() > 0)
+            return $this->getUniqueSymbol();
+
+        return $symbol;
     }
 }

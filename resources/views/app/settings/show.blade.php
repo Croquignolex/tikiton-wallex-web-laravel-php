@@ -51,6 +51,7 @@
                                         <div class="tab-ctn">
                                             <ul>
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.tips') :</strong>
                                                     <small class="text-{{ $setting->format_tips->color }}">
                                                         {{ $setting->format_tips->text }}
@@ -64,10 +65,12 @@
                                                     @endif
                                                 </li>
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.creation_date') :</strong>
                                                     {{ $setting->created_date }} @lang('general.at') {{ $setting->created_time }}
                                                 </li>
                                                 <li>
+                                                    <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.last_update') :</strong>
                                                     {{ $setting->updated_date }} @lang('general.at') {{ $setting->updated_time }}
                                                 </li>

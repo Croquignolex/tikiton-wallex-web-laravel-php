@@ -81,16 +81,6 @@
                                             </div>
                                             @endcomponent
                                         </div>
-                                        <div class="form-group text-left">
-                                            <div class="toggle-select-act">
-                                                @component('components.app.checkbox', [
-                                                    'name' => 'current', 'color' => 'green',
-                                                    'label' => trans('general.activated'),
-                                                    'attribute_1' => old('current') === 'on' ? 'checked' : ''
-                                                ])
-                                                @endcomponent
-                                            </div>
-                                        </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success waves-effect" title="@lang('general.new_currency')">
                                                 <i class="fa fa-plus"></i>

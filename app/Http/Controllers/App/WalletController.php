@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 
 use Exception;
 use App\Models\Wallet;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
@@ -54,7 +55,8 @@ class WalletController extends Controller
      */
     public function create()
     {
-        return view('app.wallets.create');
+        $currencies = Auth::user()->currencies;
+        return view('app.wallets.create', compact('currencies'));
     }
 
     /**
@@ -69,26 +71,32 @@ class WalletController extends Controller
 
         try
         {
-            $wallet = Auth::user()->wallets()->create([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-                'is_stated' => $request->input('stated') == null ? false : true,
-                'balance' => $request->input('balance'),
-                'threshold' => $request->input('threshold'),
-                'color' => $request->input('color')
-            ]);
+            $currency = Currency::where('id', intval($request->input('currency')))->first();
+            if($currency->authorised)
+            {
+                $wallet = Auth::user()->wallets()->create([
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'is_stated' => $request->input('stated') == null ? false : true,
+                    'balance' => $request->input('balance'),
+                    'threshold' => $request->input('threshold'),
+                    'color' => $request->input('color'),
+                    'currency_id' => $currency->id
+                ]);
 
-            success_flash_message(trans('auth.success'),
-                trans('general.add_successful', ['name' => $request->input('name')]));
+                success_flash_message(trans('auth.success'),
+                    trans('general.add_successful', ['name' => $request->input('name')]));
 
-            return redirect(locale_route('wallets.show', [$wallet]));
+                return redirect(locale_route('wallets.show', [$wallet]));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return back();
     }
 
     /**
@@ -158,9 +166,11 @@ class WalletController extends Controller
         try
         {
             if($wallet->authorised)
-                return view('app.wallets.edit', compact('wallet'));
-            else
-                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            {
+                $currencies = Auth::user()->currencies;
+                return view('app.wallets.edit', compact('wallet', 'currencies'));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
@@ -184,26 +194,32 @@ class WalletController extends Controller
 
         try
         {
-            $wallet->update([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-                'is_stated' => $request->input('stated') == null ? false : true,
-                'balance' => $request->input('balance'),
-                'threshold' => $request->input('threshold'),
-                'color' => $request->input('color')
-            ]);
+            $currency = Currency::where('id', intval($request->input('currency')))->first();
+            if($currency->authorised)
+            {
+                $wallet->update([
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'is_stated' => $request->input('stated') == null ? false : true,
+                    'balance' => $request->input('balance'),
+                    'threshold' => $request->input('threshold'),
+                    'color' => $request->input('color'),
+                    'currency_id' => $currency->id
+                ]);
 
-            success_flash_message(trans('auth.success'),
-                trans('general.update_successful', ['name' => $request->input('name')]));
+                success_flash_message(trans('auth.success'),
+                    trans('general.update_successful', ['name' => $request->input('name')]));
 
-            return redirect(locale_route('wallets.show', [$wallet]));
+                return redirect(locale_route('wallets.show', [$wallet]));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return back();
     }
 
     /**
@@ -220,7 +236,7 @@ class WalletController extends Controller
         {
             if($wallet->authorised)
             {
-                if($wallet->can_delete)
+                if($wallet->can_be_deleted)
                 {
                     $wallet->delete();
                     info_flash_message(trans('auth.info'),
@@ -235,7 +251,7 @@ class WalletController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return redirect(locale_route('wallets.index'));
     }
 
     /**
@@ -306,15 +322,5 @@ class WalletController extends Controller
                 'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
-    }
-
-    /**
-     * Give the redirection path
-     *
-     * @return Router
-     */
-    private function redirectTo()
-    {
-        return locale_route('wallets.index');
     }
 }

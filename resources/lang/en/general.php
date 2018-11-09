@@ -185,6 +185,7 @@ return [
     'last_update' => 'Last update',
     'devaluation' => 'Devaluation toward XAF',
     'color' => 'Color',
+    'select_currency' => 'Select a currency',
 
     /*
     |--------------------------------------------------------------------------

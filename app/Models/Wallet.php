@@ -15,11 +15,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed id
  * @property mixed name
+ * @property mixed currency
  * @property mixed balance
  * @property mixed threshold
  * @property mixed is_stated
- * @property mixed can_delete
  * @property mixed authorised
+ * @property mixed can_be_deleted
  */
 class Wallet extends Model
 {
@@ -33,7 +34,7 @@ class Wallet extends Model
      */
     protected $fillable = [
         'name', 'description', 'color', 'balance',
-        'threshold', 'is_stated', 'user_id'
+        'threshold', 'is_stated', 'user_id', 'currency_id'
     ];
 
     /**
@@ -54,11 +55,19 @@ class Wallet extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo('App\Models\Currency');
+    }
+
+    /**
      * @return string
      */
     public function getFormatThresholdAttribute()
     {
-        return $this->formatCurrency($this->formatNumber($this->threshold));
+        return $this->formatCurrency($this->formatNumber($this->threshold), $this->currency);
     }
 
     /**
@@ -66,7 +75,7 @@ class Wallet extends Model
      */
     public function getFormatBalanceAttribute()
     {
-        return $this->formatCurrency($this->formatNumber($this->balance));
+        return $this->formatCurrency($this->formatNumber($this->balance), $this->currency);
     }
 
     /**
@@ -82,7 +91,7 @@ class Wallet extends Model
     /**
      * @return mixed
      */
-    public function getCanDeleteAttribute()
+    public function getCanBeDeletedAttribute()
     {
         return true;
         //return $this->transactions->count === 0;

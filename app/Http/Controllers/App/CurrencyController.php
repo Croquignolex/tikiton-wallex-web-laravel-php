@@ -34,8 +34,7 @@ class CurrencyController extends Controller
 
         try
         {
-            $currencies = Auth::user()->currencies
-                ->sortByDesc('updated_at')->sortByDesc('is_current');
+            $currencies = Auth::user()->currencies->sortByDesc('updated_at');
         }
         catch (Exception $exception)
         {
@@ -70,21 +69,11 @@ class CurrencyController extends Controller
 
         try
         {
-            if($request->input('current') != null)
-            {
-                foreach (Auth::user()->currencies as $currency)
-                {
-                    $currency->is_current = false;
-                    $currency->save();
-                }
-            }
-
             $currency = Auth::user()->currencies()->create([
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
                 'symbol' => $request->input('symbol'),
-                'devaluation' => $request->input('devaluation'),
-                'is_current' => $request->input('current') == null ? false : true
+                'devaluation' => $request->input('devaluation')
             ]);
 
             success_flash_message(trans('auth.success'),
@@ -97,7 +86,7 @@ class CurrencyController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return back();
     }
 
     /**
@@ -164,26 +153,11 @@ class CurrencyController extends Controller
 
         try
         {
-            $current = false;
-            if($request->input('current') != null && $currency->is_current === 0)
-            {
-                foreach (Auth::user()->currencies as $user_currency)
-                {
-                    $user_currency->is_current = false;
-                    $user_currency->save();
-                }
-                $current = true;
-            }
-
-            if($currency->is_current === 1)
-                $current = true;
-
             $currency->update([
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
                 'symbol' => $request->input('symbol'),
-                'devaluation' => $request->input('devaluation'),
-                'is_current' => $current
+                'devaluation' => $request->input('devaluation')
             ]);
 
             success_flash_message(trans('auth.success'),
@@ -196,7 +170,7 @@ class CurrencyController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return back();
     }
 
     /**
@@ -228,44 +202,7 @@ class CurrencyController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
-    }
-
-    /**
-     * @param Request $request
-     * @param $language
-     * @param Currency $currency
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function activate(Request $request, $language, Currency $currency)
-    {
-        try
-        {
-            if($currency->authorised)
-            {
-                if(!$currency->is_current)
-                {
-                    foreach (Auth::user()->currencies as $user_currency)
-                    {
-                        $user_currency->is_current = false;
-                        $user_currency->save();
-                    }
-
-                    $currency->is_current = true;
-                    $currency->save();
-                    info_flash_message(trans('auth.info'),
-                        trans('general.activate_successful', ['name' => $currency->name]));
-                }
-                else danger_flash_message(trans('auth.error'), trans('general.c_n_a_currency'));
-            }
-            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
-        }
-        catch (Exception $exception)
-        {
-            $this->databaseError($exception);
-        }
-
-        return back();
+        return redirect(locale_route('currencies.index'));
     }
 
     /**
@@ -277,6 +214,7 @@ class CurrencyController extends Controller
      */
     private function currencyExist($name, $id = 0)
     {
+        //TODO: manage unique symbol
         if(Auth::user()->currencies->where('slug', Auth::user()->id . '-' . str_slug($name))
                 ->where('id', '<>', $id)->count() > 0)
         {
@@ -284,15 +222,5 @@ class CurrencyController extends Controller
                 'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
-    }
-
-    /**
-     * Give the redirection path
-     *
-     * @return Router
-     */
-    private function redirectTo()
-    {
-        return locale_route('currencies.index');
     }
 }

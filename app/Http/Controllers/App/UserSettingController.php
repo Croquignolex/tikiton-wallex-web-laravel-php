@@ -96,7 +96,7 @@ class UserSettingController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return back();
     }
 
     /**
@@ -194,7 +194,7 @@ class UserSettingController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return back();
     }
 
     /**
@@ -226,7 +226,7 @@ class UserSettingController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return redirect(locale_route('settings.index'));
     }
 
     /**
@@ -333,15 +333,5 @@ class UserSettingController extends Controller
                 'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
-    }
-
-    /**
-     * Give the redirection path
-     *
-     * @return Router
-     */
-    private function redirectTo()
-    {
-        return locale_route('settings.index');
     }
 }

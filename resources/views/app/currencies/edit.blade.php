@@ -82,16 +82,6 @@
                                             </div>
                                             @endcomponent
                                         </div>
-                                        <div class="form-group text-left">
-                                            <div class="toggle-select-act">
-                                                @component('components.app.checkbox', [
-                                                    'name' => 'current', 'color' => 'green', 'attribute_2' => $currency->is_current === 1 ? 'disabled' : '',
-                                                    'label' => trans('general.activated'), 'class' => $currency->is_current === 1 ? 'disabled' : '',
-                                                     'attribute_1' => (old('current') ?? ($currency->is_current === 1 ? 'on' : '')) === 'on' ? 'checked' : ''
-                                                     ])
-                                                @endcomponent
-                                            </div>
-                                        </div>
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-success waves-effect" title="@lang('general.update_currency')">
                                                 <i class="fa fa-repeat"></i>

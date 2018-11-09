@@ -56,7 +56,6 @@ Route::group(['namespace' => 'App'], function() {
     Route::put('/{language}/settings/activate/{setting}', 'UserSettingController@activate')->name('settings.activate');
     Route::put('/{language}/settings/disable/tips/{setting}', 'UserSettingController@disableTips')->name('settings.tips.disable');
     Route::put('/{language}/settings/enable/tips/{setting}', 'UserSettingController@enableTips')->name('settings.tips.enable');
-    Route::put('/{language}/currencies/activate/{currency}', 'CurrencyController@activate')->name('currencies.activate');
     Route::put('/{language}/wallets/disable/stat/{wallet}', 'WalletController@disableStat')->name('wallets.stat.disable');
     Route::put('/{language}/wallets/enable/stat/{wallet}', 'WalletController@enableStat')->name('wallets.stat.enable');
 
