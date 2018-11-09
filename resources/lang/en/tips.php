@@ -22,4 +22,5 @@ return [
     'accounts_details' => 'Here you have the details of a account',
     'accounts_new' => 'Here you have a new account creation form',
     'accounts_edit' => 'Here you have a account update form',
+    'accounts_add' => 'Here you have a new :name currency account add form',
 ];

@@ -66,13 +66,14 @@ class CurrencyController extends Controller
     public function store(CurrencyRequest $request)
     {
         $this->currencyExist($request->input('name'));
+        $this->symbolExist($request->input('symbol'));
 
         try
         {
             $currency = Auth::user()->currencies()->create([
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
-                'symbol' => $request->input('symbol'),
+                'symbol' =>  mb_strtoupper($request->input('symbol')),
                 'devaluation' => $request->input('devaluation')
             ]);
 
@@ -150,13 +151,14 @@ class CurrencyController extends Controller
     public function update(CurrencyRequest $request, $language, Currency $currency)
     {
         $this->currencyExist($request->input('name'), $currency->id);
+        $this->symbolExist($request->input('symbol'), $currency->id);
 
         try
         {
             $currency->update([
                 'name' => $request->input('name'),
                 'description' => $request->input('description'),
-                'symbol' => $request->input('symbol'),
+                'symbol' => mb_strtoupper($request->input('symbol')),
                 'devaluation' => $request->input('devaluation')
             ]);
 
@@ -214,12 +216,29 @@ class CurrencyController extends Controller
      */
     private function currencyExist($name, $id = 0)
     {
-        //TODO: manage unique symbol
         if(Auth::user()->currencies->where('slug', Auth::user()->id . '-' . str_slug($name))
                 ->where('id', '<>', $id)->count() > 0)
         {
             throw ValidationException::withMessages([
                 'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
+            ])->status(423);
+        }
+    }
+
+    /**
+     * Check if the account already exist
+     *
+     * @param  string $symbol
+     * @param int $id
+     * @return void
+     */
+    private function symbolExist($symbol, $id = 0)
+    {
+        if(Auth::user()->currencies->where('symbol', mb_strtoupper($symbol))
+                ->where('id', '<>', $id)->count() > 0)
+        {
+            throw ValidationException::withMessages([
+                'symbol' => trans('general.already_exist', ['name' => mb_strtolower($symbol)]),
             ])->status(423);
         }
     }

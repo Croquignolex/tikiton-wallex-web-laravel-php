@@ -1,13 +1,13 @@
 @extends('layouts.app.breadcrumb')
 
-@section('breadcrumb.app.layout.title', page_title(trans('general.new_account')))
+@section('breadcrumb.app.layout.title', page_title(trans('general.add_account')))
 
-@section('breadcrumb.title', trans('general.new_account'))
+@section('breadcrumb.title', trans('general.add_account'))
 
 @section('breadcrumb.message')
-    <a href="{{ locale_route('wallets.index') }}">@lang('general.accounts')</a>
+    <a href="{{ locale_route('currencies.show', [$currency]) }}">{{ $currency->name }}</a>
     <i class="fa fa-caret-right"></i>
-    @lang('general.new_account')
+    @lang('general.add_account')
 @endsection
 
 @section('breadcrumb.icon')
@@ -22,13 +22,13 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @component('components.tips', ['title' => trans('general.accounts')])
-                            @lang('tips.accounts_new')
+                            @lang('tips.accounts_add', ['name' => $currency->name ])
                         @endcomponent
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="white-container color-preview"></div></div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
-                            <form action="{{ locale_route('wallets.store') }}" method="POST" @submit="validateFormElements">
+                            <form action="{{ locale_route('wallets.currency.store', [$currency]) }}" method="POST" @submit="validateFormElements">
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -82,16 +82,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group mg-b-40">
-                                            @component('components.app.label-input', ['name' => 'currency'])
-                                                @component('components.app.select', [
-                                                   'name' => 'currency', 'header' => trans('general.select_currency')
-                                                   ])
-                                                    @foreach($currencies as $currency)
-                                                        <option value="{{ $currency->id }}" data-subtext="{{ $currency->symbol }}">{{ $currency->name }}</option>
-                                                    @endforeach
-                                                @endcomponent
-                                            @endcomponent
+                                        <div class="form-group mg-b-40 text-left">
+                                           <strong>@lang('general.currency') : </strong>{{ $currency->name }} ({{ $currency->symbol }})
                                         </div>
                                         <div class="form-group">
                                             @component('components.app.label-input', ['name' => 'description'])
@@ -116,7 +108,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success waves-effect" title="@lang('general.new_account')">
+                                            <button type="submit" class="btn btn-success waves-effect" title="@lang('general.add_account')">
                                                 <i class="fa fa-plus"></i>
                                                 @lang('general.add')
                                             </button>
@@ -135,14 +127,12 @@
 
 @push('breadcrumb.app.layout.style.page')
     <link rel="stylesheet" href="{{ css_app_asset('bootstrap-colorpicker.min') }}" type="text/css">
-    <link rel="stylesheet" href="{{ css_app_asset('bootstrap-select') }}" type="text/css">
 @endpush
 
 @push('breadcrumb.app.layout.script.page')
     <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
     <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
     <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>
-    <script src="{{ js_app_asset('bootstrap-select') }}" type="text/javascript"></script>
     <script src="{{ js_app_asset('bootstrap-colorpicker') }}" type="text/javascript"></script>
     <script>
         $(function() {

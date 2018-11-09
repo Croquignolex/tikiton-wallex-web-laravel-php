@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="white-container table-responsive">
+                        <div class="white-container">
                             <div class="contact-hd sm-form-hd text-center">
                                 <div class="account-header">
                                     <strong class="text-uppercase">{{ $currency->name }}</strong>
@@ -84,7 +84,10 @@
                                                 @forelse($currency->wallets as $wallet)
                                                     <li>
                                                         <i class="fa fa-caret-right"></i>
-                                                        <strong>{{ $wallet->name }} :</strong>
+                                                        <strong>
+                                                            <a href="{{ locale_route('wallets.show', [$wallet]) }}"
+                                                               title="@lang('general.details')">{{ $wallet->name }}</a> :
+                                                        </strong>
                                                         {{ $wallet->format_balance }}
                                                     </li>
                                                 @empty
@@ -95,6 +98,12 @@
                                                     </div>
                                                 @endforelse
                                             </ul>
+                                            <div class="text-right mg-t-40">
+                                                <a href="{{ locale_route('wallets.currency.create', [$currency]) }}">
+                                                    <i class="fa fa-plus"></i>
+                                                    @lang('general.add_account')
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -22,4 +22,5 @@ return [
     'accounts_details' => 'Ici vous avez le détail d\'un compte',
     'accounts_new' => 'Ici vous avez le formulaire de crétion d\'un nouveau compte',
     'accounts_edit' => 'Ici vous avez le formulaire de mise à jour d\'un compte',
+    'accounts_add' => 'Ici vous avez le formulaire de d\'ajout d\'un nouveau compte à la devise :name',
 ];

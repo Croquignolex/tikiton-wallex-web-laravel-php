@@ -128,6 +128,7 @@ return [
     'notifications' => 'Notifications',
     'transaction' => 'Transaction',
     'new_account' => 'Nouveau compte',
+    'add_account' => 'Ajouter un compte',
     'no_data' => 'Pas de données',
     'details' => 'Details',
     'movements' => 'Movements',

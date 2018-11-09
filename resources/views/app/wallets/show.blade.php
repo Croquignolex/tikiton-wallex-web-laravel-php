@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="white-container table-responsive">
+                        <div class="white-container">
                             <div class="contact-hd sm-form-hd text-center">
                                 <div class="account-header" style="background-color:{{ $wallet->color }};">
                                     <strong class="text-uppercase">{{ $wallet->name }}</strong>
@@ -68,9 +68,8 @@
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.currency') :</strong>
                                                     <a href="{{ locale_route('currencies.show', [$wallet->currency]) }}"
-                                                        title="@lang('general.details')">
-                                                        {{ $wallet->currency->name }} ({{ $wallet->currency->symbol }})
-                                                    </a>
+                                                        title="@lang('general.details')">{{ $wallet->currency->name }}</a>
+                                                    ({{ $wallet->currency->symbol }})
                                                 </li>
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>

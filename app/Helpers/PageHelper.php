@@ -121,7 +121,8 @@ if(!function_exists('app_wallet_pages'))
      */
     function app_wallet_pages()
     {
-        return collect(['wallets.index', 'wallets.create', 'wallets.edit', 'wallets.show']);
+        return collect(['wallets.index', 'wallets.create', 'wallets.edit',
+            'wallets.show', 'wallets.currency.create']);
     }
 }
 
@@ -132,7 +133,8 @@ if(!function_exists('app_currency_pages'))
      */
     function app_currency_pages()
     {
-        return collect(['currencies.index', 'currencies.create', 'currencies.edit', 'currencies.show']);
+        return collect(['currencies.index', 'currencies.create',
+            'currencies.edit', 'currencies.show']);
     }
 }
 

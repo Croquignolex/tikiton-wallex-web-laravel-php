@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Http\Requests\WalletCurrencyRequest;
 use Exception;
 use App\Models\Wallet;
 use App\Models\Currency;
@@ -60,6 +61,32 @@ class WalletController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @param Request $request
+     * @param $language
+     * @param Currency $currency
+     * @return \Illuminate\Http\Response
+     */
+    public function currencyCreate(Request $request, $language, Currency $currency)
+    {
+        try
+        {
+            if($currency->authorised)
+            {
+                return view('app.currencies.wallet', compact('currency'));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param WalletRequest $request
@@ -88,6 +115,47 @@ class WalletController extends Controller
                     trans('general.add_successful', ['name' => $request->input('name')]));
 
                 return redirect(locale_route('wallets.show', [$wallet]));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param WalletCurrencyRequest $request
+     * @param $language
+     * @param Currency $currency
+     * @return \Illuminate\Http\Response
+     */
+    public function currencyStore(WalletCurrencyRequest $request, $language, Currency $currency)
+    {
+        $this->walletExist($request->input('name'));
+
+        try
+        {
+            if($currency->authorised)
+            {
+                $wallet = Auth::user()->wallets()->create([
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'is_stated' => $request->input('stated') == null ? false : true,
+                    'balance' => $request->input('balance'),
+                    'threshold' => $request->input('threshold'),
+                    'color' => $request->input('color'),
+                    'currency_id' => $currency->id
+                ]);
+
+                success_flash_message(trans('auth.success'),
+                    trans('general.add_successful', ['name' => $request->input('name')]));
+
+                return redirect(locale_route('currencies.show', [$currency]));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
