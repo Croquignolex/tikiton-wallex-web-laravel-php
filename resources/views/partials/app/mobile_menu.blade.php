@@ -49,6 +49,27 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ active_page(app_category_pages()) }}">
+                                <a data-toggle="collapse" data-target="#mobile_category" href="#">
+                                    <i class="fa fa-database"></i>
+                                    @lang('general.category')
+                                </a>
+                                <ul id="mobile_category" class="collapse dropdown-header-top">
+                                    <li class="{{ active_page(collect(['categories.index'])) }}">
+                                        <a href="{{ locale_route('categories.index') }}">
+                                            <i class="fa fa-database"></i>
+                                            @lang('general.categories')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['categories.create'])) }}">
+                                        <a href="{{ locale_route('categories.create') }}">
+                                            <i class="fa fa-plus"></i>
+                                            @lang('general.new_category')
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li class="{{ active_page(app_currency_pages()) }}">
                                 <a data-toggle="collapse" data-target="#mobile_currency" href="#">
                                     <i class="fa fa-dollar"></i>

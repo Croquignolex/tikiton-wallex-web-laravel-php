@@ -12,6 +12,7 @@
 */
 
 use App\Models\Wallet;
+use App\Models\Category;
 use App\Models\Currency;
 use App\Models\UserSetting;
 
@@ -38,23 +39,27 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/dashboard', function () { return redirect(locale_route('dashboard')); });
     Route::get('/wallets', function () { return redirect(locale_route('wallets.index')); });
     Route::get('/wallets/create', function () { return redirect(locale_route('wallets.create')); });
-    Route::get('/wallets/{currency}/create', function (Currency $currency) { return redirect(locale_route('wallet.currency.create', [$currency])); });
     Route::get('/wallets/{wallet}/edit', function (Wallet $wallet) { return redirect(locale_route('wallets.edit', [$wallet])); });
     Route::get('/wallets/{wallet}', function (Wallet $wallet) { return redirect(locale_route('wallets.show', [$wallet])); });
     Route::get('/currencies', function () { return redirect(locale_route('currencies.index')); });
     Route::get('/currencies/create', function () { return redirect(locale_route('currencies.create')); });
     Route::get('/currencies/{currency}/edit', function (Currency $currency) { return redirect(locale_route('currencies.edit', [$currency])); });
     Route::get('/currencies/{currency}', function (Currency $currency) { return redirect(locale_route('currencies.show', [$currency])); });
+    Route::get('/currencies/{currency}/wallets/create', function (Currency $currency) { return redirect(locale_route('currencies.wallets.create', [$currency])); });
     Route::get('/settings', function () { return redirect(locale_route('settings.index')); });
     Route::get('/settings/create', function () { return redirect(locale_route('settings.create')); });
     Route::get('/settings/{setting}/edit', function (UserSetting $setting) { return redirect(locale_route('settings.edit', [$setting])); });
     Route::get('/settings/{setting}', function (UserSetting $setting) { return redirect(locale_route('settings.show', [$setting])); });
+    Route::get('/categories', function () { return redirect(locale_route('categories.index')); });
+    Route::get('/categories/create', function () { return redirect(locale_route('categories.create')); });
+    Route::get('/categories/{category}/edit', function (Category $category) { return redirect(locale_route('categories.edit', [$category])); });
+    Route::get('/categories/{category}', function (Category $category) { return redirect(locale_route('categories.show', [$category])); });
 
     //--Localized app routes...
     Route::get('/{language}/dashboard', 'DashboardController@index')->name('dashboard');
-    Route::get('/{language}/wallets/{currency}/create', 'WalletController@currencyCreate')->name('wallets.currency.create');
+    Route::get('/{language}/currencies/{currency}/wallets/create', 'WalletController@currencyCreate')->name('currencies.wallets.create');
 
-    Route::post('/{language}/wallets/{currency}', 'WalletController@currencyStore')->name('wallets.currency.store');
+    Route::post('/{language}/currencies/{currency}/wallets', 'WalletController@currencyStore')->name('currencies.wallets.store');
 
     Route::put('/{language}/settings/activate/{setting}', 'UserSettingController@activate')->name('settings.activate');
     Route::put('/{language}/settings/disable/tips/{setting}', 'UserSettingController@disableTips')->name('settings.tips.disable');
@@ -65,6 +70,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::resource('/{language}/wallets', 'WalletController');
     Route::resource('/{language}/currencies', 'CurrencyController');
     Route::resource('/{language}/settings', 'UserSettingController');
+    Route::resource('/{language}/categories', 'CategoryController', ['except' => ['show']]);
 
     //--Auth routes...
     Route::group(['namespace' => 'Auth'], function() {

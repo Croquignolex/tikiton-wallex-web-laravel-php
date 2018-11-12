@@ -23,4 +23,8 @@ return [
     'accounts_new' => 'Ici vous avez le formulaire de crétion d\'un nouveau compte',
     'accounts_edit' => 'Ici vous avez le formulaire de mise à jour d\'un compte',
     'accounts_add' => 'Ici vous avez le formulaire de d\'ajout d\'un nouveau compte à la devise :name',
+    'categories' => 'Ici vous avez la liste de tous vos catégories',
+    'categories_details' => 'Ici vous avez le détail d\'une catégorie',
+    'categories_new' => 'Ici vous avez le formulaire de crétion d\'une nouvelle catégorie',
+    'categories_edit' => 'Ici vous avez le formulaire de mise à jour d\'une catégorie',
 ];

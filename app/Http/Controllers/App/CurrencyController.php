@@ -31,7 +31,6 @@ class CurrencyController extends Controller
     public function index(Request $request)
     {
         $currencies = null;
-
         try
         {
             $currencies = Auth::user()->currencies->sortByDesc('updated_at');
@@ -100,10 +99,13 @@ class CurrencyController extends Controller
      */
     public function show(Request $request, $language, Currency $currency)
     {
+        $tab = $request->query('tab');
+        if($tab != 3) $tab = 1;
+
         try
         {
             if($currency->authorised)
-                return view('app.currencies.show', compact('currency'));
+                return view('app.currencies.show', compact('currency', 'tab'));
             else
                 warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -189,13 +191,13 @@ class CurrencyController extends Controller
         {
             if($currency->authorised)
             {
-                if(!$currency->is_current)
+                if($currency->can_be_deleted)
                 {
                     $currency->delete();
                     info_flash_message(trans('auth.info'),
                         trans('general.delete_successful', ['name' => $currency->name]));
                 }
-                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_currency'));
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_account'));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }

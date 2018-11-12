@@ -121,8 +121,20 @@ if(!function_exists('app_wallet_pages'))
      */
     function app_wallet_pages()
     {
-        return collect(['wallets.index', 'wallets.create', 'wallets.edit',
-            'wallets.show', 'wallets.currency.create']);
+        return collect(['wallets.index', 'wallets.create',
+            'wallets.edit', 'wallets.show']);
+    }
+}
+
+if(!function_exists('app_category_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_category_pages()
+    {
+        return collect(['categories.index', 'categories.create',
+            'categories.edit']);
     }
 }
 
@@ -134,7 +146,7 @@ if(!function_exists('app_currency_pages'))
     function app_currency_pages()
     {
         return collect(['currencies.index', 'currencies.create',
-            'currencies.edit', 'currencies.show']);
+            'currencies.edit', 'currencies.show', 'currencies.wallets.create']);
     }
 }
 
@@ -145,7 +157,8 @@ if(!function_exists('app_setting_pages'))
      */
     function app_setting_pages()
     {
-        return collect(['settings.index', 'settings.create', 'settings.edit', 'settings.show']);
+        return collect(['settings.index', 'settings.create',
+            'settings.edit', 'settings.show']);
     }
 }
 

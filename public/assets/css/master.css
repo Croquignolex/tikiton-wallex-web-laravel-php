@@ -26,6 +26,9 @@ body {
     animation: flash 3s ease infinite;
 }
 
+.multi-line-text { white-space: pre; }
+.overflow { overflow: auto; }
+
 a#scrollUp {
     bottom: 0;
     right: 10px;

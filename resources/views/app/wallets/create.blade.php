@@ -86,7 +86,7 @@
                                             @component('components.app.label-input', ['name' => 'currency'])
                                                 @component('components.app.select', [
                                                    'name' => 'currency', 'header' => trans('general.select_currency')
-                                                   ])
+                                                ])
                                                     @foreach($currencies as $currency)
                                                         <option value="{{ $currency->id }}" data-subtext="{{ $currency->symbol }}">{{ $currency->name }}</option>
                                                     @endforeach

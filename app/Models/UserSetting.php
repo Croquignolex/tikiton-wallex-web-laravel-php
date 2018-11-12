@@ -7,7 +7,6 @@ use App\Utils\FormatBoolean;
 use App\Traits\SlugSaveTrait;
 use App\Traits\SlugRouteTrait;
 use App\Traits\DescriptionTrait;
-use App\Traits\CurrentElementTrait;
 use App\Traits\LocaleDateTimeTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
@@ -18,11 +17,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed name
  * @property mixed is_current
  * @property mixed authorised
+ * @property mixed can_be_deleted
  */
 class UserSetting extends Model
 {
     use LocaleDateTimeTrait, NameTrait, DescriptionTrait,
-        SlugSaveTrait, SlugRouteTrait, CurrentElementTrait;
+        SlugSaveTrait, SlugRouteTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -66,5 +66,13 @@ class UserSetting extends Model
     public function getAuthorisedAttribute()
     {
        return Auth::user()->user_settings->contains($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCanBeDeletedAttribute()
+    {
+        return !$this->is_current;
     }
 }

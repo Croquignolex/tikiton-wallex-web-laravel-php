@@ -54,8 +54,7 @@ class AccountController extends Controller
             $user = Auth::user();
             if(Hash::check($request->input('old_password'), $user->password))
             {
-                $user->password = Hash::make($request->input('password'));
-                $user->save();
+                $user->update(['password' => Hash::make($request->input('password'))]);
                 success_flash_message(trans('auth.success'), trans('passwords.changed'));
             }
             else
@@ -88,11 +87,7 @@ class AccountController extends Controller
     {
         try
         {
-            $user = Auth::user();
-            $user->email = $request->email;
-            $user->is_confirmed = false;
-            $user->save();
-
+            Auth::user()->update(['email' => $request->email, 'is_confirmed' => false]);
             try
             {
                 //TODO: Edit contact form email
@@ -132,10 +127,7 @@ class AccountController extends Controller
                 danger_flash_message(trans('auth.error'), trans('general.bad_link'));
             else
             {
-                $user->is_confirmed = true;
-                $user->token = str_random(64);
-                $user->save();
-
+                $user->update(['is_confirmed' => true, 'token' => str_random(64)]);
                 $setting = Setting::where('is_activated', true)->first();
                 if($setting !== null)
                 {
@@ -175,24 +167,23 @@ class AccountController extends Controller
     private function userFactoryData(User $user)
     {
         //Default settings
-        $user->settings()->create([
+        $user->user_settings()->create([
             'name' => 'Novice',
             'is_current' => true,
             'description' => 'This is the best way for you to learn'
         ]);
-        $user->settings()->create([
+        $user->user_settings()->create([
             'tips' => false,
             'name' => 'Expert',
             'is_current' => false,
             'description' => 'You know what you are doing, feel free'
         ]);
         //Default currencies
-        $user->currencies()->create([
+        $currency = $user->currencies()->create([
             'name' => 'FCFA',
             'description' => 'Center Africa currency',
             'devaluation' => 1,
-            'symbol' => 'XAF',
-            'is_current' => true
+            'symbol' => 'XAF'
         ]);
         $user->currencies()->create([
             'name' => 'US DOLLAR',
@@ -212,23 +203,26 @@ class AccountController extends Controller
             'threshold' => 1000,
             'stated' => true,
             'description' => 'Personal wallet',
-            'color' => '#C257B8',
-            'name' => 'Wallet'
+            'color' => '#e8b4df',
+            'name' => 'Wallet',
+            'currency_id' => $currency->id
         ]);
         $user->wallets()->create([
             'balance' => 0,
             'threshold' => 15000,
             'description' => 'Current account in UBA bank: 115165469269',
-            'color' => '#4CAF50',
-            'name' => 'Current'
+            'color' => '#aad4ac',
+            'name' => 'Current',
+            'currency_id' => $currency->id
         ]);
         $user->wallets()->create([
             'balance' => 0,
             'threshold' => 50000,
             'is_stated' => false,
             'description' => 'Saving account in UBA bank: 115165469269',
-            'color' => '#F44336',
-            'name' => 'Saving'
+            'color' => '#e08686',
+            'name' => 'Saving',
+            'currency_id' => $currency->id
         ]);
     }
 }

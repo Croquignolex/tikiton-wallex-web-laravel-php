@@ -98,7 +98,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div id="description" class="tab-pane fade">
+                                    <div id="description" class="tab-pane fade overflow">
                                         <div class="tab-ctn">
                                             <p class="multi-line-text">{{ $wallet->description }}</p>
                                         </div>

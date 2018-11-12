@@ -1,3 +1,6 @@
+.panel-title {
+    font-size: small;
+}
 .logo {
     padding-bottom: 10px;
 }
@@ -1988,49 +1991,51 @@ ul.wizard-nav-ac li .disabled{
     top:8px;
 }
 .panel-collapse .panel-heading:before{
-    /*TODO: Put this in Fontawesome*/
-    content:"\e923";
+    content:"\f0d7";
     -ms-transform:scale(1);
     -o-transform:scale(1);
-    font-family: 'notika-icon';
+    font-family: 'FontAwesome';
 }
 .panel-collapse .panel-heading:after{
-    /*TODO: Put this in Fontawesome*/
     -webkit-transform:scale(0);
     -ms-transform:scale(0);
     -o-transform:scale(0);
     transform:scale(0);
-    content:"\e91b";
-    font-family: 'notika-icon';
+    content:"\f0d8";
+    font-family: 'FontAwesome';
+    color: #c257b8;
 }
 .panel-collapse .panel-heading.active .panel-title>a:after{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);
     -o-transform:scale(1);
-    transform:scale(1)
+    transform:scale(1);
 }
 .panel-collapse .panel-heading.active:before{
     -webkit-transform:scale(0) rotate(-90deg);
     -ms-transform:scale(0) rotate(-90deg);
     -o-transform:scale(0) rotate(-90deg);
-    transform:scale(0) rotate(-90deg)
+    transform:scale(0) rotate(-90deg);
 }
 .panel-collapse .panel-heading.active:after{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);
     -o-transform:scale(1);
-    transform:scale(1)
+    transform:scale(1);
 }
 .panel-collapse .panel-body{
     border-top:0!important;
     padding-left:5px;
     padding-right:5px
 }
+.panel-group[data-collapse-color=nk-theme] .panel-collapse .panel-heading.active .panel-title>a:after{
+    background:#c257b8;
+}
 .panel-group:not([data-collapse-color]) .panel-collapse .panel-heading.active .panel-title>a:after{
     background:#2196F3
 }
 .panel-group[data-collapse-color=nk-green] .panel-collapse .panel-heading.active .panel-title>a:after{
-    background:#c257b8
+    background:#4CAF50
 }
 .panel-group[data-collapse-color=nk-red] .panel-collapse .panel-heading.active .panel-title>a:after{
     background:#F44336

@@ -31,7 +31,6 @@ class UserSettingController extends Controller
     public function index(Request $request)
     {
         $settings = null;
-
         try
         {
             $settings = Auth::user()->user_settings
@@ -211,7 +210,7 @@ class UserSettingController extends Controller
         {
             if($setting->authorised)
             {
-                if(!$setting->is_current)
+                if($setting->can_be_deleted)
                 {
                     $setting->delete();
                     info_flash_message(trans('auth.info'),

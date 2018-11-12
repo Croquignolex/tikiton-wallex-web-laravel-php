@@ -51,7 +51,7 @@
                                             </td>
                                             <td class="text-right">
                                                 <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
-                                                @if(!$setting->is_current)
+                                                @if($setting->can_be_deleted)
                                                     <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-setting-{{ $setting->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
                                                     <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-setting-{{ $setting->id }}" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                                                 @endif
@@ -90,7 +90,7 @@
     <!--End Settings Area-->
 
     @foreach($paginationTools->displayItems as $setting)
-        @if(!$setting->is_current)
+        @if($setting->can_be_deleted)
             @component('components.modal', [
                 'title' => trans('general.delete_setting', ['name' => $setting->name]),
                 'id' => 'delete-setting-' . $setting->id, 'color' => 'modal-danger',

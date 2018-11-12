@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\SlugRouteTrait;
 use App\Traits\SlugSaveTrait;
 use App\Traits\LocaleAmountTrait;
-use App\Traits\CurrentElementTrait;
 use App\Traits\LocaleDateTimeTrait;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +16,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed symbol
  * @property mixed wallets
  * @property mixed authorised
- * @property mixed is_current
  * @property mixed devaluation
+ * @property mixed can_be_deleted
  */
 class Currency extends Model
 {
     use LocaleDateTimeTrait, LocaleAmountTrait,
-        SlugSaveTrait, SlugRouteTrait, CurrentElementTrait;
+        SlugSaveTrait, SlugRouteTrait;
 
     /**
      * The attributes that are mass assignable.

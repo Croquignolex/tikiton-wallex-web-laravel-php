@@ -28,7 +28,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
                             <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
-                            @if(!$setting->is_current)
+                            @if($setting->can_be_deleted)
                                 <a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-setting" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
                                 <a href="javascript: void(0);" class="text-success hand-cursor" data-toggle="modal" data-target="#activate-setting" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                             @endif
@@ -77,7 +77,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div id="description" class="tab-pane fade">
+                                    <div id="description" class="tab-pane fade overflow">
                                         <div class="tab-ctn">
                                             <p class="multi-line-text">{{ $setting->description }}</p>
                                         </div>
@@ -92,7 +92,7 @@
     </div>
     <!--End Setting Area-->
 
-    @if(!$setting->is_current)
+    @if($setting->can_be_deleted)
         @component('components.modal', [
             'title' => trans('general.delete_setting', ['name' => $setting->name]),
             'id' => 'delete-setting', 'color' => 'modal-danger',

@@ -93,6 +93,7 @@ class Wallet extends Model
      */
     public function getCanBeDeletedAttribute()
     {
+        //TODO: write the good condition
         return true;
         //return $this->transactions->count === 0;
     }

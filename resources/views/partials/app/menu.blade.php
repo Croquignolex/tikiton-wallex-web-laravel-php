@@ -5,33 +5,33 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul class="nav nav-tabs notika-menu-wrap menu-it-icon-pro">
                     <li class="{{ active_page(app_dashboard_pages()) }}">
-                        <a data-toggle="tab" href="#dashboard">
+                        <a data-toggle="tab" href="#dashboard" title="@lang('general.dashboard')">
                             <i class="fa fa-pie-chart"></i>
-                            @lang('general.dashboard')
                         </a>
                     </li>
                     <li class="{{ active_page(app_transaction_pages()) }}">
-                        <a data-toggle="tab" href="#transaction">
+                        <a data-toggle="tab" href="#transaction" title="@lang('general.transaction')">
                             <i class="fa fa-exchange"></i>
-                            @lang('general.transaction')
                         </a>
                     </li>
                     <li class="{{ active_page(app_wallet_pages()) }}">
-                        <a data-toggle="tab" href="#account">
+                        <a data-toggle="tab" href="#account" title="@lang('general.account')">
                             <i class="fa fa-credit-card"></i>
-                            @lang('general.account')
+                        </a>
+                    </li>
+                    <li class="{{ active_page(app_category_pages()) }}">
+                        <a data-toggle="tab" href="#category" title="@lang('general.category')">
+                            <i class="fa fa-database"></i>
                         </a>
                     </li>
                     <li class="{{ active_page(app_currency_pages()) }}">
-                        <a data-toggle="tab" href="#currency">
+                        <a data-toggle="tab" href="#currency" title="@lang('general.currency')">
                             <i class="fa fa-dollar"></i>
-                            @lang('general.currency')
                         </a>
                     </li>
                     <li class="{{ active_page(app_setting_pages()) }}">
-                        <a data-toggle="tab" href="#setting">
+                        <a data-toggle="tab" href="#setting" title="@lang('general.setting')">
                             <i class="fa fa-cogs"></i>
-                            @lang('general.setting')
                         </a>
                     </li>
                     <li class="{{ active_page(app_user_pages()) }}">
@@ -69,6 +69,22 @@
                                 <a href="{{ locale_route('wallets.create') }}">
                                     <i class="fa fa-plus"></i>
                                     @lang('general.new_account')
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="category" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(app_category_pages()) === 'active' ? 'in active': '' }}">
+                        <ul class="notika-main-menu-dropdown">
+                            <li class="{{ active_page(collect(['categories.index'])) }} waves-effect">
+                                <a href="{{ locale_route('categories.index') }}">
+                                    <i class="fa fa-database"></i>
+                                    @lang('general.categories')
+                                </a>
+                            </li>
+                            <li class="{{ active_page(collect(['categories.create'])) }} waves-effect">
+                                <a href="{{ locale_route('categories.create') }}">
+                                    <i class="fa fa-plus"></i>
+                                    @lang('general.new_category')
                                 </a>
                             </li>
                         </ul>

@@ -33,7 +33,6 @@ class WalletController extends Controller
     public function index(Request $request)
     {
         $wallets = null;
-
         try
         {
             $wallets = Auth::user()->wallets->sortByDesc('updated_at');
@@ -72,10 +71,7 @@ class WalletController extends Controller
     {
         try
         {
-            if($currency->authorised)
-            {
-                return view('app.currencies.wallet', compact('currency'));
-            }
+            if($currency->authorised) return view('app.currencies.wallet', compact('currency'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
@@ -98,7 +94,14 @@ class WalletController extends Controller
 
         try
         {
-            $currency = Currency::where('id', intval($request->input('currency')))->first();
+            $currencies = Currency::where('id', intval($request->input('currency')))->get();
+            if(!$currencies->isEmpty()) $currency = $currencies->first();
+            else
+            {
+                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+                return back();
+            }
+
             if($currency->authorised)
             {
                 $wallet = Auth::user()->wallets()->create([
@@ -142,7 +145,7 @@ class WalletController extends Controller
         {
             if($currency->authorised)
             {
-                $wallet = Auth::user()->wallets()->create([
+                Auth::user()->wallets()->create([
                     'name' => $request->input('name'),
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
@@ -155,7 +158,7 @@ class WalletController extends Controller
                 success_flash_message(trans('auth.success'),
                     trans('general.add_successful', ['name' => $request->input('name')]));
 
-                return redirect(locale_route('currencies.show', [$currency]));
+                return redirect(locale_route('currencies.show', [$currency]) . '?tab=3');
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -177,6 +180,7 @@ class WalletController extends Controller
      */
     public function show(Request $request, $language, Wallet $wallet)
     {
+
         try
         {
             if($wallet->authorised)

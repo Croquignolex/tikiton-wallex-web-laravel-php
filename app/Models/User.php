@@ -41,7 +41,8 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name', 'last_name', 'post_code', 'extension',
         'city', 'country', 'phone', 'profession', 'address',
-        'image', 'description'
+        'image', 'description', 'email', 'is_confirmed', 'is_admin',
+        'is_super_admin', 'email', 'password'
     ];
 
     /**
@@ -86,6 +87,14 @@ class User extends Authenticatable
     public function user_settings()
     {
         return $this->hasMany('App\Models\UserSetting');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function categories()
+    {
+        return $this->hasMany('App\Models\Category');
     }
 
     /**

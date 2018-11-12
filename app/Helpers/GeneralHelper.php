@@ -138,40 +138,31 @@ if(!function_exists('text_format'))
     }
 }
 
-if(!function_exists('get_index_in_collection'))
+if(!function_exists('icons'))
 {
     /**
-     * @param \Illuminate\Support\Collection $collection
-     * @param $element
-     * @return int
+     * @return \Illuminate\Support\Collection
      */
-    function get_index_in_collection(\Illuminate\Support\Collection $collection, $element)
+    function icons()
     {
-        $i = 0;
-
-        foreach ($collection as $_element)
-        {
-            if($_element == $element) break;
-            $i++;
-        }
-
-        return $i;
-    }
-}
-
-if(!function_exists('get_element_in_collection'))
-{
-    /**
-     * @param \Illuminate\Support\Collection $collection
-     * @param $index
-     * @return string
-     */
-    function get_element_in_collection(\Illuminate\Support\Collection $collection, $index)
-    {
-        $elements_number = $collection->count();
-
-        if($index <= 0) return $collection[0];
-        elseif($index >= $elements_number) return $collection[$elements_number - 1];
-        else return $collection[$index];
+        return collect([
+            'bank', 'bell', 'bicycle', 'book', 'briefcase', 'calculator',
+            'coffee', 'credit-card', 'diamond', 'envelope', 'feed', 'flash',
+            'folder-open', 'gamepad', 'gift', 'group', 'hotel', 'legal',
+            'mortar-board', 'map-marker', 'phone', 'pie-chart', 'plus-circle',
+            'trash', 'truck', 'video-camera', 'wifi', 'soccer-ball-o',
+            'print', 'motorcycle', 'line-chart', 'heart', 'glass', 'flask',
+            'female', 'cubes', 'car', 'bookmark', 'bath', 'balance-scale', 'cogs',
+            'comments', 'download', 'exchange', 'filter', 'globe', 'laptop',
+            'male', 'money', 'plug', 'road', 'shopping-cart', 'tv', 'wrench',
+            'umbrella', 'taxi', 'shower', 'star', 'music', 'at', 'archive',
+            'rocket', 'ambulance', 'plane', 'ship', 'subway', 'mars', 'venus',
+            'paypal', 'cc-visa', 'dollar', 'eur', 'btc', 'compress', 'expand',
+            'facebook', 'firefox', 'github-alt', 'html5', 'joomla', 'amazon',
+            'internet-explorer', 'windows', 'twitter', 'telegram', 'opera',
+            'bluetooth', 'apple', 'git', 'skype', 'whatsapp', 'youtube-play',
+            'linkedin', 'android', 'medkit', 'plus-square', 'wheelchair-alt',
+            'stethoscope', 'user-md', 'wheelchair', 'wikipedia-w'
+        ]);
     }
 }

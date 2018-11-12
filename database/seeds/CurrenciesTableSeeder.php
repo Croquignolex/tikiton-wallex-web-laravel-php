@@ -15,7 +15,7 @@ class CurrenciesTableSeeder extends Seeder
     {
         for($i = 1; $i <= 9; $i++)
         {
-            for($j = 1; $j <= 32; $j++)
+            for($j = 1; $j <= 8; $j++)
             {
                 Currency::create([
                     'user_id' => $i,
