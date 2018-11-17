@@ -103,17 +103,6 @@ if(!function_exists('app_dashboard_pages'))
     }
 }
 
-if(!function_exists('app_transaction_pages'))
-{
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    function app_transaction_pages()
-    {
-        return collect();
-    }
-}
-
 if(!function_exists('app_wallet_pages'))
 {
     /**
@@ -135,6 +124,18 @@ if(!function_exists('app_category_pages'))
     {
         return collect(['categories.index', 'categories.create',
             'categories.edit']);
+    }
+}
+
+if(!function_exists('app_transaction_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_transaction_pages()
+    {
+        return collect(['transactions.index', 'transactions.create',
+            'transactions.edit', 'transactions.show']);
     }
 }
 

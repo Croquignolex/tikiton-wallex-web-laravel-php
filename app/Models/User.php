@@ -66,11 +66,19 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function transactions()
+    {
+        return $this->hasManyThrough('App\Models\Transaction', 'App\Models\Category');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function wallets()
     {
-        return $this->hasMany('App\Models\Wallet');
+        return $this->hasManyThrough('App\Models\Wallet', 'App\Models\Currency');
     }
 
     /**

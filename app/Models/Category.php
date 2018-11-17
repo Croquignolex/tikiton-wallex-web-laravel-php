@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed id
  * @property mixed name
  * @property mixed icon
+ * @property mixed user
  * @property mixed categories
  * @property mixed authorised
  * @property mixed can_be_deleted
@@ -50,11 +51,28 @@ class Category extends Model
     ];
 
     /**
+     * @param Category $category
+     * @return string
+     */
+    protected static function formatSlug(Category $category)
+    {
+        return $category->user->id . '-' . str_slug($category->name);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transactions()
+    {
+        return $this->hasMany('App\Models\Transaction');
     }
 
     /**

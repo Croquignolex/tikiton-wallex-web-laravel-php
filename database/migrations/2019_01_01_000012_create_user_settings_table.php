@@ -20,7 +20,7 @@ class CreateUserSettingsTable extends Migration
             $table->text('description');
             $table->boolean('tips')->default(true);
             $table->boolean('is_current')->default(false);
-            $table->integer('user_id')->unsigned();
+            $table->unsignedInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed id
  * @property mixed name
+ * @property mixed user
  * @property mixed symbol
  * @property mixed wallets
  * @property mixed authorised
@@ -41,6 +42,15 @@ class Currency extends Model
     protected $hidden = [
         'slug'
     ];
+
+    /**
+     * @param Currency $currency
+     * @return string
+     */
+    protected static function formatSlug(Currency $currency)
+    {
+        return $currency->user->id . '-' . str_slug($currency->name);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

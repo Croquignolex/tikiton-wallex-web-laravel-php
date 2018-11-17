@@ -22,11 +22,34 @@
                             </li>
                             <li class="{{ active_page(app_transaction_pages()) }}">
                                 <a data-toggle="collapse" data-target="#mobile_transaction" href="#">
-                                    <i class="fa fa-exchange"></i>
+                                    <i class="fa fa-random"></i>
                                     @lang('general.transaction')
                                 </a>
                                 <ul id="mobile_transaction" class="collapse dropdown-header-top">
-
+                                    <li class="{{ active_page(collect(['transactions.index'])) }} waves-effect">
+                                        <a href="{{ locale_route('transactions.index') }}">
+                                            <i class="fa fa-random"></i>
+                                            @lang('general.transactions')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
+                                        <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::INCOME }}">
+                                            <i class="fa fa-arrow-up text-success"></i>
+                                            @lang('general.new_income_transaction')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
+                                        <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::TRANSFER }}">
+                                            <i class="fa fa-exchange text-info"></i>
+                                            @lang('general.new_transfer_transaction')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
+                                        <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::EXPENSE }}">
+                                            <i class="fa fa-arrow-down text-danger"></i>
+                                            @lang('general.new_expense_transaction')
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_wallet_pages()) }}">

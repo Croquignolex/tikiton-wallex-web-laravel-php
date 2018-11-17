@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCurrenciesTable extends Migration
+class CreateTransactionWalletsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,20 @@ class CreateCurrenciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('currencies', function (Blueprint $table) {
+        Schema::create('transaction_wallet', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('slug')->unique();
-            $table->string('name', 255);
-            $table->text('description');
-            $table->string('symbol', 10);
-            $table->double('devaluation');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('wallet_id');
+            $table->unsignedInteger('transaction_id');
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign('wallet_id')
                 ->references('id')
-                ->on('users')
+                ->on('wallets')
+                ->onDelete('cascade');
+
+            $table->foreign('transaction_id')
+                ->references('id')
+                ->on('transactions')
                 ->onDelete('cascade');
         });
     }
@@ -37,6 +38,6 @@ class CreateCurrenciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('currencies');
+        Schema::dropIfExists('transaction_wallet');
     }
 }

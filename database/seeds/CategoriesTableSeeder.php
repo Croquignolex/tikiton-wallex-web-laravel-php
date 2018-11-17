@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\Category;
 use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
@@ -13,12 +14,13 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 9; $i++)
+        $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
+        foreach ($users as $user)
         {
-            for($j = 1; $j <= 7; $j++)
+            $max = rand(2, 9);
+            for($i = 1; $i <= $max; $i++)
             {
-                Category::create([
-                    'user_id' => $i,
+                $user->categories()->create([
                     'description' => ucfirst(Lorem::text()),
                     'color' => '#' . str_shuffle('ABCDEF'),
                     'name' => ucfirst($this->getUniqueName()),

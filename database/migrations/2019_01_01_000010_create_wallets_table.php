@@ -22,18 +22,13 @@ class CreateWalletsTable extends Migration
             $table->double('threshold')->unsigned();
             $table->string('color', 7);
             $table->boolean('is_stated')->default(true);
-            $table->integer('user_id')->unsigned();
-            $table->integer('currency_id')->unsigned();
+            $table->unsignedInteger('currency_id');
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
 
             $table->foreign('currency_id')
                 ->references('id')
-                ->on('currencies');
+                ->on('currencies')
+                ->onDelete('cascade');
         });
     }
 

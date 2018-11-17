@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Currency;
+use App\Models\User;
 use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
 
@@ -13,12 +14,13 @@ class CurrenciesTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 9; $i++)
+        $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
+        foreach ($users as $user)
         {
-            for($j = 1; $j <= 8; $j++)
+            $max = rand(2, 9);
+            for($i = 1; $i <= $max; $i++)
             {
-                Currency::create([
-                    'user_id' => $i,
+                $user->currencies()->create([
                     'name' => strtoupper($this->getUniqueName()),
                     'description' => ucfirst(Lorem::text()),
                     'devaluation' => rand(100, 9999),

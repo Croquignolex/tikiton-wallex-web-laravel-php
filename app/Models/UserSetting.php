@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed id
  * @property bool tips
  * @property mixed name
+ * @property mixed user
  * @property mixed is_current
  * @property mixed authorised
  * @property mixed can_be_deleted
@@ -41,6 +42,11 @@ class UserSetting extends Model
     protected $hidden = [
         'slug'
     ];
+
+    protected static function formatSlug(UserSetting $userSetting)
+    {
+        return $userSetting->user->id . '-' . str_slug($userSetting->name);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

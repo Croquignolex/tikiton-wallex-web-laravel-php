@@ -27,4 +27,8 @@ return [
     'categories_details' => 'Here you have the details of a category',
     'categories_new' => 'Here you have a new category creation form',
     'categories_edit' => 'Here you have a category update form',
+    'transactions' => 'Here you have the list of all your transactions',
+    'transactions_details' => 'Here you have the details of a transaction',
+    'transactions_new' => 'Here you have a new transaction creation form',
+    'transactions_edit' => 'Here you have a transaction update form',
 ];

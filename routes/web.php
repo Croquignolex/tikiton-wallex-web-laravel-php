@@ -15,6 +15,7 @@ use App\Models\Wallet;
 use App\Models\Category;
 use App\Models\Currency;
 use App\Models\UserSetting;
+use App\Models\Transaction;
 
 //--Landing routes
 Route::get('/terms', function () { return redirect(locale_route('terms')); });
@@ -53,7 +54,10 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/categories', function () { return redirect(locale_route('categories.index')); });
     Route::get('/categories/create', function () { return redirect(locale_route('categories.create')); });
     Route::get('/categories/{category}/edit', function (Category $category) { return redirect(locale_route('categories.edit', [$category])); });
-    Route::get('/categories/{category}', function (Category $category) { return redirect(locale_route('categories.show', [$category])); });
+    Route::get('/transactions', function () { return redirect(locale_route('transactions.index')); });
+    Route::get('/transactions/create', function () { return redirect(locale_route('transactions.create')); });
+    Route::get('/transactions/{transaction}/edit', function (Transaction $transaction) { return redirect(locale_route('transactions.edit', [$transaction])); });
+    Route::get('/transactions/{transaction}', function (Transaction $transaction) { return redirect(locale_route('transactions.show', [$transaction])); });
 
     //--Localized app routes...
     Route::get('/{language}/dashboard', 'DashboardController@index')->name('dashboard');
@@ -71,6 +75,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::resource('/{language}/currencies', 'CurrencyController');
     Route::resource('/{language}/settings', 'UserSettingController');
     Route::resource('/{language}/categories', 'CategoryController', ['except' => ['show']]);
+    Route::resource('/{language}/transactions', 'TransactionController');
 
     //--Auth routes...
     Route::group(['namespace' => 'Auth'], function() {

@@ -34,7 +34,7 @@ class Wallet extends Model
      */
     protected $fillable = [
         'name', 'description', 'color', 'balance',
-        'threshold', 'is_stated', 'user_id', 'currency_id'
+        'threshold', 'is_stated', 'currency_id'
     ];
 
     /**
@@ -47,11 +47,12 @@ class Wallet extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @param Wallet $wallet
+     * @return string
      */
-    public function user()
+    protected static function formatSlug(Wallet $wallet)
     {
-        return $this->belongsTo('App\Models\User');
+        return $wallet->currency->user->id . '-' . str_slug($wallet->name);
     }
 
     /**
@@ -60,6 +61,23 @@ class Wallet extends Model
     public function currency()
     {
         return $this->belongsTo('App\Models\Currency');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function transactions()
+    {
+        return $this->belongsToMany('App\Models\Transaction')
+            ->withPivot('type')->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transaction_wallets()
+    {
+        return $this->hasMany('App\Models\TransactionWallet');
     }
 
     /**

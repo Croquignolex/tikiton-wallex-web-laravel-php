@@ -35,7 +35,9 @@ class WalletController extends Controller
         $wallets = null;
         try
         {
-            $wallets = Auth::user()->wallets->sortByDesc('updated_at');
+            $wallets = Auth::user()->wallets()
+                ->with('currency')->get()
+                ->sortByDesc('updated_at');
         }
         catch (Exception $exception)
         {

@@ -16,12 +16,12 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('slug')->unique();
-            $table->string('name');
+            $table->string('name', 255);
             $table->text('description');
             $table->string('icon');
             $table->string('color', 7);
             $table->smallInteger('type');
-            $table->integer('user_id')->unsigned();
+            $table->unsignedInteger('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Faker\Provider\Lorem;
 use App\Models\UserSetting;
 use Illuminate\Database\Seeder;
@@ -13,14 +14,15 @@ class UserSettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 9; $i++)
+        $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
+        foreach ($users as $user)
         {
-            for($j = 1; $j <= 9; $j++)
+            $max = rand(2, 9);
+            for($i = 1; $i <= $max; $i++)
             {
-                UserSetting::create([
-                    'user_id' => $i,
-                    'is_current' => $j == 1,
-                    'tips' => $j == 1,
+                $user->user_settings()->create([
+                    'tips' => $i == 1,
+                    'is_current' => $i == 1,
                     'name' => strtoupper($this->getUniqueName()),
                     'description' => ucfirst(Lorem::text())
                 ]);
