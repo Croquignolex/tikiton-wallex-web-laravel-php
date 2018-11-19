@@ -10,6 +10,12 @@
     @include('partials.app.menu')
     @yield('app.layout.body')
     @include('partials.app.footer')
+
+    @component('components.app.new-transaction-modal', [
+        'id' => 'new-transaction',
+        'route' => locale_route('transactions.create')
+    ])
+    @endcomponent
 @endsection
 
 @push('layout.style.page')

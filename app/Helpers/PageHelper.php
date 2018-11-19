@@ -111,7 +111,7 @@ if(!function_exists('app_wallet_pages'))
     function app_wallet_pages()
     {
         return collect(['wallets.index', 'wallets.create',
-            'wallets.edit', 'wallets.show']);
+            'wallets.edit', 'wallets.show', 'wallets.transactions.create']);
     }
 }
 
@@ -135,7 +135,7 @@ if(!function_exists('app_transaction_pages'))
     function app_transaction_pages()
     {
         return collect(['transactions.index', 'transactions.create',
-            'transactions.edit', 'transactions.show', 'transactions.filter']);
+            'transactions.edit', 'transactions.show']);
     }
 }
 

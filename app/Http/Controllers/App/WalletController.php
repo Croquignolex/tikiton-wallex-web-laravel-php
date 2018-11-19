@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Http\Requests\TransactionFilterRequest;
 use App\Http\Requests\WalletCurrencyRequest;
 use Exception;
 use App\Models\Wallet;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WalletRequest;
@@ -128,12 +131,12 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param WalletCurrencyRequest $request
+     * @param WalletRequest $request
      * @param $language
      * @param Currency $currency
      * @return \Illuminate\Http\Response
      */
-    public function currencyStore(WalletCurrencyRequest $request, $language, Currency $currency)
+    public function currencyStore(WalletRequest $request, $language, Currency $currency)
     {
         $this->walletExist($request->input('name'));
 
@@ -176,10 +179,29 @@ class WalletController extends Controller
      */
     public function show(Request $request, $language, Wallet $wallet)
     {
+        $begin_date = null; $end_date = null;
+
+        if(session()->has('begin_date') && session()->has('end_date'))
+        {
+            $begin_date = session('begin_date');
+            $end_date = session('end_date');
+        }
+        else
+        {
+            $begin_date = Carbon::now()->startOfDay();
+            $end_date = Carbon::now()->endOfDay();
+        }
+
         try
         {
+            $transactions = $wallet->transactions
+                ->where('created_at', '>=', $begin_date)
+                ->where('created_at', '<=',$end_date)
+                ->sortByDesc('created_at')
+                ->load('category', 'wallets');
+
             $wallet->load('transactions', 'currency');
-            if($wallet->authorised) return view('app.wallets.show', compact('wallet'));
+            if($wallet->authorised) return view('app.wallets.show', compact('wallet', 'transactions', 'begin_date', 'end_date'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
@@ -188,6 +210,29 @@ class WalletController extends Controller
         }
 
         return back();
+    }
+
+    /**
+     * @param TransactionFilterRequest $request
+     * @param $language
+     * @param Wallet $wallet
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function filter(TransactionFilterRequest $request, $language, Wallet $wallet)
+    {
+        $transactions = null; $begin_date = null; $end_date = null;
+        try
+        {
+            session()->flash('begin_date', $this->carbonFormatDate($request->input('begin_date')));
+            session()->flash('end_date', $this->carbonFormatDate($request->input('end_date')));
+        }
+        catch (Exception $exception)
+        {
+            warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            return back()->withInput($request->all());
+        }
+
+        return redirect(locale_route('wallets.show', [$wallet]));
     }
 
     /**
@@ -359,5 +404,20 @@ class WalletController extends Controller
                 'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
+    }
+
+    /**
+     * @param $date
+     * @return Carbon
+     */
+    private function carbonFormatDate($date)
+    {
+        $locale = App::getLocale();
+        if($locale === 'en')
+            return Carbon::createFromFormat('m/d/Y h:i A', $date);
+        else if($locale === 'fr')
+            return Carbon::createFromFormat('d/m/Y H:i', $date);
+
+        return Carbon::now();
     }
 }

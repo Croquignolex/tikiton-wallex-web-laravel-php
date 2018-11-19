@@ -53,25 +53,6 @@ class Transaction extends Model
     ];
 
     /**
-     * Boot functions
-     */
-    protected static function boot()
-    {
-        static::deleting(function ($transaction) {
-            if($transaction->is_an_income) $transaction->wallet->update(['balance' => $transaction->wallet->balance - $transaction->amount]);
-            else if($transaction->is_an_expense) $transaction->wallet->update(['balance' => $transaction->wallet->balance + $transaction->amount]);
-            else
-            {
-                if($transaction->wallet->id !== $transaction->transfer_wallet->id)
-                {
-                    $transaction->transfer_wallet->update(['balance' => $transaction->transfer_wallet->balance - $transaction->amount]);
-                    $transaction->wallet->update(['balance' => $transaction->wallet->balance + $transaction->amount]);
-                }
-            }
-        });
-    }
-
-    /**
      * @param Transaction $transaction
      * @return string
      */

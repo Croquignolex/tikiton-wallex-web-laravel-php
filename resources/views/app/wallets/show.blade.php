@@ -1,3 +1,4 @@
+@inject('transactionService', 'App\Services\TransactionService')
 @extends('layouts.app.breadcrumb')
 
 @section('breadcrumb.app.layout.title', page_title(trans('general.account_details')))
@@ -25,6 +26,14 @@
                             @lang('tips.accounts_details')
                         @endcomponent
                     </div>
+                    <div class="col-md-6 col-md-push-6 col-sm-8 col-sm-push-4 col-xs-12">
+                        @component('components.date-range', [
+                            'begin_date' => $transactionService->getNormalFormatDate($begin_date),
+                            'end_date' => $transactionService->getNormalFormatDate($end_date),
+                            'route' => locale_route('wallets.transactions.filter', [$wallet])
+                         ])
+                        @endcomponent
+                    </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
                             <a href="{{ locale_route('wallets.edit', [$wallet]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
@@ -46,10 +55,20 @@
                                     <li><a data-toggle="tab" href="#description">@lang('general.description')</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="transactions" class="tab-pane fade in active">
-                                        <div class="alert alert-info text-center" role="alert">
-                                            @lang('general.no_data')
+                                    <div id="transactions" class="tab-pane fade in active table-responsive">
+                                        <div class="text-right">
+                                            <a href="javascript: void(0);" data-toggle="modal" data-target="#add-transaction">
+                                                <i class="fa fa-plus"></i>
+                                                @lang('general.add_transaction')
+                                            </a>
                                         </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            [{{ $transactionService->getMediumFormatDate($begin_date) }} -
+                                            {{ $transactionService->getMediumFormatDate($end_date) }}]
+                                        </div>
+                                        @component('components.app.transaction-table',
+                                           ['transactions' => $transactions, 'no_action' => '6'])
+                                        @endcomponent
                                     </div>
                                     <div id="details" class="tab-pane fade">
                                         <div class="tab-ctn">
@@ -140,7 +159,32 @@
             @lang('general.cfm_action')?
         @endcomponent
     @endif
+
+    @component('components.app.new-transaction-modal', [
+        'id' => 'add-transaction',
+        'route' => locale_route('wallets.transactions.create', [$wallet])
+    ])
+    @endcomponent
 @endsection
 
+@push('breadcrumb.app.layout.style.page')
+    <link rel="stylesheet" href="{{ css_app_asset('bootstrap-datetimepicker') }}" type="text/css">
+@endpush
 
+@push('breadcrumb.app.layout.script.page')
+    <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
+    <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
+    <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>
+    <script src="{{ js_app_asset('moment-with-locales') }}" type="text/javascript"></script>
+    <script src="{{ js_app_asset('bootstrap-datetimepicker') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            let locale = '{{ \Illuminate\Support\Facades\App::getLocale() }}';
+            $('#begin_date').datetimepicker({ locale: locale });
+            $('#end_date').datetimepicker({ locale: locale, useCurrent: false });
+            $("#begin_date").on("dp.change", function (e) { $('#end_date').data("DateTimePicker").minDate(e.date); });
+            $("#end_date").on("dp.change", function (e) { $('#begin_date').data("DateTimePicker").maxDate(e.date); });
+        });
+    </script>
+@endpush
 

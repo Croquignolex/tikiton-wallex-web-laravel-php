@@ -7,7 +7,7 @@ use App\Http\Requests\TransactionUpdateRequest;
 use App\Models\Transaction;
 use App\Models\Wallet;
 use Exception;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Traits\ErrorFlashMessagesTrait;
-use App\Http\Requests\CategoryTypeRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\TransactionFilterRequest;
 
@@ -101,10 +100,49 @@ class TransactionController extends Controller
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             return back();
         }
-        $categories = Auth::user()->categories->where('type', $type)->sortByDesc('update_at');
-        $wallets = Auth::user()->wallets->sortByDesc('update_at')->load('currency');
-        return view('app.transactions.create', compact('type',
-            'categories', 'wallets'));
+        try
+        {
+            $categories = Auth::user()->categories->where('type', $type)->sortByDesc('update_at');
+            $wallets = Auth::user()->wallets->sortByDesc('update_at')->load('currency');
+            return view('app.transactions.create', compact('type', 'categories', 'wallets'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param Request $request
+     * @param $language
+     * @param Wallet $wallet
+     * @return \Illuminate\Http\Response
+     */
+    public function walletCreate(Request $request, $language, Wallet $wallet)
+    {
+        $type = $request->query('type');
+        if(!$this->isType(Hash::make($type)))
+        {
+            warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            return back();
+        }
+        try
+        {
+            $categories = Auth::user()->categories->where('type', $type)->sortByDesc('update_at');
+            $wallets = Auth::user()->wallets->sortByDesc('update_at')->load('currency');
+            if($wallet->authorised)  return view('app.wallets.transaction', compact('type', 'categories', 'wallets', 'wallet'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
     }
 
     /**
@@ -133,7 +171,7 @@ class TransactionController extends Controller
                 $category = Category::where('id', intval($request->input('category')))->first();
                 $debit_wallet = Wallet::where('id', $debit_wallet_id)->first();
                 $credit_wallet = Wallet::where('id', $credit_account_id)->first();
-                if($category->authorised && $debit_wallet->authorised && $debit_wallet->authorised)
+                if($category->authorised && $debit_wallet->authorised && $credit_wallet->authorised)
                 {
                     if($debit_wallet->currency->id === $credit_wallet->currency->id)
                     {
@@ -213,6 +251,120 @@ class TransactionController extends Controller
                 trans('general.add_successful', ['name' => $request->input('name')]));
 
             return redirect($this->redirectTo());
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back()->withInput($request->all());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param TransactionRequest $request
+     * @param $language
+     * @param Wallet $wallet
+     * @return \Illuminate\Http\Response
+     */
+    public function walletStore(TransactionRequest $request, $language, Wallet $wallet)
+    {
+        $type = $request->input('token');
+        $amount = $request->input('transaction_amount');
+        $date = $request->input('date');
+        if(!$this->isType($type))
+        {
+            warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            return back()->withInput($request->all());
+        }
+
+        try
+        {
+            if(Hash::check(Category::TRANSFER, $type))
+            {
+                $credit_account_id = intval($request->input('credit_account'));
+                $category = Category::where('id', intval($request->input('category')))->first();
+                $credit_wallet = Wallet::where('id', $credit_account_id)->first();
+                if($category->authorised && $wallet->authorised && $credit_wallet->authorised)
+                {
+                    if($wallet->currency->id === $credit_wallet->currency->id)
+                    {
+                        //Update accounts
+                        if($wallet->balance >= $amount)
+                        {
+                            if($wallet->id !== $credit_account_id)
+                            {
+                                $wallet->update(['balance' =>  $wallet->balance - $amount]);
+                                $credit_wallet->update(['balance' =>  $credit_wallet->balance + $amount]);
+                            }
+                        }
+                        else
+                        {
+                            danger_flash_message(trans('auth.error'),
+                                trans('general.debit_account_balance_is_smaller', ['name' => $wallet->name]));
+                            return back()->withInput($request->all());
+                        }
+
+                        //save
+                        $transaction = Auth::user()->transactions()->create([
+                            'name' => $request->input('name'),
+                            'description' => $request->input('description'),
+                            'amount' => $amount,
+                            'category_id' => $category->id,
+                            'created_at' => $this->carbonFormatDate($date)
+                        ]);
+
+                        $wallet->transactions()->save($transaction);
+                        $credit_wallet->transactions()->save($transaction);
+                    }
+                    else
+                    {
+                        danger_flash_message(trans('auth.error'),
+                            trans('general.not_the_same_currency'));
+                        return back()->withInput($request->all());
+                    }
+                }
+                else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            }
+            else
+            {
+                //Fetch account and category
+                if(Hash::check(Category::INCOME, $type)) $category = Category::where('id', intval($request->input('category')))->where('type', Category::INCOME)->first();
+                else $category = Category::where('id', intval($request->input('category')))->where('type', Category::EXPENSE)->first();
+
+                if($category->authorised && $wallet->authorised)
+                {
+                    //Update accounts
+                    if(Hash::check(Category::INCOME, $type)) $wallet->update(['balance' =>  $wallet->balance + $amount]);
+                    else
+                    {
+                        if($wallet->balance >= $amount) $wallet->update(['balance' =>  $wallet->balance - $amount]);
+                        else
+                        {
+                            danger_flash_message(trans('auth.error'),
+                                trans('general.account_balance_is_smaller', ['name' => $wallet->name]));
+
+                            return back()->withInput($request->all());
+                        }
+                    }
+
+                    //Save
+                    $wallet->transactions()->create([
+                        'name' => $request->input('name'),
+                        'description' => $request->input('description'),
+                        'amount' => $amount,
+                        'category_id' => $category->id,
+                        'created_at' => $this->carbonFormatDate($date)
+                    ]);
+                }
+                else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            }
+
+            success_flash_message(trans('auth.success'),
+                trans('general.add_successful', ['name' => $request->input('name')]));
+
+            return redirect(locale_route('wallets.show', [$wallet]));
         }
         catch (Exception $exception)
         {
@@ -322,6 +474,16 @@ class TransactionController extends Controller
             {
                 if($transaction->can_be_deleted)
                 {
+                    if($transaction->is_an_income) $transaction->wallet->update(['balance' => $transaction->wallet->balance - $transaction->amount]);
+                    else if($transaction->is_an_expense) $transaction->wallet->update(['balance' => $transaction->wallet->balance + $transaction->amount]);
+                    else
+                    {
+                        if($transaction->wallet->id !== $transaction->transfer_wallet->id)
+                        {
+                            $transaction->transfer_wallet->update(['balance' => $transaction->transfer_wallet->balance - $transaction->amount]);
+                            $transaction->wallet->update(['balance' => $transaction->wallet->balance + $transaction->amount]);
+                        }
+                    }
                     $transaction->delete();
                     info_flash_message(trans('auth.info'),
                         trans('general.delete_successful', ['name' => $transaction->name]));

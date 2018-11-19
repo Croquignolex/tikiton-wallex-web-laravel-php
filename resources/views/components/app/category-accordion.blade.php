@@ -1,3 +1,4 @@
+<!--Start Category Accordion Area-->
 <div class="accordion-stn">
     <div class="panel-group" data-collapse-color="nk-theme" id="{{ $id }}" role="tablist" aria-multiselectable="true">
         @forelse($categories as $category)
@@ -40,3 +41,4 @@
         @endforelse
     </div>
 </div>
+<!--End Category Accordion Area-->

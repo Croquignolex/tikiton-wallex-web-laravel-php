@@ -33,4 +33,5 @@ return [
     'transactions_new_transfer' => 'Ici vous avez le formulaire de crétion d\'une nouvelle transaction de tranfert',
     'transactions_new_expense' => 'Ici vous avez le formulaire de crétion d\'une nouvelle transaction de dépense',
     'transactions_edit' => 'Ici vous avez le formulaire de mise à jour d\'une transaction',
+    'transactions_add' => 'Ici vous avez le formulaire de d\'ajout d\'une nouvelle transaction au compte :name',
 ];

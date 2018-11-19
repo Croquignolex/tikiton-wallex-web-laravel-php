@@ -49,6 +49,12 @@
                                 <div class="tab-content">
                                     <div id="accounts" class="tab-pane fade in active">
                                         <div class="tab-ctn">
+                                            <div class="text-right">
+                                                <a href="{{ locale_route('currencies.wallets.create', [$currency]) }}">
+                                                    <i class="fa fa-plus"></i>
+                                                    @lang('general.add_account')
+                                                </a>
+                                            </div>
                                             <ul>
                                                 @forelse($currency->wallets as $wallet)
                                                     <li>
@@ -67,12 +73,6 @@
                                                     </div>
                                                 @endforelse
                                             </ul>
-                                            <div class="text-right mg-t-40">
-                                                <a href="{{ locale_route('currencies.wallets.create', [$currency]) }}">
-                                                    <i class="fa fa-plus"></i>
-                                                    @lang('general.add_account')
-                                                </a>
-                                            </div>
                                         </div>
                                     </div>
                                     <div id="details" class="tab-pane fade">

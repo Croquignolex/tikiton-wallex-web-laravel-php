@@ -58,13 +58,17 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/transactions/create', function () { return redirect(locale_route('transactions.create')); });
     Route::get('/transactions/{transaction}/edit', function (Transaction $transaction) { return redirect(locale_route('transactions.edit', [$transaction])); });
     Route::get('/transactions/{transaction}', function (Transaction $transaction) { return redirect(locale_route('transactions.show', [$transaction])); });
+    Route::get('/wallets/{wallet}/transactions/create', function (Wallet $wallet) { return redirect(locale_route('wallets.transactions.create', [$wallet])); });
 
     //--Localized app routes...
     Route::get('/{language}/dashboard', 'DashboardController@index')->name('dashboard');
     Route::get('/{language}/currencies/{currency}/wallets/create', 'WalletController@currencyCreate')->name('currencies.wallets.create');
+    Route::get('/{language}/wallets/{wallet}/transactions/create', 'TransactionController@walletCreate')->name('wallets.transactions.create');
 
     Route::post('/{language}/currencies/{currency}/wallets', 'WalletController@currencyStore')->name('currencies.wallets.store');
+    Route::post('/{language}/wallets/{wallet}/transactions', 'TransactionController@walletStore')->name('wallets.transactions.store');
     Route::post('/{language}/transactions/filter', 'TransactionController@filter')->name('transactions.filter');
+    Route::post('/{language}/wallets/{wallet}/transactions/filter', 'WalletController@filter')->name('wallets.transactions.filter');
 
     Route::put('/{language}/settings/activate/{setting}', 'UserSettingController@activate')->name('settings.activate');
     Route::put('/{language}/settings/disable/tips/{setting}', 'UserSettingController@disableTips')->name('settings.tips.disable');

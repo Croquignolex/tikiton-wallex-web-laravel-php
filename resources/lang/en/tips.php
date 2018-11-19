@@ -33,4 +33,5 @@ return [
     'transactions_new_transfer' => 'Here you have a new transfer transaction creation form',
     'transactions_new_expense' => 'Here you have a new expense transaction creation form',
     'transactions_edit' => 'Here you have a transaction update form',
+    'transactions_add' => 'Here you have a new :name account transaction add form',
 ];
