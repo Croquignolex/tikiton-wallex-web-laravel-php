@@ -73,7 +73,7 @@ class CategoryController extends Controller
         if(!$this->isType($request->input('type')) || !$this->isIcon($request->input('icon')) )
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
-            return back();
+            return back()->withInput($request->all());
         }
         $this->categoryExist($request->input('name'));
 
@@ -97,7 +97,7 @@ class CategoryController extends Controller
             $this->databaseError($exception);
         }
 
-        return back();
+        return back()->withInput($request->all());
     }
 
     /**
@@ -136,30 +136,34 @@ class CategoryController extends Controller
         if(!$this->isIcon($request->input('icon')) )
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
-            return back();
+            return back()->withInput($request->all());
         }
         $this->categoryExist($request->input('name'), $category->id);
 
         try
         {
-            $category->update([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-                'icon' => $request->input('icon'),
-                'color' => $request->input('color')
-            ]);
+            if($category->authorised)
+            {
+                $category->update([
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'icon' => $request->input('icon'),
+                    'color' => $request->input('color')
+                ]);
 
-            success_flash_message(trans('auth.success'),
-                trans('general.update_successful', ['name' => $request->input('name')]));
+                success_flash_message(trans('auth.success'),
+                    trans('general.update_successful', ['name' => $request->input('name')]));
 
-            return redirect($this->redirectTo($category->type));
+                return redirect($this->redirectTo($category->type));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return back();
+        return back()->withInput($request->all());
     }
 
     /**
@@ -184,7 +188,7 @@ class CategoryController extends Controller
                     info_flash_message(trans('auth.info'),
                         trans('general.delete_successful', ['name' => $category->name]));
                 }
-                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_group'));
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_category'));
 
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -222,7 +226,7 @@ class CategoryController extends Controller
     private function isType($type)
     {
         $types = [Category::EXPENSE, Category::TRANSFER, Category::INCOME];
-        return is_numeric($type) && in_array($type, $types);
+        return is_string($type) && in_array($type, $types);
     }
 
     /**
@@ -235,6 +239,7 @@ class CategoryController extends Controller
     }
 
     /**
+     * @param $parameter
      * @return bool
      */
     private function redirectTo($parameter)

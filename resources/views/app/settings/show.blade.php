@@ -67,12 +67,12 @@
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.creation_date') :</strong>
-                                                    {{ $setting->created_date }} @lang('general.at') {{ $setting->created_time }}
+                                                    {{ $setting->long_created_date }}
                                                 </li>
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.last_update') :</strong>
-                                                    {{ $setting->updated_date }} @lang('general.at') {{ $setting->updated_time }}
+                                                    {{ $setting->long_updated_date }}
                                                 </li>
                                             </ul>
                                         </div>

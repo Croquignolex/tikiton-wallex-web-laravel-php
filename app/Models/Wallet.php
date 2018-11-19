@@ -15,11 +15,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property mixed id
  * @property mixed name
- * @property mixed currency
  * @property mixed balance
+ * @property mixed currency
  * @property mixed threshold
  * @property mixed is_stated
  * @property mixed authorised
+ * @property mixed transactions
  * @property mixed can_be_deleted
  */
 class Wallet extends Model
@@ -69,15 +70,7 @@ class Wallet extends Model
     public function transactions()
     {
         return $this->belongsToMany('App\Models\Transaction')
-            ->withPivot('type')->withTimestamps();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function transaction_wallets()
-    {
-        return $this->hasMany('App\Models\TransactionWallet');
+            ->withTimestamps();
     }
 
     /**
@@ -111,9 +104,7 @@ class Wallet extends Model
      */
     public function getCanBeDeletedAttribute()
     {
-        //TODO: write the good condition
-        return true;
-        //return $this->transactions->count === 0;
+        return $this->transactions->isEmpty();
     }
 
     /**

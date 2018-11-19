@@ -29,6 +29,8 @@ return [
     'categories_edit' => 'Ici vous avez le formulaire de mise à jour d\'une catégorie',
     'transactions' => 'Ici vous avez la liste de toutes vos transactions',
     'transactions_details' => 'Ici vous avez le détail d\'une transaction',
-    'transactions_new' => 'Ici vous avez le formulaire de crétion d\'une nouvelle transaction',
+    'transactions_new_income' => 'Ici vous avez le formulaire de crétion d\'une nouvelle transaction de gain',
+    'transactions_new_transfer' => 'Ici vous avez le formulaire de crétion d\'une nouvelle transaction de tranfert',
+    'transactions_new_expense' => 'Ici vous avez le formulaire de crétion d\'une nouvelle transaction de dépense',
     'transactions_edit' => 'Ici vous avez le formulaire de mise à jour d\'une transaction',
 ];

@@ -42,43 +42,12 @@
                             </div>
                             <div class="widget-tabs-list">
                                 <ul class="nav nav-tabs">
-                                    <li class="{{ $tab == 1 ? 'active' : '' }}"><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#accounts">@lang('general.accounts')</a></li>
+                                    <li><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
                                     <li><a data-toggle="tab" href="#description">@lang('general.description')</a></li>
-                                    <li class="{{ $tab == 3 ? 'active' : '' }}"><a data-toggle="tab" href="#accounts">@lang('general.accounts')</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="details" class="tab-pane fade {{ $tab == 1 ? 'in active' : '' }}">
-                                        <div class="tab-ctn">
-                                            <ul>
-                                                <li>
-                                                    <i class="fa fa-caret-right"></i>
-                                                    <strong>@lang('general.symbol') :</strong>
-                                                    {{ $currency->symbol }}
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-caret-right"></i>
-                                                    <strong>@lang('general.devaluation') :</strong>
-                                                    {{ $currency->format_devaluation }}
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-caret-right"></i>
-                                                    <strong>@lang('general.creation_date') :</strong>
-                                                    {{ $currency->created_date }} @lang('general.at') {{ $currency->created_time }}
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-caret-right"></i>
-                                                    <strong>@lang('general.last_update') :</strong>
-                                                    {{ $currency->updated_date }} @lang('general.at') {{ $currency->updated_time }}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div id="description" class="tab-pane fade overflow">
-                                        <div class="tab-ctn">
-                                            <p class="multi-line-text">{{ $currency->description }}</p>
-                                        </div>
-                                    </div>
-                                    <div id="accounts" class="tab-pane fade {{ $tab == 3 ? 'in active' : '' }}">
+                                    <div id="accounts" class="tab-pane fade in active">
                                         <div class="tab-ctn">
                                             <ul>
                                                 @forelse($currency->wallets as $wallet)
@@ -104,6 +73,37 @@
                                                     @lang('general.add_account')
                                                 </a>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div id="details" class="tab-pane fade">
+                                        <div class="tab-ctn">
+                                            <ul>
+                                                <li>
+                                                    <i class="fa fa-caret-right"></i>
+                                                    <strong>@lang('general.symbol') :</strong>
+                                                    {{ $currency->symbol }}
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-caret-right"></i>
+                                                    <strong>@lang('general.devaluation') :</strong>
+                                                    {{ $currency->format_devaluation }}
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-caret-right"></i>
+                                                    <strong>@lang('general.creation_date') :</strong>
+                                                    {{ $currency->long_created_date }}
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-caret-right"></i>
+                                                    <strong>@lang('general.last_update') :</strong>
+                                                    {{ $currency->long_updated_date }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div id="description" class="tab-pane fade overflow">
+                                        <div class="tab-ctn">
+                                            <p class="multi-line-text">{{ $currency->description }}</p>
                                         </div>
                                     </div>
                                 </div>

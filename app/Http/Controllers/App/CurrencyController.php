@@ -86,7 +86,7 @@ class CurrencyController extends Controller
             $this->databaseError($exception);
         }
 
-        return back();
+        return back()->withInput($request->all());;
     }
 
     /**
@@ -99,15 +99,11 @@ class CurrencyController extends Controller
      */
     public function show(Request $request, $language, Currency $currency)
     {
-        $tab = $request->query('tab');
-        if($tab != 3) $tab = 1;
-
         try
         {
-            if($currency->authorised)
-                return view('app.currencies.show', compact('currency', 'tab'));
-            else
-                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            $currency->load('wallets');
+            if($currency->authorised) return view('app.currencies.show', compact('currency'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
@@ -129,10 +125,8 @@ class CurrencyController extends Controller
     {
         try
         {
-            if($currency->authorised)
-                return view('app.currencies.edit', compact('currency'));
-            else
-                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            if($currency->authorised) return view('app.currencies.edit', compact('currency'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
@@ -157,24 +151,28 @@ class CurrencyController extends Controller
 
         try
         {
-            $currency->update([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-                'symbol' => mb_strtoupper($request->input('symbol')),
-                'devaluation' => $request->input('devaluation')
-            ]);
+            if($currency->authorised)
+            {
+                $currency->update([
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'symbol' => mb_strtoupper($request->input('symbol')),
+                    'devaluation' => $request->input('devaluation')
+                ]);
 
-            success_flash_message(trans('auth.success'),
-                trans('general.update_successful', ['name' => $request->input('name')]));
+                success_flash_message(trans('auth.success'),
+                    trans('general.update_successful', ['name' => $request->input('name')]));
 
-            return redirect(locale_route('currencies.show', [$currency]));
+                return redirect(locale_route('currencies.show', [$currency]));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return back();
+        return back()->withInput($request->all());
     }
 
     /**

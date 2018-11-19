@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group mg-b-40 text-left">
-                                           <strong>@lang('general.currency') : </strong>{{ $currency->name }} ({{ $currency->symbol }})
+                                           <strong class="text-theme-1"><small>@lang('general.currency') : </small></strong>{{ $currency->name }} ({{ $currency->symbol }})
                                         </div>
                                         <div class="form-group">
                                             @component('components.app.label-input', ['name' => 'description'])

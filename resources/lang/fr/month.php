@@ -24,5 +24,17 @@ return [
     '9' => 'Septembre',
     '10' => 'Octobre',
     '11' => 'Novembre',
-    '12' => 'Décembre'
+    '12' => 'Décembre',
+    'i1' => 'Jan',
+    'i2' => 'Fév',
+    'i3' => 'Mar',
+    'i4' => 'Avr',
+    'i5' => 'Mai',
+    'i6' => 'Juin',
+    'i7' => 'Juil',
+    'i8' => 'Août',
+    'i9' => 'Sep',
+    'i10' => 'Oct',
+    'i11' => 'Nov',
+    'i12' => 'Déc'
 ];

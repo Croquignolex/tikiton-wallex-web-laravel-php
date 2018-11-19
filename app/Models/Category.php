@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed user
  * @property mixed categories
  * @property mixed authorised
+ * @property mixed transactions
  * @property mixed can_be_deleted
  * @property array|null|string type
  * @property array|null|string color
@@ -28,9 +29,9 @@ class Category extends Model
     use LocaleDateTimeTrait, LocaleAmountTrait,
         SlugSaveTrait, SlugRouteTrait;
 
-    const EXPENSE = 0;
-    const TRANSFER = 1;
-    const INCOME = 2;
+    const EXPENSE = 'expense';
+    const TRANSFER = 'transfer';
+    const INCOME = 'income';
 
     /**
      * The attributes that are mass assignable.
@@ -88,13 +89,11 @@ class Category extends Model
      */
     public function getFormatTypeAttribute()
     {
-        $type = new FormatBoolean('text-danger', trans('general.unknown'));
+        if($this->type === Category::EXPENSE) return new FormatBoolean('text-danger', trans('general.expense'), 'arrow-down');
+        else if($this->type === Category::TRANSFER) return new FormatBoolean('text-info', trans('general.transfer'), 'exchange');
+        else if($this->type === Category::INCOME) return new FormatBoolean('text-success', trans('general.income'), 'arrow-up');
 
-        if($this->type === Category::EXPENSE) $type = new FormatBoolean('text-danger', trans('general.expense'), 'arrow-down');
-        else if($this->type === Category::TRANSFER) $type = new FormatBoolean('text-info', trans('general.transfer'), 'exchange');
-        else if($this->type === Category::INCOME) $type = new FormatBoolean('text-success', trans('general.income'), 'arrow-up');
-
-        return $type;
+        return new FormatBoolean('text-danger', trans('general.unknown'));
     }
 
     /**
@@ -102,8 +101,6 @@ class Category extends Model
      */
     public function getCanBeDeletedAttribute()
     {
-        //TODO: write the good condition
-        return true;
-        //return $this->categories->isEmpty();
+        return $this->transactions->isEmpty();
     }
 }

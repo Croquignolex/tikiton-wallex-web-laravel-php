@@ -21,6 +21,15 @@ trait LocaleDateTimeTrait
     /**
      * @return string
      */
+    public function getLongCreatedDateAttribute()
+    {
+        $date = new Carbon($this->created_at);
+        return $this->dateLongFormat(App::getLocale(), $date);
+    }
+
+    /**
+     * @return string
+     */
     public function getCreatedTimeAttribute()
     {
         $date = new Carbon($this->created_at);
@@ -35,6 +44,16 @@ trait LocaleDateTimeTrait
     {
         $date = new Carbon($this->created_at);
         return $date->format($this->dateFormat('fr'));
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function getFrLongCreatedDateAttribute()
+    {
+        $date = new Carbon($this->created_at);
+        return $this->dateLongFormat('fr', $date);
     }
 
     /**
@@ -59,6 +78,15 @@ trait LocaleDateTimeTrait
     /**
      * @return string
      */
+    public function getLongUpdatedDateAttribute()
+    {
+        $date = new Carbon($this->updated_at);
+        return $this->dateLongFormat(App::getLocale(), $date);
+    }
+
+    /**
+     * @return string
+     */
     public function getUpdatedTimeAttribute()
     {
         $date = new Carbon($this->updated_at);
@@ -72,6 +100,15 @@ trait LocaleDateTimeTrait
     {
         $date = new Carbon($this->updated_at);
         return $date->format($this->dateFormat('fr'));
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrLongUpdatedDateAttribute()
+    {
+        $date = new Carbon($this->updated_at);
+        return $this->dateLongFormat('fr', $date);
     }
 
     /**
@@ -92,6 +129,58 @@ trait LocaleDateTimeTrait
         if($locale === 'fr') return 'd/m/Y';
         elseif ($locale === 'en') return 'm/d/Y';
         else return 'd/m/Y';
+    }
+
+    /**
+     * @param $locale
+     * @param Carbon $date
+     * @return string
+     */
+    private function dateMediumFormat($locale, Carbon $date)
+    {
+        if($locale === 'fr')
+        {
+            return trans('day.i' . $date->dayOfWeek) . ' ' .
+                $date->day . ' ' .
+                trans('month.i' . $date->month) . ' ' .
+                $date->year . ' ' .
+                $date->format($this->timeFormat($locale)) . ' GMT';
+        }
+        elseif ($locale === 'en')
+        {
+            return trans('day.i' . $date->dayOfWeek) . ' ' .
+                trans('month.i' . $date->month) . ' ' .
+                $date->day . ' ' .
+                $date->year . ' ' .
+                $date->format($this->timeFormat($locale)) . ' GMT';
+        }
+        else return trans('general.unknown');
+    }
+
+    /**
+     * @param $locale
+     * @param Carbon $date
+     * @return string
+     */
+    private function dateLongFormat($locale, Carbon $date)
+    {
+        if($locale === 'fr')
+        {
+            return trans('day.' . $date->dayOfWeek) . ' ' .
+                $date->day . ' ' .
+                trans('month.' . $date->month) . ' ' .
+                $date->year . ' ' .
+                $date->format($this->timeFormat($locale)) . ' GMT';
+        }
+        elseif ($locale === 'en')
+        {
+            return trans('day.' . $date->dayOfWeek) . ' ' .
+                trans('month.' . $date->month) . ' ' .
+                $date->day . ' ' .
+                $date->year . ' ' .
+                $date->format($this->timeFormat($locale)) . ' GMT';
+        }
+        else return trans('general.unknown');
     }
 
     /**

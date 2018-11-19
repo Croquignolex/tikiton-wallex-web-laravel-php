@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->text('description');
             $table->string('icon');
             $table->string('color', 7);
-            $table->smallInteger('type');
+            $table->string('type', 10);
             $table->unsignedInteger('user_id');
             $table->timestamps();
 

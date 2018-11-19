@@ -64,6 +64,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/{language}/currencies/{currency}/wallets/create', 'WalletController@currencyCreate')->name('currencies.wallets.create');
 
     Route::post('/{language}/currencies/{currency}/wallets', 'WalletController@currencyStore')->name('currencies.wallets.store');
+    Route::post('/{language}/transactions/filter', 'TransactionController@filter')->name('transactions.filter');
 
     Route::put('/{language}/settings/activate/{setting}', 'UserSettingController@activate')->name('settings.activate');
     Route::put('/{language}/settings/disable/tips/{setting}', 'UserSettingController@disableTips')->name('settings.tips.disable');

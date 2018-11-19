@@ -95,7 +95,7 @@ class UserSettingController extends Controller
             $this->databaseError($exception);
         }
 
-        return back();
+        return back()->withInput($request->all());;
     }
 
     /**
@@ -110,10 +110,8 @@ class UserSettingController extends Controller
     {
         try
         {
-            if($setting->authorised)
-                return view('app.settings.show', compact('setting'));
-            else
-                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            if($setting->authorised) return view('app.settings.show', compact('setting'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
@@ -135,10 +133,8 @@ class UserSettingController extends Controller
     {
         try
         {
-            if($setting->authorised)
-                return view('app.settings.edit', compact('setting'));
-            else
-                warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            if($setting->authorised) return view('app.settings.edit', compact('setting'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
@@ -162,38 +158,42 @@ class UserSettingController extends Controller
 
         try
         {
-            $current = false;
-            if($request->input('current') != null && $setting->is_current === 0)
+            if($setting->authorised)
             {
-                foreach (Auth::user()->user_settings as $user_setting)
+                $current = false;
+                if($request->input('current') != null && $setting->is_current === 0)
                 {
-                    $user_setting->is_current = false;
-                    $user_setting->save();
+                    foreach (Auth::user()->user_settings as $user_setting)
+                    {
+                        $user_setting->is_current = false;
+                        $user_setting->save();
+                    }
+                    $current = true;
                 }
-                $current = true;
+
+                if($setting->is_current === 1)
+                    $current = true;
+
+                $setting->update([
+                    'name' => $request->input('name'),
+                    'description' => $request->input('description'),
+                    'tips' => $request->input('tips') == null ? false : true,
+                    'is_current' => $current
+                ]);
+
+                success_flash_message(trans('auth.success'),
+                    trans('general.update_successful', ['name' => $request->input('name')]));
+
+                return redirect(locale_route('settings.show', [$setting]));
             }
-
-            if($setting->is_current === 1)
-                $current = true;
-
-            $setting->update([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
-                'tips' => $request->input('tips') == null ? false : true,
-                'is_current' => $current
-            ]);
-
-            success_flash_message(trans('auth.success'),
-                trans('general.update_successful', ['name' => $request->input('name')]));
-
-            return redirect(locale_route('settings.show', [$setting]));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return back();
+        return back()->withInput($request->all());;
     }
 
     /**

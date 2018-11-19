@@ -43,6 +43,10 @@ class UserSetting extends Model
         'slug'
     ];
 
+    /**
+     * @param UserSetting $userSetting
+     * @return string
+     */
     protected static function formatSlug(UserSetting $userSetting)
     {
         return $userSetting->user->id . '-' . str_slug($userSetting->name);

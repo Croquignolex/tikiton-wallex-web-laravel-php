@@ -88,7 +88,8 @@
                                                    'name' => 'currency', 'header' => trans('general.select_currency')
                                                 ])
                                                     @foreach($currencies as $currency)
-                                                        <option value="{{ $currency->id }}" data-subtext="{{ $currency->symbol }}">{{ $currency->name }}</option>
+                                                        <option value="{{ $currency->id }}" data-subtext="({{ $currency->symbol }})"
+                                                                {{ $currency->id === intval(old('currency')) ? 'selected' : '' }}>{{ $currency->name }}</option>
                                                     @endforeach
                                                 @endcomponent
                                             @endcomponent

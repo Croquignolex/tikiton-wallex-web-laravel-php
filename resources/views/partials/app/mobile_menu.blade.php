@@ -7,7 +7,7 @@
                     <nav id="dropdown">
                         <ul class="mobile-menu-nav">
                             <li class="{{ active_page(app_dashboard_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_dashboard" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_dashboard">
                                     <i class="fa fa-pie-chart"></i>
                                     @lang('general.dashboard')
                                 </a>
@@ -21,7 +21,7 @@
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_transaction_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_transaction" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_transaction">
                                     <i class="fa fa-random"></i>
                                     @lang('general.transaction')
                                 </a>
@@ -33,27 +33,41 @@
                                         </a>
                                     </li>
                                     <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
-                                        <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::INCOME }}">
-                                            <i class="fa fa-arrow-up text-success"></i>
-                                            @lang('general.new_income_transaction')
+                                        <a data-toggle="collapse" data-target="#mobile_sub_transaction">
+                                            <i class="fa fa-plus"></i>
+                                            @lang('general.new_transaction')
                                         </a>
-                                    </li>
-                                    <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
-                                        <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::TRANSFER }}">
-                                            <i class="fa fa-exchange text-info"></i>
-                                            @lang('general.new_transfer_transaction')
-                                        </a>
-                                    </li>
-                                    <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
-                                        <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::EXPENSE }}">
-                                            <i class="fa fa-arrow-down text-danger"></i>
-                                            @lang('general.new_expense_transaction')
-                                        </a>
+                                        <ul id="mobile_sub_transaction" class="collapse dropdown-header-top">
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::INCOME }}">
+                                                    <span class="text-success">
+                                                        <i class="fa fa-arrow-up"></i>
+                                                        @lang('general.new_income_transaction')
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
+                                                <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::TRANSFER }}">
+                                                    <span class="text-info">
+                                                        <i class="fa fa-exchange"></i>
+                                                        @lang('general.new_transfer_transaction')
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
+                                                <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::EXPENSE }}">
+                                                    <span class="text-danger">
+                                                        <i class="fa fa-arrow-down"></i>
+                                                        @lang('general.new_expense_transaction')
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_wallet_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_account" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_account">
                                     <i class="fa fa-credit-card"></i>
                                     @lang('general.account')
                                 </a>
@@ -73,7 +87,7 @@
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_category_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_category" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_category">
                                     <i class="fa fa-database"></i>
                                     @lang('general.category')
                                 </a>
@@ -94,7 +108,7 @@
                             </li>
 
                             <li class="{{ active_page(app_currency_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_currency" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_currency">
                                     <i class="fa fa-dollar"></i>
                                     @lang('general.currency')
                                 </a>
@@ -114,7 +128,7 @@
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_setting_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_setting" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_setting">
                                     <i class="fa fa-cogs"></i>
                                     @lang('general.setting')
                                 </a>
@@ -134,7 +148,7 @@
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_user_pages()) }}">
-                                <a data-toggle="collapse" data-target="#mobile_user" href="#">
+                                <a data-toggle="collapse" data-target="#mobile_user">
                                     <i class="fa fa-user"></i>
                                     {{ \Illuminate\Support\Facades\Auth::user()->format_full_name }}
                                 </a>

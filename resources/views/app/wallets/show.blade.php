@@ -88,12 +88,12 @@
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.creation_date') :</strong>
-                                                    {{ $wallet->created_date }} @lang('general.at') {{ $wallet->created_time }}
+                                                    {{ $wallet->long_created_date }}
                                                 </li>
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.last_update') :</strong>
-                                                    {{ $wallet->updated_date }} @lang('general.at') {{ $wallet->updated_time }}
+                                                    {{ $wallet->long_updated_date }}
                                                 </li>
                                             </ul>
                                         </div>

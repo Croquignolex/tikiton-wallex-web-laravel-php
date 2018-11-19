@@ -11,10 +11,12 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"
-                            onclick="document.getElementById('action-{{ $id }}').submit();">
-                        <i class="fa fa-check"></i> @lang('general.yes')
-                    </button>
+                    @if(isset($action_route))
+                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal"
+                                onclick="document.getElementById('action-{{ $id }}').submit();">
+                            <i class="fa fa-check"></i> @lang('general.yes')
+                        </button>
+                    @endif
                     <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal">
                         <i class="fa fa-times"></i> @lang('general.no')
                     </button>
@@ -24,7 +26,9 @@
     </div>
 </div>
 
-<form id="action-{{ $id }}" action="{{ $action_route }}" method="POST" class="hidden">
-    {{ csrf_field() }}
-    {{ method_field($method ?? 'DELETE') }}
-</form>
+@if(isset($action_route))
+    <form id="action-{{ $id }}" action="{{ $action_route }}" method="POST" class="hidden">
+        {{ csrf_field() }}
+        {{ method_field($method ?? 'DELETE') }}
+    </form>
+@endif

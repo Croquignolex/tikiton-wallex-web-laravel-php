@@ -50,7 +50,8 @@
                                                    'name' => 'icon', 'header' => trans('general.select_icon')
                                                 ])
                                                     @foreach(icons() as $icon)
-                                                        <option value="{{ $icon }}" data-icon="fa-{{ $icon }}"></option>
+                                                        <option value="{{ $icon }}" data-icon="fa-{{ $icon }}"
+                                                                {{ $icon === old('icon') ? 'selected' : '' }}></option>
                                                     @endforeach
                                                 @endcomponent
                                             @endcomponent
@@ -74,9 +75,13 @@
                                                 @component('components.app.select', [
                                                    'name' => 'type', 'header' => trans('general.select_type')
                                                 ])
-                                                    <option value="{{ \App\Models\Category::INCOME }}" data-content="<i class='fa fa-arrow-up text-success'></i> {{ trans('general.income') }}"></option>
-                                                    <option value="{{ \App\Models\Category::TRANSFER }}" data-content="<i class='fa fa-exchange text-info'></i> {{ trans('general.transfer') }}"></option>
-                                                    <option value="{{ \App\Models\Category::EXPENSE }}" data-content="<i class='fa fa-arrow-down text-danger'></i> {{ trans('general.expense') }}"></option>
+                                                    <option value="{{ \App\Models\Category::INCOME }}"
+                                                            data-content="<i class='fa fa-arrow-up text-success'></i> {{ trans('general.income') }}"
+                                                            {{ \App\Models\Category::INCOME === old('type') ? 'selected' : '' }}></option>
+                                                    <option value="{{ \App\Models\Category::TRANSFER }}" data-content="<i class='fa fa-exchange text-info'></i> {{ trans('general.transfer') }}"
+                                                            {{ \App\Models\Category::TRANSFER === old('type') ? 'selected' : '' }}></option>
+                                                    <option value="{{ \App\Models\Category::EXPENSE }}" data-content="<i class='fa fa-arrow-down text-danger'></i> {{ trans('general.expense') }}"
+                                                            {{ \App\Models\Category::EXPENSE === old('type') ? 'selected' : '' }}></option>
                                                 @endcomponent
                                             @endcomponent
                                         </div>

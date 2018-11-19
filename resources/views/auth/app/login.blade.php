@@ -67,7 +67,7 @@
 
             <div class="nk-navigation rg-ic-stl">
                 <a href="{{ locale_route('password.request') }}" class="password"><i class="fa fa-question"></i> <span>@lang('auth.forgotten_pwd')</span></a>
-                <a href="{{ locale_route('register') }}" class="password"><i class="fa fa-plus"></i> <span>@lang('auth.register_sign_upped')</span></a>
+                <a href="{{ locale_route('register') }}" class="register"><i class="fa fa-plus"></i> <span>@lang('auth.register_sign_upped')</span></a>
             </div>
         </div>
     </div>

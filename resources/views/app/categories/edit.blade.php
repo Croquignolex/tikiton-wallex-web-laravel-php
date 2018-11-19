@@ -52,7 +52,7 @@
                                                 ])
                                                     @foreach(icons() as $icon)
                                                         <option value="{{ $icon }}" data-icon="fa-{{ $icon }}"
-                                                                {{ $icon === $category->icon ? 'selected' : '' }}></option>
+                                                                {{ $icon === (old('icon') ?? $category->icon) ? 'selected' : '' }}></option>
                                                     @endforeach
                                                 @endcomponent
                                             @endcomponent

@@ -135,7 +135,7 @@ if(!function_exists('app_transaction_pages'))
     function app_transaction_pages()
     {
         return collect(['transactions.index', 'transactions.create',
-            'transactions.edit', 'transactions.show']);
+            'transactions.edit', 'transactions.show', 'transactions.filter']);
     }
 }
 

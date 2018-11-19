@@ -90,7 +90,7 @@
                                                    ])
                                                     @foreach($currencies as $currency)
                                                         <option value="{{ $currency->id }}" data-subtext="{{ $currency->symbol }}"
-                                                            {{ $currency->id === $wallet->currency_id ? 'selected' : '' }}>{{ $currency->name }}</option>
+                                                            {{ $currency->id === (intval(old('currency')) ?? $wallet->currency_id) ? 'selected' : '' }}>{{ $currency->name }}</option>
                                                     @endforeach
                                                 @endcomponent
                                             @endcomponent

@@ -17,8 +17,8 @@ class UsersTableSeeder extends Seeder
 
         for($i = 1; $i <= $user_max; $i++)
         {
-            $first_name = title_case(Lorem::word());
-            $last_name = title_case(Lorem::word());
+            $first_name = Lorem::word();
+            $last_name = Lorem::word();
 
             User::create([
                 'is_admin' => $i <= 4,
@@ -29,9 +29,9 @@ class UsersTableSeeder extends Seeder
                 'city' => title_case(Lorem::word()),
                 'country' => title_case(Lorem::word()),
                 'phone' => str_shuffle('0123456789'),
-                'last_name' =>  $last_name,
+                'last_name' =>  title_case($last_name),
                 'post_code' => title_case(Lorem::word()),
-                'first_name' => $first_name,
+                'first_name' => title_case($first_name),
                 'description' => ucfirst(Lorem::paragraph()),
                 'address' => title_case(Lorem::sentence(2)),
                 'profession' => title_case(Lorem::sentence(2)),

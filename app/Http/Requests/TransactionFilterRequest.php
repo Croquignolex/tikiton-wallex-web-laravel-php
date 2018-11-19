@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Traits\RequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class TransactionFilterRequest extends FormRequest
 {
     use RequestTrait;
 
@@ -17,10 +17,8 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => $this->required_string_2_255,
-            'description' => $this->required_string_2_510,
-            'icon' => $this->required_string_2_255,
-            'color' => $this->required_string_2_7
+            'begin_date' => $this->required_string_2_30,
+            'end_date' => $this->required_string_2_30
         ];
     }
 }
