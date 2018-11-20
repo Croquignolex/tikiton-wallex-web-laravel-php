@@ -50,12 +50,12 @@
                                 </div>
                             </div>
                             <div class="widget-tabs-list">
-                                <ul class="nav nav-tabs"><li class="active"><a data-toggle="tab" href="#transactions">@lang('general.movements')</a></li>
-                                    <li><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
+                                <ul class="nav nav-tabs"><li class="{{ $tab !== 'details' ? 'active' : '' }}"><a data-toggle="tab" href="#transactions">@lang('general.movements')</a></li>
+                                    <li class="{{ $tab === 'details' ? 'active' : '' }}"><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
                                     <li><a data-toggle="tab" href="#description">@lang('general.description')</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="transactions" class="tab-pane fade in active table-responsive">
+                                    <div id="transactions" class="tab-pane fade {{ $tab !== 'details' ? 'in active' : '' }} table-responsive">
                                         <div class="text-right">
                                             <a href="javascript: void(0);" data-toggle="modal" data-target="#add-transaction">
                                                 <i class="fa fa-plus"></i>
@@ -70,7 +70,7 @@
                                            ['transactions' => $transactions, 'no_action' => '6'])
                                         @endcomponent
                                     </div>
-                                    <div id="details" class="tab-pane fade">
+                                    <div id="details" class="tab-pane fade {{ $tab === 'details' ? 'in active' : '' }}">
                                         <div class="tab-ctn">
                                             <ul>
                                                 <li>

@@ -32,10 +32,10 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $type = $request->query('type');
-        if(!$type) $type = Category::INCOME;
+        if(!$this->isType($type)) $type = Category::INCOME;
 
-        $categories = null; $incomeCategories = null;
-        $transferCategories = null; $expenseCategories = null;
+        $categories = collect(); $incomeCategories = collect();
+        $transferCategories = collect(); $expenseCategories = collect();
         try
         {
             $categories = Auth::user()->categories;
@@ -70,27 +70,30 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        if(!$this->isType($request->input('type')) || !$this->isIcon($request->input('icon')) )
+        $name = $request->input('name');
+        $type = $request->input('type');
+        $icon = $request->input('icon');
+        if(!$this->isType($type) || !$this->isIcon($icon) )
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             return back()->withInput($request->all());
         }
-        $this->categoryExist($request->input('name'));
+        $this->categoryExist($name);
 
         try
         {
             Auth::user()->categories()->create([
-                'name' => $request->input('name'),
+                'name' => $name,
                 'description' => $request->input('description'),
-                'icon' => $request->input('icon'),
+                'icon' => $icon,
                 'color' => $request->input('color'),
-                'type' => $request->input('type'),
+                'type' => $type,
             ]);
 
             success_flash_message(trans('auth.success'),
-                trans('general.add_successful', ['name' => $request->input('name')]));
+                trans('general.add_successful', ['name' => $name]));
 
-            return redirect($this->redirectTo($request->input('type')));
+            return redirect($this->indexRoute($type));
         }
         catch (Exception $exception)
         {
@@ -133,28 +136,30 @@ class CategoryController extends Controller
      */
     public function update(CategoryTypeRequest $request, $language, Category $category)
     {
-        if(!$this->isIcon($request->input('icon')) )
+        $name = $request->input('name');
+        $icon = $request->input('icon');
+        if(!$this->isIcon($icon))
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             return back()->withInput($request->all());
         }
-        $this->categoryExist($request->input('name'), $category->id);
+        $this->categoryExist($name, $category->id);
 
         try
         {
             if($category->authorised)
             {
                 $category->update([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
-                    'icon' => $request->input('icon'),
+                    'icon' => $icon,
                     'color' => $request->input('color')
                 ]);
 
                 success_flash_message(trans('auth.success'),
-                    trans('general.update_successful', ['name' => $request->input('name')]));
+                    trans('general.update_successful', ['name' => $name]));
 
-                return redirect($this->redirectTo($category->type));
+                return redirect($this->indexRoute($category->type));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -242,7 +247,7 @@ class CategoryController extends Controller
      * @param $parameter
      * @return bool
      */
-    private function redirectTo($parameter)
+    private function indexRoute($parameter)
     {
         return locale_route('categories.index') . '?type=' . $parameter;
     }

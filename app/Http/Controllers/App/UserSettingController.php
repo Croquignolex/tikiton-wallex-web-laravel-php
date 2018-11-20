@@ -30,7 +30,7 @@ class UserSettingController extends Controller
      */
     public function index(Request $request)
     {
-        $settings = null;
+        $settings = collect();
         try
         {
             $settings = Auth::user()->user_settings
@@ -65,37 +65,32 @@ class UserSettingController extends Controller
      */
     public function store(UserSettingRequest $request)
     {
-        $this->settingExist($request->input('name'));
+        $name = $request->input('name');
+        $current = $request->input('current');
+        $this->settingExist($name);
 
         try
         {
-            if($request->input('current') != null)
-            {
-                foreach (Auth::user()->user_settings as $user_setting)
-                {
-                    $user_setting->is_current = false;
-                    $user_setting->save();
-                }
-            }
+            if($current != null) $this->toggleCurrentSetting();
 
             $setting = Auth::user()->user_settings()->create([
-                'name' => $request->input('name'),
+                'name' => $name,
                 'description' => $request->input('description'),
                 'tips' => $request->input('tips') == null ? false : true,
-                'is_current' => $request->input('current') == null ? false : true
+                'is_current' => $current == null ? false : true
             ]);
 
             success_flash_message(trans('auth.success'),
-                trans('general.add_successful', ['name' => $request->input('name')]));
+                trans('general.add_successful', ['name' => $name]));
 
-            return redirect(locale_route('settings.show', [$setting]));
+            return redirect($this->showRoute($setting));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return back()->withInput($request->all());;
+        return back()->withInput($request->all());
     }
 
     /**
@@ -154,37 +149,33 @@ class UserSettingController extends Controller
      */
     public function update(UserSettingRequest $request, $language, UserSetting $setting)
     {
-        $this->settingExist($request->input('name'), $setting->id);
+        $name = $request->input('name');
+        $this->settingExist($name, $setting->id);
+        $current = false;
 
         try
         {
             if($setting->authorised)
             {
-                $current = false;
-                if($request->input('current') != null && $setting->is_current === 0)
+                if($request->input('current') !== null && $setting->is_current === 0)
                 {
-                    foreach (Auth::user()->user_settings as $user_setting)
-                    {
-                        $user_setting->is_current = false;
-                        $user_setting->save();
-                    }
+                    $this->toggleCurrentSetting();
                     $current = true;
                 }
 
-                if($setting->is_current === 1)
-                    $current = true;
+                if($setting->is_current === 1) $current = true;
 
                 $setting->update([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
                     'tips' => $request->input('tips') == null ? false : true,
                     'is_current' => $current
                 ]);
 
                 success_flash_message(trans('auth.success'),
-                    trans('general.update_successful', ['name' => $request->input('name')]));
+                    trans('general.update_successful', ['name' => $name]));
 
-                return redirect(locale_route('settings.show', [$setting]));
+                return redirect($this->showRoute($setting));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -241,14 +232,8 @@ class UserSettingController extends Controller
             {
                 if(!$setting->is_current)
                 {
-                    foreach (Auth::user()->user_settings as $user_setting)
-                    {
-                        $user_setting->is_current = false;
-                        $user_setting->save();
-                    }
-
-                    $setting->is_current = true;
-                    $setting->save();
+                    $this->toggleCurrentSetting();
+                    $setting->update(['is_current' => true ]);
                     info_flash_message(trans('auth.info'),
                         trans('general.activate_successful', ['name' => $setting->name]));
                 }
@@ -275,8 +260,7 @@ class UserSettingController extends Controller
         {
             if($setting->authorised)
             {
-                $setting->tips = false;
-                $setting->save();
+                $setting->update(['tips' => false ]);
                 info_flash_message(trans('auth.info'),
                     trans('general.disable_tips_successful', ['name' => $setting->name]));
             }
@@ -301,8 +285,7 @@ class UserSettingController extends Controller
         {
             if($setting->authorised)
             {
-                $setting->tips = true;
-                $setting->save();
+                $setting->update(['tips' => true ]);
                 info_flash_message(trans('auth.info'),
                     trans('general.enable_tips_successful', ['name' => $setting->name]));
             }
@@ -317,8 +300,6 @@ class UserSettingController extends Controller
     }
 
     /**
-     * Check if the account already exist
-     *
      * @param  string $name
      * @param int $id
      * @return void
@@ -332,5 +313,23 @@ class UserSettingController extends Controller
                 'name' => trans('general.already_exist', ['name' => mb_strtolower($name)]),
             ])->status(423);
         }
+    }
+
+    /**
+     *
+     */
+    private function toggleCurrentSetting()
+    {
+        Auth::user()->user_settings->where('is_current', true)->first()
+            ->update(['is_current' => false ]);
+    }
+
+    /**
+     * @param UserSetting $userSetting
+     * @return bool
+     */
+    private function showRoute(UserSetting $userSetting)
+    {
+        return locale_route('settings.show', [$userSetting]);
     }
 }

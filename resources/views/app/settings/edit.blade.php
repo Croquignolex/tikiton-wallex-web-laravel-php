@@ -53,12 +53,16 @@
                                                    ])
                                                 @endcomponent
                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                @component('components.app.checkbox', [
-                                                    'name' => 'current', 'color' => 'green', 'attribute_2' => $setting->is_current === 1 ? 'disabled' : '',
-                                                    'label' => trans('general.activated'), 'class' => $setting->is_current === 1 ? 'disabled' : '',
-                                                     'attribute_1' => (old('current') ?? ($setting->is_current === 1 ? 'on' : '')) === 'on' ? 'checked' : ''
+                                                @if($setting->is_current === 1)
+                                                    <span class="text-theme-1">@lang('general.activate')</span>
+                                                @else
+                                                    @component('components.app.checkbox', [
+                                                        'name' => 'current', 'color' => 'green',
+                                                        'label' => trans('general.activated'),
+                                                        'attribute_1' => old('current') === 'on' ? 'checked' : ''
                                                      ])
-                                                @endcomponent
+                                                    @endcomponent
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

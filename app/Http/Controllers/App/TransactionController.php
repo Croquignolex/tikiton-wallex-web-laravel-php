@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Http\Requests\TransactionRequest;
-use App\Http\Requests\TransactionUpdateRequest;
-use App\Models\Transaction;
-use App\Models\Wallet;
 use Exception;
-use Illuminate\Support\Carbon;
+use App\Models\Wallet;
 use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Traits\PaginationTrait;
-use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Traits\ErrorFlashMessagesTrait;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\TransactionRequest;
+use App\Http\Requests\TransactionUpdateRequest;
 use App\Http\Requests\TransactionFilterRequest;
 
 class TransactionController extends Controller
@@ -35,26 +34,21 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = null; $begin_date = null; $end_date = null;
+        $transactions = collect();
+        $begin_date = Carbon::now()->startOfDay();
+        $end_date = Carbon::now()->endOfDay();
 
         if(session()->has('begin_date') && session()->has('end_date'))
         {
             $begin_date = session('begin_date');
             $end_date = session('end_date');
         }
-        else
-        {
-            $begin_date = Carbon::now()->startOfDay();
-            $end_date = Carbon::now()->endOfDay();
-        }
 
         try
         {
             $transactions = Auth::user()->transactions
-                ->where('created_at', '>=', $begin_date)
-                ->where('created_at', '<=',$end_date)
-                ->sortByDesc('created_at')
-                ->load('category', 'wallets');
+                ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
+                ->sortByDesc('created_at')->load('category', 'wallets');
         }
         catch (Exception $exception)
         {
@@ -71,7 +65,6 @@ class TransactionController extends Controller
      */
     public function filter(TransactionFilterRequest $request)
     {
-        $transactions = null; $begin_date = null; $end_date = null;
         try
         {
             session()->flash('begin_date', $this->carbonFormatDate($request->input('begin_date')));
@@ -83,7 +76,7 @@ class TransactionController extends Controller
             return back()->withInput($request->all());
         }
 
-        return redirect($this->redirectTo());
+        return redirect($this->indexRoute());
     }
 
     /**
@@ -153,9 +146,10 @@ class TransactionController extends Controller
      */
     public function store(TransactionRequest $request)
     {
+        $name = $request->input('name');
+        $description = $request->input('description');
         $type = $request->input('token');
         $amount = $request->input('transaction_amount');
-        $date = $request->input('date');
         if(!$this->isType($type))
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -164,6 +158,7 @@ class TransactionController extends Controller
 
         try
         {
+            $creation_date = $this->carbonFormatDate($request->input('date'));
             if(Hash::check(Category::TRANSFER, $type))
             {
                 $debit_wallet_id = intval($request->input('debit_account'));
@@ -186,18 +181,17 @@ class TransactionController extends Controller
                         }
                         else
                         {
-                            danger_flash_message(trans('auth.error'),
-                                trans('general.debit_account_balance_is_smaller', ['name' => $debit_wallet->name]));
+                            danger_flash_message(trans('auth.error'), trans('general.debit_account_balance_is_smaller', ['name' => $debit_wallet->name]));
                             return back()->withInput($request->all());
                         }
 
                         //save
                         $transaction = Auth::user()->transactions()->create([
-                            'name' => $request->input('name'),
-                            'description' => $request->input('description'),
+                            'name' => $name,
+                            'description' => $description,
                             'amount' => $amount,
                             'category_id' => $category->id,
-                            'created_at' => $this->carbonFormatDate($date)
+                            'created_at' => $creation_date
                         ]);
 
                         $debit_wallet->transactions()->save($transaction);
@@ -205,8 +199,7 @@ class TransactionController extends Controller
                     }
                     else
                     {
-                        danger_flash_message(trans('auth.error'),
-                            trans('general.not_the_same_currency'));
+                        danger_flash_message(trans('auth.error'), trans('general.not_the_same_currency'));
                         return back()->withInput($request->all());
                     }
                 }
@@ -228,29 +221,25 @@ class TransactionController extends Controller
                         if($wallet->balance >= $amount) $wallet->update(['balance' =>  $wallet->balance - $amount]);
                         else
                         {
-                            danger_flash_message(trans('auth.error'),
-                                trans('general.account_balance_is_smaller', ['name' => $wallet->name]));
-
+                            danger_flash_message(trans('auth.error'), trans('general.account_balance_is_smaller', ['name' => $wallet->name]));
                             return back()->withInput($request->all());
                         }
                     }
 
                     //Save
                     $wallet->transactions()->create([
-                        'name' => $request->input('name'),
-                        'description' => $request->input('description'),
+                        'name' => $name,
+                        'description' => $description,
                         'amount' => $amount,
                         'category_id' => $category->id,
-                        'created_at' => $this->carbonFormatDate($date)
+                        'created_at' => $creation_date
                     ]);
                 }
                 else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             }
 
-            success_flash_message(trans('auth.success'),
-                trans('general.add_successful', ['name' => $request->input('name')]));
-
-            return redirect($this->redirectTo());
+            success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $name]));
+            return redirect($this->indexRoute());
         }
         catch (Exception $exception)
         {
@@ -270,9 +259,10 @@ class TransactionController extends Controller
      */
     public function walletStore(TransactionRequest $request, $language, Wallet $wallet)
     {
+        $name = $request->input('name');
+        $description = $request->input('description');
         $type = $request->input('token');
         $amount = $request->input('transaction_amount');
-        $date = $request->input('date');
         if(!$this->isType($type))
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -281,6 +271,7 @@ class TransactionController extends Controller
 
         try
         {
+            $creation_date = $this->carbonFormatDate($request->input('date'));
             if(Hash::check(Category::TRANSFER, $type))
             {
                 $credit_account_id = intval($request->input('credit_account'));
@@ -301,18 +292,17 @@ class TransactionController extends Controller
                         }
                         else
                         {
-                            danger_flash_message(trans('auth.error'),
-                                trans('general.debit_account_balance_is_smaller', ['name' => $wallet->name]));
+                            danger_flash_message(trans('auth.error'), trans('general.debit_account_balance_is_smaller', ['name' => $wallet->name]));
                             return back()->withInput($request->all());
                         }
 
                         //save
                         $transaction = Auth::user()->transactions()->create([
-                            'name' => $request->input('name'),
-                            'description' => $request->input('description'),
+                            'name' => $name,
+                            'description' => $description,
                             'amount' => $amount,
                             'category_id' => $category->id,
-                            'created_at' => $this->carbonFormatDate($date)
+                            'created_at' => $creation_date
                         ]);
 
                         $wallet->transactions()->save($transaction);
@@ -320,8 +310,7 @@ class TransactionController extends Controller
                     }
                     else
                     {
-                        danger_flash_message(trans('auth.error'),
-                            trans('general.not_the_same_currency'));
+                        danger_flash_message(trans('auth.error'), trans('general.not_the_same_currency'));
                         return back()->withInput($request->all());
                     }
                 }
@@ -342,28 +331,24 @@ class TransactionController extends Controller
                         if($wallet->balance >= $amount) $wallet->update(['balance' =>  $wallet->balance - $amount]);
                         else
                         {
-                            danger_flash_message(trans('auth.error'),
-                                trans('general.account_balance_is_smaller', ['name' => $wallet->name]));
-
+                            danger_flash_message(trans('auth.error'), trans('general.account_balance_is_smaller', ['name' => $wallet->name]));
                             return back()->withInput($request->all());
                         }
                     }
 
                     //Save
                     $wallet->transactions()->create([
-                        'name' => $request->input('name'),
-                        'description' => $request->input('description'),
+                        'name' => $name,
+                        'description' => $description,
                         'amount' => $amount,
                         'category_id' => $category->id,
-                        'created_at' => $this->carbonFormatDate($date)
+                        'created_at' => $creation_date
                     ]);
                 }
                 else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             }
 
-            success_flash_message(trans('auth.success'),
-                trans('general.add_successful', ['name' => $request->input('name')]));
-
+            success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $name]));
             return redirect(locale_route('wallets.show', [$wallet]));
         }
         catch (Exception $exception)
@@ -432,19 +417,18 @@ class TransactionController extends Controller
      */
     public function update(TransactionUpdateRequest $request, $language, Transaction $transaction)
     {
+        $name = $request->input('name');
         try
         {
             if($transaction->authorised)
             {
                 $transaction->update([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
                     'created_at' => $this->carbonFormatDate($request->input('date'))
                 ]);
 
-                success_flash_message(trans('auth.success'),
-                    trans('general.update_successful', ['name' => $request->input('name')]));
-
+                success_flash_message(trans('auth.success'), trans('general.update_successful', ['name' => $name]));
                 return redirect(locale_route('transactions.show', [$transaction]));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -498,7 +482,7 @@ class TransactionController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo());
+        return redirect($this->indexRoute());
     }
 
     /**
@@ -517,23 +501,8 @@ class TransactionController extends Controller
     /**
      * @return bool
      */
-    private function redirectTo()
+    private function indexRoute()
     {
         return locale_route('transactions.index') ;
-    }
-
-    /**
-     * @param $date
-     * @return Carbon
-     */
-    private function carbonFormatDate($date)
-    {
-        $locale = App::getLocale();
-        if($locale === 'en')
-            return Carbon::createFromFormat('m/d/Y h:i A', $date);
-        else if($locale === 'fr')
-            return Carbon::createFromFormat('d/m/Y H:i', $date);
-
-        return Carbon::now();
     }
 }

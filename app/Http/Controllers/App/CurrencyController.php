@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use App\Traits\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Traits\ErrorFlashMessagesTrait;
 use App\Http\Requests\CurrencyRequest;
+use App\Traits\ErrorFlashMessagesTrait;
 use Illuminate\Validation\ValidationException;
 
 class CurrencyController extends Controller
@@ -30,7 +30,7 @@ class CurrencyController extends Controller
      */
     public function index(Request $request)
     {
-        $currencies = null;
+        $currencies = collect();
         try
         {
             $currencies = Auth::user()->currencies->sortByDesc('updated_at');
@@ -64,29 +64,31 @@ class CurrencyController extends Controller
      */
     public function store(CurrencyRequest $request)
     {
-        $this->currencyExist($request->input('name'));
-        $this->symbolExist($request->input('symbol'));
+        $name = $request->input('name');
+        $symbol = $request->input('symbol');
+        $this->currencyExist($name);
+        $this->symbolExist($symbol);
 
         try
         {
             $currency = Auth::user()->currencies()->create([
-                'name' => $request->input('name'),
+                'name' => $name,
                 'description' => $request->input('description'),
-                'symbol' =>  mb_strtoupper($request->input('symbol')),
+                'symbol' =>  mb_strtoupper($symbol),
                 'devaluation' => $request->input('devaluation')
             ]);
 
             success_flash_message(trans('auth.success'),
-                trans('general.add_successful', ['name' => $request->input('name')]));
+                trans('general.add_successful', ['name' => $name]));
 
-            return redirect(locale_route('currencies.show', [$currency]));
+            return redirect($this->showRoute($currency));
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        return back()->withInput($request->all());;
+        return back()->withInput($request->all());
     }
 
     /**
@@ -146,24 +148,26 @@ class CurrencyController extends Controller
      */
     public function update(CurrencyRequest $request, $language, Currency $currency)
     {
-        $this->currencyExist($request->input('name'), $currency->id);
-        $this->symbolExist($request->input('symbol'), $currency->id);
+        $name = $request->input('name');
+        $symbol = $request->input('symbol');
+        $this->currencyExist($name, $currency->id);
+        $this->symbolExist($symbol, $currency->id);
 
         try
         {
             if($currency->authorised)
             {
                 $currency->update([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
-                    'symbol' => mb_strtoupper($request->input('symbol')),
+                    'symbol' => mb_strtoupper($symbol),
                     'devaluation' => $request->input('devaluation')
                 ]);
 
                 success_flash_message(trans('auth.success'),
-                    trans('general.update_successful', ['name' => $request->input('name')]));
+                    trans('general.update_successful', ['name' => $name]));
 
-                return redirect(locale_route('currencies.show', [$currency]));
+                return redirect($this->showRoute($currency));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -241,5 +245,14 @@ class CurrencyController extends Controller
                 'symbol' => trans('general.already_exist', ['name' => mb_strtolower($symbol)]),
             ])->status(423);
         }
+    }
+
+    /**
+     * @param Currency $currency
+     * @return bool
+     */
+    private function showRoute(Currency $currency)
+    {
+        return locale_route('currencies.show', [$currency]);
     }
 }

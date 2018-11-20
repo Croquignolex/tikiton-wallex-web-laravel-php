@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Http\Requests\TransactionFilterRequest;
-use App\Http\Requests\WalletCurrencyRequest;
 use Exception;
 use App\Models\Wallet;
 use App\Models\Currency;
@@ -16,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WalletRequest;
 use App\Traits\ErrorFlashMessagesTrait;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\TransactionFilterRequest;
 
 class WalletController extends Controller
 {
@@ -35,13 +34,11 @@ class WalletController extends Controller
      */
     public function index(Request $request)
     {
-        $wallets = null;
+        $wallets = collect();
         try
         {
-            $wallets = Auth::user()->wallets()
-                ->with('currency')->get()
-                ->sortByDesc('updated_at')
-                ->load('currency');
+            $wallets = Auth::user()->wallets()->with('currency')->get()
+                ->sortByDesc('updated_at')->load('currency');
         }
         catch (Exception $exception)
         {
@@ -61,7 +58,7 @@ class WalletController extends Controller
      */
     public function create()
     {
-        $currencies = Auth::user()->currencies;
+        $currencies = Auth::user()->currencies->sortByDesc('updated_at');
         return view('app.wallets.create', compact('currencies'));
     }
 
@@ -96,7 +93,8 @@ class WalletController extends Controller
      */
     public function store(WalletRequest $request)
     {
-        $this->walletExist($request->input('name'));
+        $name = $request->input('name');
+        $this->walletExist($name);
 
         try
         {
@@ -104,7 +102,7 @@ class WalletController extends Controller
             if($currency->authorised)
             {
                 $wallet = Auth::user()->wallets()->create([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
                     'balance' => $request->input('balance'),
@@ -114,9 +112,9 @@ class WalletController extends Controller
                 ]);
 
                 success_flash_message(trans('auth.success'),
-                    trans('general.add_successful', ['name' => $request->input('name')]));
+                    trans('general.add_successful', ['name' => $name]));
 
-                return redirect(locale_route('wallets.show', [$wallet]));
+                return redirect($this->showRoute($wallet));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -138,14 +136,15 @@ class WalletController extends Controller
      */
     public function currencyStore(WalletRequest $request, $language, Currency $currency)
     {
-        $this->walletExist($request->input('name'));
+        $name = $request->input('name');
+        $this->walletExist($name);
 
         try
         {
             if($currency->authorised)
             {
                 Auth::user()->wallets()->create([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
                     'balance' => $request->input('balance'),
@@ -155,7 +154,7 @@ class WalletController extends Controller
                 ]);
 
                 success_flash_message(trans('auth.success'),
-                    trans('general.add_successful', ['name' => $request->input('name')]));
+                    trans('general.add_successful', ['name' => $name]));
 
                 return redirect(locale_route('currencies.show', [$currency]));
             }
@@ -166,7 +165,7 @@ class WalletController extends Controller
             $this->databaseError($exception);
         }
 
-        return back()->withInput($request->all());;
+        return back()->withInput($request->all());
     }
 
     /**
@@ -179,29 +178,25 @@ class WalletController extends Controller
      */
     public function show(Request $request, $language, Wallet $wallet)
     {
-        $begin_date = null; $end_date = null;
+        $tab = $request->query('tab');
+        $begin_date = Carbon::now()->startOfDay();
+        $end_date = Carbon::now()->endOfDay();
 
         if(session()->has('begin_date') && session()->has('end_date'))
         {
             $begin_date = session('begin_date');
             $end_date = session('end_date');
         }
-        else
-        {
-            $begin_date = Carbon::now()->startOfDay();
-            $end_date = Carbon::now()->endOfDay();
-        }
 
         try
         {
             $transactions = $wallet->transactions
-                ->where('created_at', '>=', $begin_date)
-                ->where('created_at', '<=',$end_date)
-                ->sortByDesc('created_at')
-                ->load('category', 'wallets');
+                ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
+                ->sortByDesc('created_at')->load('category', 'wallets');
 
             $wallet->load('transactions', 'currency');
-            if($wallet->authorised) return view('app.wallets.show', compact('wallet', 'transactions', 'begin_date', 'end_date'));
+            if($wallet->authorised) return view('app.wallets.show', compact('wallet', 'transactions',
+                'begin_date', 'end_date', 'tab'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
@@ -220,7 +215,6 @@ class WalletController extends Controller
      */
     public function filter(TransactionFilterRequest $request, $language, Wallet $wallet)
     {
-        $transactions = null; $begin_date = null; $end_date = null;
         try
         {
             session()->flash('begin_date', $this->carbonFormatDate($request->input('begin_date')));
@@ -249,7 +243,7 @@ class WalletController extends Controller
         {
             if($wallet->authorised)
             {
-                $currencies = Auth::user()->currencies;
+                $currencies = Auth::user()->currencies->sortByDesc('updated_at');
                 return view('app.wallets.edit', compact('wallet', 'currencies'));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -272,7 +266,8 @@ class WalletController extends Controller
      */
     public function update(WalletRequest $request, $language, Wallet $wallet)
     {
-        $this->walletExist($request->input('name'), $wallet->id);
+        $name = $request->input('name');
+        $this->walletExist($name, $wallet->id);
 
         try
         {
@@ -280,7 +275,7 @@ class WalletController extends Controller
             if($currency->authorised && $wallet->authorised)
             {
                 $wallet->update([
-                    'name' => $request->input('name'),
+                    'name' => $name,
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
                     'balance' => $request->input('balance'),
@@ -290,9 +285,9 @@ class WalletController extends Controller
                 ]);
 
                 success_flash_message(trans('auth.success'),
-                    trans('general.update_successful', ['name' => $request->input('name')]));
+                    trans('general.update_successful', ['name' => $name]));
 
-                return redirect(locale_route('wallets.show', [$wallet]));
+                return redirect($this->showRoute($wallet));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -301,7 +296,7 @@ class WalletController extends Controller
             $this->databaseError($exception);
         }
 
-        return back()->withInput($request->all());;
+        return back()->withInput($request->all());
     }
 
     /**
@@ -347,8 +342,7 @@ class WalletController extends Controller
         {
             if($wallet->authorised)
             {
-                $wallet->is_stated = false;
-                $wallet->save();
+                $wallet->update(['is_stated' => false ]);
                 info_flash_message(trans('auth.info'),
                     trans('general.disable_stat_successful', ['name' => $wallet->name]));
             }
@@ -359,7 +353,7 @@ class WalletController extends Controller
             $this->databaseError($exception);
         }
 
-        return back();
+        return redirect($this->showRoute($wallet, 'details'));
     }
 
     /**
@@ -373,8 +367,7 @@ class WalletController extends Controller
         {
             if($wallet->authorised)
             {
-                $wallet->is_stated = true;
-                $wallet->save();
+                $wallet->update(['is_stated' => true ]);
                 info_flash_message(trans('auth.info'),
                     trans('general.enable_stat_successful', ['name' => $wallet->name]));
             }
@@ -385,7 +378,7 @@ class WalletController extends Controller
             $this->databaseError($exception);
         }
 
-        return back();
+        return redirect($this->showRoute($wallet, 'details'));
     }
 
     /**
@@ -407,17 +400,12 @@ class WalletController extends Controller
     }
 
     /**
-     * @param $date
-     * @return Carbon
+     * @param Wallet $wallet
+     * @param $tab
+     * @return bool
      */
-    private function carbonFormatDate($date)
+    private function showRoute(Wallet $wallet, $tab = '')
     {
-        $locale = App::getLocale();
-        if($locale === 'en')
-            return Carbon::createFromFormat('m/d/Y h:i A', $date);
-        else if($locale === 'fr')
-            return Carbon::createFromFormat('d/m/Y H:i', $date);
-
-        return Carbon::now();
+        return locale_route('wallets.show', [$wallet]) . '?tab=' . $tab;
     }
 }
