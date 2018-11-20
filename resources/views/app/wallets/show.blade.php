@@ -65,6 +65,7 @@
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             [{{ $transactionService->getMediumFormatDate($begin_date) }} -
                                             {{ $transactionService->getMediumFormatDate($end_date) }}]
+                                            ({{ $transactions->count() }})
                                         </div>
                                         @component('components.app.transaction-table',
                                            ['transactions' => $transactions, 'no_action' => '6'])

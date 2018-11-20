@@ -33,6 +33,7 @@
                                                 <i class="fa fa-arrow-up"></i>
                                                 @lang('general.income')
                                             </span>
+                                            ({{ $incomeCategories->count() }})
                                         </a>
                                     </li>
                                     <li class="{{ $type == \App\Models\Category::TRANSFER ? 'active' : '' }}">
@@ -41,6 +42,7 @@
                                                 <i class="fa fa-exchange"></i>
                                                 @lang('general.transfer')
                                             </span>
+                                            ({{ $transferCategories->count() }})
                                         </a>
                                     </li>
                                     <li class="{{ $type == \App\Models\Category::EXPENSE ? 'active' : '' }}">
@@ -49,6 +51,7 @@
                                                 <i class="fa fa-arrow-down"></i>
                                                 @lang('general.expense')
                                             </span>
+                                            ({{ $expenseCategories->count() }})
                                         </a>
                                     </li>
                                 </ul>

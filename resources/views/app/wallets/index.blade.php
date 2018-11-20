@@ -6,6 +6,7 @@
 
 @section('breadcrumb.message')
     <a href="{{ locale_route('wallets.index') }}">@lang('general.accounts')</a>
+    ({{ $paginationTools->itemsNumber }})
 @endsection
 
 @section('breadcrumb.icon')

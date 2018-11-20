@@ -6,6 +6,7 @@
 
 @section('breadcrumb.message')
     <a href="{{ locale_route('currencies.index') }}">@lang('general.currencies')</a>
+    ({{ $paginationTools->itemsNumber }})
 @endsection
 
 @section('breadcrumb.icon')

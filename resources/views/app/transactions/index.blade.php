@@ -11,6 +11,7 @@
     </a>
     [{{ $transactionService->getMediumFormatDate($begin_date) }} -
     {{ $transactionService->getMediumFormatDate($end_date) }}]
+    ({{ $transactions->count() }})
 @endsection
 
 @section('breadcrumb.icon')
