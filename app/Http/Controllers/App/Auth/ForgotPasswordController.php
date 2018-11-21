@@ -103,11 +103,7 @@ class ForgotPasswordController extends Controller
             $password_reset = PasswordReset::where(['email' => $user->email])->first();
 
             if(is_null($password_reset)) PasswordReset::create(['email' => $user->email]);
-            else
-            {
-                $password_reset->token = str_random(64);
-                $password_reset->save();
-            }
+            else $password_reset->update(['token' => str_random(64)]);
 
             try
             {
@@ -148,7 +144,6 @@ class ForgotPasswordController extends Controller
     {
         if($response !== ForgotPasswordController::RESET_LINK_NOT_SENT)
             danger_flash_message(trans('auth.error'), trans($response));
-
         return back()
             ->withInput($request->only('email'))
             ->withErrors(['email' => trans($response)]);

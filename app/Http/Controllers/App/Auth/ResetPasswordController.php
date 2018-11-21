@@ -121,8 +121,7 @@ class ResetPasswordController extends Controller
     {
         try
         {
-            $user->password = Hash::make($password);
-            $user->save();
+            $user->update(['password' => Hash::make($password)]);
         }
         catch (Exception $exception)
         {
@@ -152,7 +151,6 @@ class ResetPasswordController extends Controller
     protected function sendResetFailedResponse(Request $request, $response)
     {
         danger_flash_message(trans('auth.error'), trans($response));
-
         return redirect()->back()
             ->withInput($request->only('email'))
             ->withErrors(['email' => trans($response)]);

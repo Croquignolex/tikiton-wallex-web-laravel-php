@@ -5,10 +5,7 @@ namespace App\Http\Requests;
 use App\Traits\RequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * @property mixed email
- */
-class EmailRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     use RequestTrait;
 
@@ -20,17 +17,8 @@ class EmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => $this->required_email . '|unique:users'
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'email.unique' => trans('auth.user_existed')
+            'first_name' => $this->required_string_2_255,
+            'last_name' => $this->required_string_2_255
         ];
     }
 }

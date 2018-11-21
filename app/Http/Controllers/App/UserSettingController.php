@@ -184,7 +184,7 @@ class UserSettingController extends Controller
             $this->databaseError($exception);
         }
 
-        return back()->withInput($request->all());;
+        return back()->withInput($request->all());
     }
 
     /**

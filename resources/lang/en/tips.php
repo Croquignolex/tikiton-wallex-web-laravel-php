@@ -34,4 +34,7 @@ return [
     'transactions_new_expense' => 'Here you have a new expense transaction creation form',
     'transactions_edit' => 'Here you have a transaction update form',
     'transactions_add' => 'Here you have a new :name account transaction add form',
+    'account_edit' => 'Here you have information and your profile update form',
+    'account_email' => 'Here you have your e-mail address update form',
+    'account_password' => 'Here you have your password update form',
 ];

@@ -14,6 +14,7 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
+        $types = [Category::EXPENSE, Category::TRANSFER, Category::INCOME];
         $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
         foreach ($users as $user)
         {
@@ -25,7 +26,7 @@ class CategoriesTableSeeder extends Seeder
                     'color' => '#' . str_shuffle('ABCDEF'),
                     'name' => ucfirst($this->getUniqueName()),
                     'icon' => icons()->random(),
-                    'type' => rand(0, 2)
+                    'type' => $types[rand(0, 2)]
                 ]);
             }
         }

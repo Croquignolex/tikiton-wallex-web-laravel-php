@@ -170,7 +170,7 @@ if(!function_exists('app_user_pages'))
      */
     function app_user_pages()
     {
-        return collect();
+        return collect(['account.index', 'account.email', 'account.password']);
     }
 }
 

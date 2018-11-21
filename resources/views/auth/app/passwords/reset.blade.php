@@ -16,13 +16,13 @@
                 <h5 class="text-uppercase">
                     {{ trans('general.new_password') }}
                 </h5>
-                @if(session()->has('notification.message'))
+                @if(session()->has('popup.message'))
                     <div class="text-center">
-                        <div class="alert alert-{{ session('notification.type') }} alert-dismissable" role="alert">
+                        <div class="alert alert-{{ session('popup.type') }} alert-dismissable" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            {{ session('notification.message') }}
+                            {{ session('popup.message') }}
                         </div>
                     </div>
                 @endif

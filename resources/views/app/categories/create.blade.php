@@ -28,6 +28,16 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="white-container color-preview"></div></div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
+                            @if(session()->has('popup.message'))
+                                <div class="text-center">
+                                    <div class="alert alert-{{ session('popup.type') }} alert-dismissable" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        {{ session('popup.message') }}
+                                    </div>
+                                </div>
+                            @endif
                             <form action="{{ locale_route('categories.store') }}" method="POST" @submit="validateFormElements">
                                 {{ csrf_field() }}
                                 <div class="row">

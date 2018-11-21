@@ -150,9 +150,27 @@
                             <li class="{{ active_page(app_user_pages()) }}">
                                 <a data-toggle="collapse" data-target="#mobile_user">
                                     <i class="fa fa-user"></i>
-                                    {{ \Illuminate\Support\Facades\Auth::user()->format_full_name }}
+                                    {{ text_format(\Illuminate\Support\Facades\Auth::user()->format_full_name, 40) }}
                                 </a>
                                 <ul id="mobile_user" class="collapse dropdown-header-top">
+                                    <li class="{{ active_page(collect(['account.index'])) }} waves-effect">
+                                        <a href="{{ locale_route('account.index') }}">
+                                            <i class="fa fa-user"></i>
+                                            @lang('general.edit_profile')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['account.email'])) }} waves-effect">
+                                        <a href="{{ locale_route('account.email') }}">
+                                            <i class="fa fa-at"></i>
+                                            @lang('general.change_email')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['account.password'])) }} waves-effect">
+                                        <a href="{{ locale_route('account.password') }}">
+                                            <i class="fa fa-lock"></i>
+                                            @lang('general.change_password')
+                                        </a>
+                                    </li>
                                     <li>
                                         <a class="logout" href="javascript: void(0);"
                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
