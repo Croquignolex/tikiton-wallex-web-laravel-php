@@ -12,10 +12,28 @@
                                     @lang('general.dashboard')
                                 </a>
                                 <ul class="collapse dropdown-header-top">
-                                    <li class="{{ active_page(app_dashboard_pages()) }}">
-                                        <a href="{{ locale_route('dashboard') }}">
+                                    <li class="{{ active_page(collect(['dashboard.index'])) }}">
+                                        <a href="{{ locale_route('dashboard.index') }}">
                                             <i class="fa fa-bar-chart-o"></i>
-                                            @lang('general.dashboard')
+                                            @lang('general.general')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['dashboard.incomes'])) }} waves-effect">
+                                        <a href="{{ locale_route('dashboard.incomes') }}">
+                                            <i class="fa fa-arrow-up text-success"></i>
+                                            @lang('general.incomes')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['dashboard.transfers'])) }} waves-effect">
+                                        <a href="{{ locale_route('dashboard.transfers') }}">
+                                            <i class="fa fa-exchange text-info"></i>
+                                            @lang('general.transfers')
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['dashboard.expenses'])) }} waves-effect">
+                                        <a href="{{ locale_route('dashboard.expenses') }}">
+                                            <i class="fa fa-arrow-down text-danger"></i>
+                                            @lang('general.expenses')
                                         </a>
                                     </li>
                                 </ul>

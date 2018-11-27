@@ -136,22 +136,61 @@ trait LocaleDateTimeTrait
      * @param Carbon $date
      * @return string
      */
-    private function dateMediumFormat($locale, Carbon $date)
+    private function dateDayFormat($locale, Carbon $date)
     {
         if($locale === 'fr')
         {
             return trans('day.i' . $date->dayOfWeek) . ' ' .
                 $date->day . ' ' .
                 trans('month.i' . $date->month) . ' ' .
-                $date->year . ' ' .
-                $date->format($this->timeFormat($locale)) . ' GMT';
+                $date->year;
         }
         elseif ($locale === 'en')
         {
             return trans('day.i' . $date->dayOfWeek) . ' ' .
                 trans('month.i' . $date->month) . ' ' .
                 $date->day . ' ' .
-                $date->year . ' ' .
+                $date->year;
+        }
+        else return trans('general.unknown');
+    }
+
+    /**
+     * @param $locale
+     * @param Carbon $date
+     * @return string
+     */
+    private function dateWeekFormat($locale, Carbon $date)
+    {
+        if($locale === 'fr' || $locale === 'en')
+            return $date->startOfWeek()->day . ' - ' .
+                $date->endOfWeek()->day . ' ' .
+                trans('month.' . $date->month) . ' ' . $date->year;
+        else return trans('general.unknown');
+    }
+
+    /**
+     * @param $locale
+     * @param Carbon $date
+     * @return string
+     */
+    private function dateShortFormat($locale, Carbon $date)
+    {
+        if($locale === 'fr' || $locale === 'en')
+            return trans('month.' . $date->month) . ' ' . $date->year;
+        else return trans('general.unknown');
+    }
+
+    /**
+     * @param $locale
+     * @param Carbon $date
+     * @return string
+     */
+    private function dateMediumFormat($locale, Carbon $date)
+    {
+        if($locale === 'fr' || $locale === 'en')
+        {
+            return $this->dateDayFormat($locale, $date) . ' ' .
                 $date->format($this->timeFormat($locale)) . ' GMT';
         }
         else return trans('general.unknown');

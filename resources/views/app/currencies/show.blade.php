@@ -31,6 +31,9 @@
                             @if($currency->can_be_deleted)
                                 <a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-currency" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                             @endif
+                            @if(!$currency->is_current)
+                                <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-currency" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
+                            @endif
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -122,6 +125,16 @@
             'id' => 'delete-currency', 'color' => 'modal-danger',
             'action_route' => locale_route('currencies.destroy', [$currency])
             ])
+            @lang('general.cfm_action')?
+        @endcomponent
+    @endif
+    @if(!$currency->is_current)
+        @component('components.modal', [
+            'title' => trans('general.activate_currency', ['name' => $currency->name]),
+            'id' => 'activate-currency', 'color' => 'modal-success',
+            'action_route' => locale_route('currencies.activate', [$currency]),
+            'method' => 'PUT'
+        ])
             @lang('general.cfm_action')?
         @endcomponent
     @endif

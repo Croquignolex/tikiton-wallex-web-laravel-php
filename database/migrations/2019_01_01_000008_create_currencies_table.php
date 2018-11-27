@@ -20,6 +20,7 @@ class CreateCurrenciesTable extends Migration
             $table->text('description');
             $table->string('symbol', 10);
             $table->double('devaluation');
+            $table->boolean('is_current')->default(false);
             $table->unsignedInteger('user_id');
             $table->timestamps();
 

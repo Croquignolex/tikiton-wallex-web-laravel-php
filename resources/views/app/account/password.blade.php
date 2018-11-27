@@ -26,7 +26,7 @@
                         @endcomponent
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="white-container text-right">
+                        <div class="white-container text-right" id="form-validation">
                             @if(session()->has('popup.message'))
                                 <div class="text-center">
                                     <div class="alert alert-{{ session('popup.type') }} alert-dismissable" role="alert">

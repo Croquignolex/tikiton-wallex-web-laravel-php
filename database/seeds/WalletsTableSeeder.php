@@ -15,12 +15,14 @@ class WalletsTableSeeder extends Seeder
     public function run()
     {
         $currencies = Currency::all();
+        $i = 0;
         foreach($currencies as $currency)
         {
+            $i++;
             $currency->wallets()->create([
                 'balance' => rand(100000, 999999),
                 'threshold' => rand(10000, 99999),
-                'is_stated' => $i = 1 ? false : true,
+                'is_stated' => $i === 1 ? false : true,
                 'description' => ucfirst(Lorem::text()),
                 'color' => '#' . str_shuffle('ABCDEF'),
                 'name' => ucfirst($this->getUniqueName())
@@ -29,7 +31,7 @@ class WalletsTableSeeder extends Seeder
             $currency->wallets()->create([
                 'balance' => rand(100000, 999999),
                 'threshold' => rand(10000, 99999),
-                'is_stated' => $i = 1 ? false : true,
+                'is_stated' => $i === 1 ? false : true,
                 'description' => ucfirst(Lorem::text()),
                 'color' => '#' . str_shuffle('ABCDEF'),
                 'name' => ucfirst($this->getUniqueName())

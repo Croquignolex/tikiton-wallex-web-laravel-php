@@ -29,7 +29,7 @@
                         @endcomponent
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="white-container text-right">
+                        <div class="white-container text-right" id="form-validation">
                             <form action="{{ locale_route('wallets.transactions.store', [$wallet]) }}" method="POST" @submit="validateFormElements">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="token" value="{{ \Illuminate\Support\Facades\Hash::make($type) }}">

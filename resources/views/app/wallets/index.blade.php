@@ -33,7 +33,7 @@
                         <div class="row">
                             @forelse($paginationTools->displayItems as $wallet)
                                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                                    <div class="white-container">
+                                    <div class="white-container" style="border: 1px solid {{ $wallet->color }}">
                                         <div class="contact-hd sm-form-hd text-center" style="background-color:{{ $wallet->color }};">
                                             <div class="account-header">
                                                 <h5 class="text-uppercase">

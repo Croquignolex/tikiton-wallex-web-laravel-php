@@ -33,7 +33,8 @@ class CurrencyController extends Controller
         $currencies = collect();
         try
         {
-            $currencies = Auth::user()->currencies->sortByDesc('updated_at');
+            $currencies = Auth::user()->currencies
+                ->sortByDesc('updated_at')->sortByDesc('is_current');
         }
         catch (Exception $exception)
         {
@@ -66,16 +67,20 @@ class CurrencyController extends Controller
     {
         $name = $request->input('name');
         $symbol = $request->input('symbol');
+        $current = $request->input('current');
         $this->currencyExist($name);
         $this->symbolExist($symbol);
 
         try
         {
+            if($current != null) $this->toggleCurrentCurrency();
+
             $currency = Auth::user()->currencies()->create([
                 'name' => $name,
                 'description' => $request->input('description'),
                 'symbol' =>  mb_strtoupper($symbol),
-                'devaluation' => $request->input('devaluation')
+                'devaluation' => $request->input('devaluation'),
+                'is_current' => $current == null ? false : true
             ]);
 
             success_flash_message(trans('auth.success'),
@@ -152,16 +157,26 @@ class CurrencyController extends Controller
         $symbol = $request->input('symbol');
         $this->currencyExist($name, $currency->id);
         $this->symbolExist($symbol, $currency->id);
+        $current = false;
 
         try
         {
             if($currency->authorised)
             {
+                if($request->input('current') !== null && $currency->is_current === 0)
+                {
+                    $this->toggleCurrentCurrency();
+                    $current = true;
+                }
+
+                if($currency->is_current === 1) $current = true;
+
                 $currency->update([
                     'name' => $name,
                     'description' => $request->input('description'),
                     'symbol' => mb_strtoupper($symbol),
-                    'devaluation' => $request->input('devaluation')
+                    'devaluation' => $request->input('devaluation'),
+                    'is_current' => $current
                 ]);
 
                 success_flash_message(trans('auth.success'),
@@ -212,8 +227,38 @@ class CurrencyController extends Controller
     }
 
     /**
-     * Check if the account already exist
-     *
+     * @param Request $request
+     * @param $language
+     * @param Currency $currency
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function activate(Request $request, $language, Currency $currency)
+    {
+        try
+        {
+            if($currency->authorised)
+            {
+                if(!$currency->is_current)
+                {
+                    $this->toggleCurrentCurrency();
+                    $currency->update(['is_current' => true ]);
+                    info_flash_message(trans('auth.info'),
+                        trans('general.activate_successful', ['name' => $currency->name]));
+                }
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_a_currency'));
+            }
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+
+    /**
      * @param  string $name
      * @param int $id
      * @return void
@@ -245,6 +290,15 @@ class CurrencyController extends Controller
                 'symbol' => trans('general.already_exist', ['name' => mb_strtolower($symbol)]),
             ])->status(423);
         }
+    }
+
+    /**
+     *
+     */
+    private function toggleCurrentCurrency()
+    {
+        Auth::user()->currencies->where('is_current', true)->first()
+            ->update(['is_current' => false ]);
     }
 
     /**

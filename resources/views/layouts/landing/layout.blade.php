@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="{{ css_asset('bootstrap.min') }}" type="text/css">
     <link rel="stylesheet" href="{{ css_asset('animsition.min') }}" type="text/css">
     <link rel="stylesheet" href="{{ css_asset('aos') }}" type="text/css">
-    <link rel="stylesheet" href="{{ css_asset('owl.carousel.min') }}" type="text/css">
-    <link rel="stylesheet" href="{{ css_asset('owl.theme.default.min') }}" type="text/css">
     <!--End CSS Plugins Area-->
 @endpush
 
@@ -38,8 +36,6 @@
     <script src="{{ js_asset('bootstrap.min') }}" type="text/javascript"></script>
     <script src="{{ js_asset('animsition.min') }}" type="text/javascript"></script>
     <script src="{{ js_asset('aos') }}" type="text/javascript"></script>
-    <script src="{{ js_asset('owl.carousel.min') }}" type="text/javascript"></script>
-    <script src="{{ js_asset('jquery.countTo') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.appear') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.stellar.min') }}" type="text/javascript"></script>
     <script src="{{ js_asset('jquery.waypoints.min') }}" type="text/javascript"></script>

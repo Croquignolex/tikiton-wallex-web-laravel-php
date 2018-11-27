@@ -1,5 +1,5 @@
 new Vue({
-    el: '#app',
+    el: '#form-validation',
     data: {},
     methods: {
         validateFormElements: function (event) {
@@ -23,32 +23,6 @@ new Vue({
     }
 });
 
-// Avoid `console` errors in browsers that lack a console.
-(function() {
-    var method;
-    var noop = function () {};
-    var methods = [
-        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-        'timeline', 'timelineEnd', 'timeStamp', 'trace', 'warn'
-    ];
-    var length = methods.length;
-    var console = (window.console = window.console || {});
-
-    while (length--) {
-        method = methods[length];
-
-        // Only stub undefined methods.
-        if (!console[method]) {
-            console[method] = noop;
-        }
-    }
-}());
-
-// Place any jQuery/helper plugins in here.
-
-
 (function ($) {
  "use strict";
 		$(".chosen")[0] && $(".chosen").chosen({
@@ -57,11 +31,11 @@ new Vue({
         });
 		/*--------------------------
 		 auto-size Active Class
-		---------------------------- */	
+		---------------------------- */
 		$(".auto-size")[0] && autosize($(".auto-size"));
 		/*--------------------------
 		 Collapse Accordion Active Class
-		---------------------------- */	
+		---------------------------- */
 		$(".collapse")[0] && ($(".collapse").on("show.bs.collapse", function(e) {
             $(this).closest(".panel").find(".panel-heading").addClass("active")
         }), $(".collapse").on("hide.bs.collapse", function(e) {
@@ -75,20 +49,20 @@ new Vue({
 		$('[data-toggle="tooltip"]').tooltip();
 		/*--------------------------
 		 popover
-		---------------------------- */	
+		---------------------------- */
 		$('[data-toggle="popover"]')[0] && $('[data-toggle="popover"]').popover();
 		/*--------------------------
 		 File Download
-		---------------------------- */	
+		---------------------------- */
 		$('.btn.dw-al-ft').on('click', function(e) {
 			e.preventDefault();
 		});
 		/*--------------------------
 		 Sidebar Left
-		---------------------------- */	
+		---------------------------- */
 		$('#sidebarCollapse').on('click', function () {
 			 $('#sidebar').toggleClass('active');
-			 
+
 		 });
 		$('#sidebarCollapse').on('click', function () {
 			$("body").toggleClass("mini-navbar");
@@ -97,7 +71,7 @@ new Vue({
 		$('.menu-switcher-pro').on('click', function () {
 			var button = $(this).find('i.nk-indicator');
 			button.toggleClass('notika-menu-befores').toggleClass('notika-menu-after');
-			
+
 		});
 		$('.menu-switcher-pro.fullscreenbtn').on('click', function () {
 			var button = $(this).find('i.nk-indicator');
@@ -105,8 +79,8 @@ new Vue({
 		});
 		/*--------------------------
 		 Button BTN Left
-		---------------------------- */	
-		
+		---------------------------- */
+
 		$(".nk-int-st")[0] && ($("body").on("focus", ".nk-int-st .form-control", function() {
             $(this).closest(".nk-int-st").addClass("nk-toggled")
         }), $("body").on("blur", ".form-control", function() {
@@ -117,67 +91,13 @@ new Vue({
             var i = $(this).val();
             0 == !i.length && $(this).closest(".nk-int-st").addClass("nk-toggled")
         });
-		/*--------------------------
-		 mCustomScrollbar
-		---------------------------- */	
-		$(window).on("load",function(){
-			$(".widgets-chat-scrollbar").mCustomScrollbar({
-				setHeight:460,
-				autoHideScrollbar: true,
-				scrollbarPosition: "outside",
-				theme:"light-1"
-			});
-			$(".notika-todo-scrollbar").mCustomScrollbar({
-				setHeight:445,
-				autoHideScrollbar: true,
-				scrollbarPosition: "outside",
-				theme:"light-1"
-			});
-			$(".comment-scrollbar").mCustomScrollbar({
-				autoHideScrollbar: true,
-				scrollbarPosition: "outside",
-				theme:"light-1"
-			});
-		});
 	/*----------------------------
 	 jQuery MeanMenu
 	------------------------------ */
 	jQuery('nav#dropdown').meanmenu();
-	
+
 	/*----------------------------
 	 wow js active
 	------------------------------ */
 	 new WOW().init();
-	 
-	/*----------------------------
-	 owl active
-	------------------------------ */  
-	$("#owl-demo").owlCarousel({
-      autoPlay: false, 
-	  slideSpeed:2000,
-	  pagination:false,
-	  navigation:true,	  
-      items : 4,
-	  /* transitionStyle : "fade", */    /* [This code for animation ] */
-	  navigationText:["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
-      itemsDesktop : [1199,4],
-	  itemsDesktopSmall : [980,3],
-	  itemsTablet: [768,2],
-	  itemsMobile : [479,1],
-	});
-
-	/*----------------------------
-	 price-slider active
-	------------------------------ */  
-	  $( "#slider-range" ).slider({
-	   range: true,
-	   min: 40,
-	   max: 600,
-	   values: [ 60, 570 ],
-	   slide: function( event, ui ) {
-		$( "#amount" ).val( "£" + ui.values[ 0 ] + " - £" + ui.values[ 1 ] );
-	   }
-	  });
-	  $( "#amount" ).val( "£" + $( "#slider-range" ).slider( "values", 0 ) +
-	   " - £" + $( "#slider-range" ).slider( "values", 1 ) );
-})(jQuery); 
+})(jQuery);

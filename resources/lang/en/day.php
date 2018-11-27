@@ -19,6 +19,7 @@ return [
     '4' => 'Thursday',
     '5' => 'Friday',
     '6' => 'Saturday',
+    '0' => 'Sunday',
     '7' => 'Sunday',
     'i1' => 'Mon',
     'i2' => 'Tu',
@@ -27,4 +28,5 @@ return [
     'i5' => 'Fri',
     'i6' => 'Sat',
     'i0' => 'Sun',
+    'i7' => 'Sun',
 ];

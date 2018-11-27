@@ -1,5 +1,5 @@
 new Vue({
-    el: '#app',
+    el: '#form-validation',
     data: {},
     methods: {
         validateFormElements: function (event) {
@@ -68,51 +68,6 @@ new Vue({
         }
     }
     /*----------------------------------------
-        Carousel
-    ----------------------------------------*/
-    var owlCarousel = function(){
-
-        var owl = $('.owl-carousel-carousel');
-        owl.owlCarousel({
-            items: 3,
-            loop: true,
-            margin: 20,
-            nav: true,
-            dots: true,
-            smartSpeed: 800,
-            autoHeight: true,
-            navText: [
-                "<i class='icon-keyboard_arrow_left owl-direction'></i>",
-                "<i class='icon-keyboard_arrow_right owl-direction'></i>"
-            ],
-            responsive:{
-                0:{
-                    items:1
-                },
-                600:{
-                    items:2
-                },
-                1000:{
-                    items:3
-                }
-            }
-        });
-
-        var owl = $('.owl-carousel-fullwidth');
-        owl.owlCarousel({
-            items: 1,
-            loop: true,
-            margin: 20,
-            nav: false,
-            dots: true,
-            smartSpeed: 800,
-            autoHeight: true,
-            autoplay: true,
-            navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
-        });
-    };
-
-    /*----------------------------------------
         Feature Showcase
     ----------------------------------------*/
     var showcase = function() {
@@ -168,16 +123,9 @@ new Vue({
 
         } , { offset: '85%' } );
     };
-
-
     jQuery(function($){
         menuHover();
         showcase();
         contentWayPoint();
     });
-
-    jQuery(window).load(function(){
-        owlCarousel();
-    });
-
 })();

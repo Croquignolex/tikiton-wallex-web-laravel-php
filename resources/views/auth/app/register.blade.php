@@ -12,7 +12,7 @@
                     <img src="{{ img_asset('logo') }}" alt="...">
                 </a>
             </div>
-            <div class="nk-form">
+            <div class="nk-form" id="form-validation">
                 <h5 class="text-uppercase">
                     {{ trans('general.register') }}
                 </h5>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 @endif
-                <form action="" method="POST" @submit="validateFormElements">
+                <form action="" method="POST" @submit="validateFormElements" class="text-right">
                     {{ csrf_field() }}
                     <div class="input-group">
                         @component('components.app.label-input', ['name' => 'first_name'])
@@ -90,7 +90,7 @@
                         @endcomponent
                     </div>
                     <div class="input-group mg-t-15">
-                        @component('components.app.label-input', ['name' => 'password_confirmation'])
+                        @component('components.app.label-input', ['name' => 'pwd_cfm'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-lock"></i>
                             </span>

@@ -26,7 +26,7 @@
                         @endcomponent
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="white-container text-right">
+                        <div class="white-container text-right" id="form-validation">
                             @if(session()->has('popup.message'))
                                 <div class="text-center">
                                     <div class="alert alert-{{ session('popup.type') }} alert-dismissable" role="alert">
@@ -80,6 +80,20 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="form-group text-left">
+                                            <div class="toggle-select-act">
+                                                @if($currency->is_current === 1)
+                                                    <span class="text-theme-1">@lang('general.activate')</span>
+                                                @else
+                                                    @component('components.app.checkbox', [
+                                                        'name' => 'current', 'color' => 'green',
+                                                        'label' => trans('general.activated'),
+                                                        'attribute_1' => old('current') === 'on' ? 'checked' : ''
+                                                     ])
+                                                    @endcomponent
+                                                @endif
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                             @component('components.app.label-input', ['name' => 'description'])
                                             <div class="nk-int-st">

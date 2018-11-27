@@ -54,7 +54,7 @@
     <!--Start Form Area-->
     <section class="probootstrap-section probootstrap-bg-white">
         <div class="container">
-            <div class="row">
+            <div class="row" id="form-validation">
                 <form action="" method="POST" class="probootstrap-form" @submit="validateFormElements">
                     {{ csrf_field() }}
                     <div class="col-md-6 probootstrap-animate" data-animate-effect="fadeIn">

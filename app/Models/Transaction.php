@@ -34,6 +34,11 @@ class Transaction extends Model
     use LocaleDateTimeTrait, NameTrait, SlugRouteTrait,
         DescriptionTrait, LocaleAmountTrait, SlugSaveTrait;
 
+    const DAILY = 'daily';
+    const WEEKLY = 'weekly';
+    const MONTHLY = 'monthly';
+    const YEARLY = 'yearly';
+
     /**
      * The attributes that are mass assignable.
      *

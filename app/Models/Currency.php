@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed symbol
  * @property mixed wallets
  * @property mixed authorised
+ * @property mixed is_current
  * @property mixed devaluation
  * @property mixed can_be_deleted
  */
@@ -31,7 +32,8 @@ class Currency extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'symbol', 'user_id', 'devaluation'
+        'name', 'description', 'symbol', 'user_id',
+        'devaluation', 'is_current'
     ];
 
     /**
@@ -97,6 +99,6 @@ class Currency extends Model
      */
     public function getCanBeDeletedAttribute()
     {
-        return $this->wallets->isEmpty();
+        return $this->wallets->isEmpty() && !$this->is_current;
     }
 }

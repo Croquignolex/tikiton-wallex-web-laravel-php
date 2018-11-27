@@ -20,6 +20,7 @@ return [
     '5' => 'Vendredi',
     '6' => 'Samedi',
     '0' => 'Dimanche',
+    '7' => 'Dimanche',
     'i1' => 'Lun',
     'i2' => 'Mar',
     'i3' => 'Mer',
@@ -27,4 +28,5 @@ return [
     'i5' => 'Ven',
     'i6' => 'Sam',
     'i0' => 'Dim',
+    'i7' => 'Dim',
 ];

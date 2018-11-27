@@ -17,14 +17,14 @@ class CurrenciesTableSeeder extends Seeder
         $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
         foreach ($users as $user)
         {
-            $max = rand(2, 9);
-            for($i = 1; $i <= $max; $i++)
+            for($i = 1; $i <= 3; $i++)
             {
                 $user->currencies()->create([
                     'name' => strtoupper($this->getUniqueName()),
                     'description' => ucfirst(Lorem::text()),
                     'devaluation' => rand(100, 9999),
-                    'symbol' => $this->getUniqueSymbol()
+                    'symbol' => $this->getUniqueSymbol(),
+                    'is_current' => $i === 1
                 ]);
             }
         }

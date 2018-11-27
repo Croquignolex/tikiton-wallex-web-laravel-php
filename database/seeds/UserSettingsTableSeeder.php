@@ -17,12 +17,11 @@ class UserSettingsTableSeeder extends Seeder
         $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
         foreach ($users as $user)
         {
-            $max = rand(2, 9);
-            for($i = 1; $i <= $max; $i++)
+            for($i = 1; $i <= 2; $i++)
             {
                 $user->user_settings()->create([
-                    'tips' => $i == 1,
-                    'is_current' => $i == 1,
+                    'tips' => $i === 1,
+                    'is_current' => $i === 1,
                     'name' => strtoupper($this->getUniqueName()),
                     'description' => ucfirst(Lorem::text())
                 ]);

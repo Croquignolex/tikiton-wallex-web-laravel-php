@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user_max = rand(5, 9);
+        $user_max = rand(5, 15);
 
         for($i = 1; $i <= $user_max; $i++)
         {
@@ -22,9 +22,9 @@ class UsersTableSeeder extends Seeder
 
             User::create([
                 'is_admin' => $i <= 4,
-                'password' => 'aaaaaa',
+                'password' => 'wallex',
                 'is_confirmed' => true,
-                'is_super_admin' => $i == 1,
+                'is_super_admin' => $i === 1,
                 'token' => str_random(64),
                 'city' => title_case(Lorem::word()),
                 'country' => title_case(Lorem::word()),
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
                 'description' => ucfirst(Lorem::paragraph()),
                 'address' => title_case(Lorem::sentence(2)),
                 'profession' => title_case(Lorem::sentence(2)),
-                'email' => $i == 1 ? 'alexstephane.ngombol@wallex.com' : $first_name . '.' . $last_name . '@wallex.com'
+                'email' => $i === 1 ? 'alexstephane.ngombol@wallex.com' : $first_name . '.' . $last_name . '@wallex.com'
             ]);
         }
     }

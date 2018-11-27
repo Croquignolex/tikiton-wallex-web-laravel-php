@@ -3,10 +3,7 @@ $(window).on('load', function () {
 });
 
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-});
-
-$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover()
 });
 
@@ -38,6 +35,27 @@ function notification(notificationTitle, notificationMessage, notificationType, 
                 '</div>' +
             '</div>'
     });
+}
+
+function hexadecimalWithoutHashTag(hexadecimal)
+{
+    return (hexadecimal.charAt(0) === '#')
+        ? hexadecimal.substring(1, 7) : hexadecimal;
+}
+
+function hexadecimalToRGBa(hexadecimal, alpha = 1){
+    let RGB = { red: 0, green: 0, blue: 0 };
+    try
+    {
+        RGB = {
+            red : parseInt(hexadecimalWithoutHashTag(hexadecimal).substring(0, 2), 16),
+            green : parseInt(hexadecimalWithoutHashTag(hexadecimal).substring(2, 4), 16),
+            blue : parseInt(hexadecimalWithoutHashTag(hexadecimal).substring(4, 6), 16)
+        }
+    }
+    catch (e) { RGB = { red: 0, green: 0, blue: 0 } }
+
+    return 'rgba(' + RGB.red + ', ' + RGB.green + ', ' + RGB.blue + ', ' + alpha + ')';
 }
 
 $(document).ready(function () {

@@ -108,7 +108,8 @@ class AccountController extends Controller
      */
     public function email()
     {
-        return view('app.account.email');
+        $user = Auth::user();
+        return view('app.account.email', compact('user'));
     }
 
     /**

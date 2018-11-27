@@ -30,6 +30,24 @@
     padding: 20px;
     margin: 10px;
 }
+.chart-dismiss {
+    float:right;
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
+    color:#000;
+    text-shadow:0 1px 0 #fff;
+    filter:alpha(opacity=20);
+    opacity:.2
+}
+.chart-dismiss:hover {
+    color:#000;
+    text-decoration:none;
+    cursor:pointer;
+    filter:alpha(opacity=50);
+    opacity:.5
+}
+.chart-dismiss:active { color:#c257b8;}
 /* ==========================================================================
 Base styles: opinionated defaults (Extra)
 ========================================================================== */
@@ -366,10 +384,10 @@ body {}
 .nk-black{
     background:#000000;
 }
-.white-container, sale-statistic-inner, .statistic-right-area, .email-statis-inner, .recent-post-wrapper, .blog-inner-list, .realtime-wrap, .add-todo-list, .notika-chat-list, .recent-signup-inner, .ongoing-task-inner, .contact-inner, .contact-form, .widget-tabs-int, .visitor-sv-tm-int, .search-engine-int, .alert-inner, .color-wrap, .wizard-wrap-int, .dropdown-list, .modals-list, .accordion-wn-wp, .tooltips-inner, .popovers-list, .typography-list, .typography-heading, .typography-inline-pro, .tpgp-helper, .contact-list, .inbox-left-sd, .inbox-text-list, .view-mail-list, .normal-table-list, .data-table-list, .form-element-list, .range-slider-wrap, .datepicker-int, .colorpicker-int, .summernote-wrap, .dropdone-nk, .form-example-wrap, .invoice-wrap, .google-map-single, .data-map-single, .image-cropper-wp, .nk-cd-ed-wp, .bar-chart-wp, .line-chart-wp, .area-chart-wp, .flot-chart-wp, .wb-traffic-inner, .notika-icon-int{
+.white-container, sale-statistic-inner, .statistic-right-area, .email-statis-inner, .recent-post-wrapper, .blog-inner-list, .realtime-wrap, .add-todo-list, .notika-chat-list, .recent-signup-inner, .ongoing-task-inner, .contact-inner, .contact-form, .widget-tabs-int, .visitor-sv-tm-int, .search-engine-int, .alert-inner, .color-wrap, .wizard-wrap-int, .dropdown-list, .modals-list, .accordion-wn-wp, .tooltips-inner, .popovers-list, .typography-list, .typography-heading, .typography-inline-pro, .tpgp-helper, .contact-list, .inbox-left-sd, .inbox-text-list, .view-mail-list, .normal-table-list, .data-table-list, .form-element-list, .range-slider-wrap, .datepicker-int, .colorpicker-int, .summernote-wrap, .dropdone-nk, .form-example-wrap, .invoice-wrap, .google-map-single, .data-map-single, .image-cropper-wp, .nk-cd-ed-wp, .bar-chart-wp, .line-chart-wp, .area-chart-wp, .flot-chart-wp, .notika-icon-int{
     padding:20px;
     background:#fff;
-    margin: 10px;
+    margin-bottom: 10px;
 }
 /*----------------------------------------*/
 /*  2.  Header Top CSS
@@ -717,7 +735,7 @@ ul.notika-menu-wrap li a{
     color:#333;
     margin:0;
 }
-.sparkline-bar-stats1, .sparkline-bar-stats2, .sparkline-bar-stats3, .sparkline-bar-stats4{
+.balance-widget {
     margin-left: auto;
     margin-top:10px;
 }

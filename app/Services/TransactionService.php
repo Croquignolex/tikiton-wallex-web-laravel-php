@@ -16,6 +16,33 @@ class TransactionService
      * @param $date
      * @return string
      */
+    public function getDayFormatDate(Carbon $date)
+    {
+        return $this->dateDayFormat(App::getLocale(), $date);
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getWeekFormatDate(Carbon $date)
+    {
+        return $this->dateWeekFormat(App::getLocale(), $date);
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
+    public function getMonthFormatDate(Carbon $date)
+    {
+        return $this->dateShortFormat(App::getLocale(), $date);
+    }
+
+    /**
+     * @param $date
+     * @return string
+     */
     public function getMediumFormatDate(Carbon $date)
     {
         return $this->dateMediumFormat(App::getLocale(), $date);

@@ -99,7 +99,8 @@ if(!function_exists('app_dashboard_pages'))
      */
     function app_dashboard_pages()
     {
-        return collect(['dashboard']);
+        return collect(['dashboard.index', 'dashboard.incomes',
+            'dashboard.transfers', 'dashboard.expenses']);
     }
 }
 
@@ -110,7 +111,7 @@ if(!function_exists('app_wallet_pages'))
      */
     function app_wallet_pages()
     {
-        return collect(['wallets.index', 'wallets.create',
+        return collect(['wallets.index', 'wallets.create', 'wallets.report',
             'wallets.edit', 'wallets.show', 'wallets.transactions.create']);
     }
 }
@@ -135,7 +136,8 @@ if(!function_exists('app_transaction_pages'))
     function app_transaction_pages()
     {
         return collect(['transactions.index', 'transactions.create',
-            'transactions.edit', 'transactions.show']);
+            'transactions.edit', 'transactions.show', 'transactions.income.report',
+            'transactions.transfer.report', 'transactions.expense.report']);
     }
 }
 
