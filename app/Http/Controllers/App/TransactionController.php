@@ -49,6 +49,10 @@ class TransactionController extends Controller
             $transactions = Auth::user()->transactions
                 ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
                 ->sortByDesc('created_at')->load('category', 'wallets');
+
+            $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
+            $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);;
+            $expensesPercent = $this->getTransactionTypePercentage($transactions, Category::EXPENSE);;
         }
         catch (Exception $exception)
         {
@@ -56,7 +60,7 @@ class TransactionController extends Controller
         }
 
         return view('app.transactions.index', compact('transactions',
-            'begin_date', 'end_date'));
+            'begin_date', 'end_date', 'incomesPercent', 'transfersPercent', 'expensesPercent'));
     }
 
     /**
@@ -521,5 +525,21 @@ class TransactionController extends Controller
     private function indexRoute()
     {
         return locale_route('transactions.index') ;
+    }
+
+    /**
+     * @param $transactions
+     * @param $type
+     * @return float
+     */
+    private function getTransactionTypePercentage($transactions, $type)
+    {
+        $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
+        $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
+            if($transaction->category->type === $type)
+                return $transaction->amount;
+            return 0;
+        }) * 100) / $transactionsAmount;
+        return round($percentage);
     }
 }

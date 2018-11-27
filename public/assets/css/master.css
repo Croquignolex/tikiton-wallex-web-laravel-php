@@ -81,8 +81,9 @@ a#scrollUp i
 .modal-success, .btn-success { background-color: #00c292 !important; }
 .modal-warning, .btn-warning { background-color: #FF9800 !important; }
 
-.modal, .btn, .modal-content, .alert, .pagination > li > span, .dropdown-menu, .popover-title,
-.page-link, .page-item, .label, input, textarea, .bootstrap-select { border-radius: 0 !important; }
+.modal, .btn, .modal-content, .alert, .pagination > li > span, .dropdown-menu,
+.page-link, .page-item, .label, input, textarea, .bootstrap-select,
+.popover-title, .progress { border-radius: 0 !important; }
 [data-notify="progressbar"] {
     margin-bottom: 0;
     position: absolute;

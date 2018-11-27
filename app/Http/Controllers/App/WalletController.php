@@ -4,11 +4,12 @@ namespace App\Http\Controllers\App;
 
 use Exception;
 use App\Models\Wallet;
+use App\Models\Category;
 use App\Models\Currency;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use App\Traits\PaginationTrait;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\App;
+use App\Traits\PaginationTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WalletRequest;
@@ -179,24 +180,26 @@ class WalletController extends Controller
     public function show(Request $request, $language, Wallet $wallet)
     {
         $tab = $request->query('tab');
-        $begin_date = Carbon::now()->startOfDay();
-        $end_date = Carbon::now()->endOfDay();
+        $begin_date = Carbon::now()->startOfDay(); $end_date = Carbon::now()->endOfDay();
 
         if(session()->has('begin_date') && session()->has('end_date'))
         {
             $begin_date = session('begin_date');
             $end_date = session('end_date');
         }
-
         try
         {
             $transactions = $wallet->transactions
                 ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
                 ->sortByDesc('created_at')->load('category', 'wallets');
 
+            $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
+            $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);
+            $expensesPercent = $this->getTransactionTypePercentage($transactions, Category::EXPENSE);
+
             $wallet->load('transactions', 'currency');
             if($wallet->authorised) return view('app.wallets.show', compact('wallet', 'transactions',
-                'begin_date', 'end_date', 'tab'));
+                'begin_date', 'end_date', 'tab', 'incomesPercent', 'transfersPercent', 'expensesPercent'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
@@ -407,5 +410,21 @@ class WalletController extends Controller
     private function showRoute(Wallet $wallet, $tab = '')
     {
         return locale_route('wallets.show', [$wallet]) . '?tab=' . $tab;
+    }
+
+    /**
+     * @param $transactions
+     * @param $type
+     * @return float
+     */
+    private function getTransactionTypePercentage($transactions, $type)
+    {
+        $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
+        $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
+            if($transaction->category->type === $type)
+                return $transaction->amount;
+            return 0;
+        }) * 100) / $transactionsAmount;
+        return round($percentage);
     }
 }

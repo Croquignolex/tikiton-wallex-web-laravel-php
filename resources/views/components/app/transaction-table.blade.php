@@ -40,7 +40,7 @@
                     @endif
                 </td>
                 <td>
-                    <div class="text-center" data-toggle="tooltip" data-placement="bottom" title="{{ $transaction->category->name }}">
+                    <div class="text-center" data-content="{{ $transaction->category->name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                         <i class="fa fa-{{ $transaction->category->icon }}" style="color:{{ $transaction->category->color }};"></i>
                     </div>
                 </td>
@@ -51,7 +51,7 @@
                     </span>
                 </td>
                 <td>
-                    <div class="text-right" data-toggle="tooltip" data-placement="bottom" title="{{ $transaction->created_time }}">
+                    <div class="text-right" data-content="{{ $transaction->created_time }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                         {{ $transaction->created_date }}
                     </div>
                 </td>
