@@ -57,7 +57,7 @@
                                             @component('components.app.label-input', ['name' => 'symbol'])
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
-                                                       'name' => 'symbol',
+                                                       'name' => 'symbol', 'min_length' => 1,
                                                        'class' => 'form-control', 'value' => old('symbol'),
                                                        'placeholder'  => trans('general.symbol') . '*'
                                                        ])

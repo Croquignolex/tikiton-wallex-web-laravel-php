@@ -60,7 +60,7 @@
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
                                                        'name' => 'balance', 'min_length' => 1,
-                                                       'class' => 'form-control', 'value' => old('balance') ?? $wallet->balance,
+                                                       'class' => 'form-control', 'value' => old('balance') ?? $wallet->balance / $wallet->currency->devaluation,
                                                        'placeholder'  => trans('general.balance') . '*'
                                                        ])
                                                     @endcomponent
@@ -72,7 +72,7 @@
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
                                                        'name' => 'threshold', 'min_length' => 1,
-                                                       'class' => 'form-control', 'value' => old('threshold') ?? $wallet->threshold,
+                                                       'class' => 'form-control', 'value' => old('threshold') ?? $wallet->threshold / $wallet->currency->devaluation,
                                                        'placeholder'  => trans('general.threshold') . '*'
                                                        ])
                                                     @endcomponent

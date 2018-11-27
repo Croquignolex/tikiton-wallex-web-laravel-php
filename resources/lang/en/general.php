@@ -203,6 +203,7 @@ return [
     'disable_stat_successful' => 'Statistics on account :name are successfully disabled',
     'enable_stat_successful' => 'Statistics on account :name are successfully enabled',
     'not_authorise' => 'You are not authorise, contact the administrator for more information',
+    'accounts_should_be_different' => 'Credit account and debit account should be different',
     'disable' => 'Disable',
     'enable' => 'Enable',
     'disable_tips' => 'Disable tips',

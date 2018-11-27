@@ -149,7 +149,6 @@ class TransactionController extends Controller
         $name = $request->input('name');
         $description = $request->input('description');
         $type = $request->input('token');
-        $amount = $request->input('transaction_amount');
         if(!$this->isType($type))
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -162,10 +161,12 @@ class TransactionController extends Controller
             if(Hash::check(Category::TRANSFER, $type))
             {
                 $debit_wallet_id = intval($request->input('debit_account'));
-                $credit_account_id = intval($request->input('credit_account'));
+                $credit_wallet_id = intval($request->input('credit_account'));
                 $category = Category::where('id', intval($request->input('category')))->first();
                 $debit_wallet = Wallet::where('id', $debit_wallet_id)->first();
-                $credit_wallet = Wallet::where('id', $credit_account_id)->first();
+                $credit_wallet = Wallet::where('id', $credit_wallet_id)->first();
+                $amount = doubleval($request->input('transaction_amount')) * $debit_wallet->currency->devaluation;
+
                 if($category->authorised && $debit_wallet->authorised && $credit_wallet->authorised)
                 {
                     if($debit_wallet->currency->id === $credit_wallet->currency->id)
@@ -173,10 +174,15 @@ class TransactionController extends Controller
                         //Update accounts
                         if($debit_wallet->balance >= $amount)
                         {
-                            if($debit_wallet_id !== $credit_account_id)
+                            if($debit_wallet->id !== $credit_wallet->id)
                             {
                                 $debit_wallet->update(['balance' =>  $debit_wallet->balance - $amount]);
                                 $credit_wallet->update(['balance' =>  $credit_wallet->balance + $amount]);
+                            }
+                            else
+                            {
+                                danger_flash_message(trans('auth.error'), trans('general.accounts_should_be_different'));
+                                return back()->withInput($request->all());
                             }
                         }
                         else
@@ -191,6 +197,7 @@ class TransactionController extends Controller
                             'description' => $description,
                             'amount' => $amount,
                             'category_id' => $category->id,
+                            'currency_id' => $debit_wallet->currency->id,
                             'created_at' => $creation_date
                         ]);
 
@@ -212,6 +219,8 @@ class TransactionController extends Controller
                 else $category = Category::where('id', intval($request->input('category')))->where('type', Category::EXPENSE)->first();
 
                 $wallet = Wallet::where('id', intval($request->input('account')))->first();
+                $amount = doubleval($request->input('transaction_amount')) * $wallet->currency->devaluation;
+
                 if($category->authorised && $wallet->authorised)
                 {
                     //Update accounts
@@ -232,6 +241,7 @@ class TransactionController extends Controller
                         'description' => $description,
                         'amount' => $amount,
                         'category_id' => $category->id,
+                        'currency_id' => $wallet->currency->id,
                         'created_at' => $creation_date
                     ]);
                 }
@@ -262,7 +272,7 @@ class TransactionController extends Controller
         $name = $request->input('name');
         $description = $request->input('description');
         $type = $request->input('token');
-        $amount = $request->input('transaction_amount');
+        $amount = doubleval($request->input('transaction_amount')) * $wallet->currency->devaluation;
         if(!$this->isType($type))
         {
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -284,10 +294,15 @@ class TransactionController extends Controller
                         //Update accounts
                         if($wallet->balance >= $amount)
                         {
-                            if($wallet->id !== $credit_account_id)
+                            if($wallet->id !== $credit_wallet->id)
                             {
                                 $wallet->update(['balance' =>  $wallet->balance - $amount]);
                                 $credit_wallet->update(['balance' =>  $credit_wallet->balance + $amount]);
+                            }
+                            else
+                            {
+                                danger_flash_message(trans('auth.error'), trans('general.accounts_should_be_different'));
+                                return back()->withInput($request->all());
                             }
                         }
                         else
@@ -302,6 +317,7 @@ class TransactionController extends Controller
                             'description' => $description,
                             'amount' => $amount,
                             'category_id' => $category->id,
+                            'currency_id' => $wallet->currency->id,
                             'created_at' => $creation_date
                         ]);
 
@@ -342,6 +358,7 @@ class TransactionController extends Controller
                         'description' => $description,
                         'amount' => $amount,
                         'category_id' => $category->id,
+                        'currency_id' => $wallet->currency->id,
                         'created_at' => $creation_date
                     ]);
                 }

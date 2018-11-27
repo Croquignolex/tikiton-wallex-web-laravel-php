@@ -8,8 +8,8 @@ function roundChart(route, loaderID, chartID, chartType)
 {
     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
     $.ajax({
-        method: 'GET', url: route, dataType: 'json',
-        beforeSend: function () {
+        method: 'GET', url: route, dataType: "json",  
+        beforeSend: function () { 
             $(loaderID).css('display', 'block'); $(chartID).css('display', 'none');
         }
     })
@@ -22,13 +22,24 @@ function roundChart(route, loaderID, chartID, chartType)
         let data = []; let labels = [];
         let backgroundColors = []; let borderColors = []; let hoverBackgroundColors = [];
 
-        response.chartData.forEach(function (chart) {
-            let color = chart.color; labels.push(chart.name);
+        if(response.chartData.length > 0)
+        {
+            response.chartData.forEach(function (chart) {
+                let color = chart.color; labels.push(chart.name);
+                backgroundColors.push(hexadecimalToRGBa(color, 0.5));
+                borderColors.push(hexadecimalToRGBa(color));
+                hoverBackgroundColors.push(hexadecimalToRGBa(color, 0.9));
+                data.push(chart.data);
+            });
+        }
+        else
+        {
+            let color = '#c257b8'; labels.push('No data');
             backgroundColors.push(hexadecimalToRGBa(color, 0.5));
             borderColors.push(hexadecimalToRGBa(color));
             hoverBackgroundColors.push(hexadecimalToRGBa(color, 0.9));
-            data.push(chart.data);
-        });
+            data.push(0);
+        }
 
         let chartData = {
             labels: labels,
@@ -46,6 +57,7 @@ function roundChart(route, loaderID, chartID, chartType)
         let chartCanvas = $(chartID).get(0).getContext("2d");
         if(chartType === 'polar') Chart.PolarArea(chartCanvas, { data: chartData, options: options });
         else new Chart(chartCanvas, { type: chartType, data: chartData, options: options });
+
     })
     .fail(function() {
         notification('Error', 'Request failed',
@@ -57,8 +69,8 @@ function inlineChart(route, loaderID, chartID, chartType)
 {
     $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
     $.ajax({
-        method: 'GET', url: route, dataType: 'json',
-        beforeSend: function () {
+        method: 'GET', url: route, dataType: "json", 
+        beforeSend: function () { 
             $(loaderID).css('display', 'block'); $(chartID).css('display', 'none');
         }
     })
@@ -70,24 +82,42 @@ function inlineChart(route, loaderID, chartID, chartType)
 
         let dataSets = []; let labels = [];
 
-        response.chartData.forEach(function (chart) {
-            let dataSetData = [];
-            chart.data.forEach(function (data) {
-                dataSetData.push(data.amount);
+        if(response.chartData.length > 0)
+        {
+            response.chartData.forEach(function (chart) {
+                let dataSetData = [];
+                chart.data.forEach(function (data) {
+                    dataSetData.push(data.amount);
+                });
+                let color = chart.color;
+                dataSets.push({
+                    label: chart.name, data: dataSetData,
+                    backgroundColor: hexadecimalToRGBa(color, 0.5),
+                    borderColor: hexadecimalToRGBa(color),
+                    hoverBackgroundColor: hexadecimalToRGBa(color, 0.9),
+                    borderWidth: 1
+                });
             });
-            let color = chart.color;
+
+            response.chartData[0].data.forEach(function (data) {
+                labels.push(data.label);
+            });
+        }
+        else
+        {
+            let dataSetData = [];
+            dataSetData.push(0);
+            let color = '#c257b8';
             dataSets.push({
-                label: chart.name, data: dataSetData,
+                label: 'No data', data: dataSetData,
                 backgroundColor: hexadecimalToRGBa(color, 0.5),
                 borderColor: hexadecimalToRGBa(color),
                 hoverBackgroundColor: hexadecimalToRGBa(color, 0.9),
                 borderWidth: 1
             });
-        });
 
-        response.chartData[0].data.forEach(function (data) {
-            labels.push(data.label);
-        });
+            labels.push('No data');
+        }
 
         let chartData = { labels: labels, datasets: dataSets };
 

@@ -39,7 +39,7 @@ class DashboardController extends Controller
             $accounts = Auth::user()->wallets->where('is_stated', true);
             $accounts_balance = $this->formatNumber(
                 $accounts->sum(function (Wallet $wallet) {
-                    return $wallet->balance * $wallet->currency->devaluation;
+                    return $wallet->balance;
                 }) / $currency->devaluation
             );
             $accounts_nbr = $accounts->count();
@@ -62,17 +62,20 @@ class DashboardController extends Controller
         $yLabel = trans('general.balance') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.accounts');
         $wallets = Auth::user()->wallets->where('is_stated', true);
-        $chartData = collect();
-        foreach ($wallets as $wallet)
-        {
-            $chartData->push([
-                'name' => text_format($wallet->name, 10),
-                'color' => $wallet->color,
-                'data' => collect([['label' => '', 'amount' => $wallet->balance]]),
-            ]);
-        }
-        return response()->json(compact('chartData',
-            'yLabel', 'xLabel'));
+        $chartData = collect(); 
+		foreach ($wallets as $wallet)
+		{
+			$chartData->push([
+				'name' => $wallet->name,
+				'color' => $wallet->color,
+				'data' => collect([[
+					'label' => '',
+					'amount' => round($wallet->balance / $this->getCurrency()->devaluation, 2)
+				]]),
+			]);
+		} 
+        return response()->json(compact('chartData', 
+			'yLabel', 'xLabel'));
     }
 
     /**
@@ -80,7 +83,7 @@ class DashboardController extends Controller
      */
     public function categoriesAjax()
     {
-        $chartData = $this->chartData(DashboardController::POLAR);
+        $chartData = $this->chartTypeData(DashboardController::POLAR);
         return response()->json(compact('chartData'));
     }
 
@@ -89,7 +92,7 @@ class DashboardController extends Controller
      */
     public function dailyCategoryAjax()
     {
-        $chartData = $this->getBarChartData(Transaction::DAILY);
+        $chartData = $this->getTypeBarChartData(Transaction::DAILY);
         return response()->json(compact('chartData'));
     }
 
@@ -98,7 +101,7 @@ class DashboardController extends Controller
      */
     public function weeklyCategoryAjax()
     {
-        $chartData = $this->getBarChartData(Transaction::WEEKLY);
+        $chartData = $this->getTypeBarChartData(Transaction::WEEKLY);
         return response()->json(compact('chartData'));
     }
 
@@ -107,7 +110,7 @@ class DashboardController extends Controller
      */
     public function monthlyCategoryAjax()
     {
-        $chartData = $this->getBarChartData(Transaction::MONTHLY);
+        $chartData = $this->getTypeBarChartData(Transaction::MONTHLY);
         return response()->json(compact('chartData'));
     }
 
@@ -116,7 +119,7 @@ class DashboardController extends Controller
      */
     public function yearlyCategoryAjax()
     {
-        $chartData = $this->getBarChartData(Transaction::YEARLY);
+        $chartData = $this->getTypeBarChartData(Transaction::YEARLY);
         return response()->json(compact('chartData'));
     }
 
@@ -127,7 +130,7 @@ class DashboardController extends Controller
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.days');
-        $chartData = $this->getLineChartData(Transaction::DAILY);
+        $chartData = $this->getTypeLineChartData(Transaction::DAILY);
         return response()->json(compact('chartData',
             'xLabel', 'yLabel'));
     }
@@ -139,7 +142,7 @@ class DashboardController extends Controller
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.months');
-        $chartData = $this->getLineChartData(Transaction::YEARLY);
+        $chartData = $this->getTypeLineChartData(Transaction::YEARLY);
         return response()->json(compact('chartData',
             'xLabel', 'yLabel'));
     }
@@ -149,18 +152,18 @@ class DashboardController extends Controller
      * @param $transaction_type
      * @return \Illuminate\Support\Collection
      */
-    private function getBarChartData($transaction_type)
+    private function getTypeBarChartData($transaction_type)
     {
-        return $this->chartData(DashboardController::BAR, $transaction_type);
+        return $this->chartTypeData(DashboardController::BAR, $transaction_type);
     }
 
     /**
      * @param $transaction_type
      * @return \Illuminate\Support\Collection
      */
-    private function getLineChartData($transaction_type)
+    private function getTypeLineChartData($transaction_type)
     {
-        return $this->chartData(DashboardController::LINE, $transaction_type);
+        return $this->chartTypeData(DashboardController::LINE, $transaction_type);
     }
 
     /**
@@ -168,7 +171,7 @@ class DashboardController extends Controller
      * @param $transaction_type
      * @return \Illuminate\Support\Collection
      */
-    private function chartData($chart_type, $transaction_type = '')
+    private function chartTypeData($chart_type, $transaction_type = '')
     {
         if($chart_type === DashboardController::BAR)
         {
@@ -184,22 +187,22 @@ class DashboardController extends Controller
         }
         else
         {
-            $incomes_data = $this->getCategories(Category::INCOME)->count();
-            $transfers_data = $this->getCategories(Category::TRANSFER)->count();
-            $expenses_data = $this->getCategories(Category::EXPENSE)->count();
+            $incomes_data = $this->getTypeCategories(Category::INCOME)->count();
+            $transfers_data = $this->getTypeCategories(Category::TRANSFER)->count();
+            $expenses_data = $this->getTypeCategories(Category::EXPENSE)->count();
         }
 
         $chartData = collect();
         $chartData->push([
-            'name' => text_format(trans('general.incomes'), 10),
+            'name' => trans('general.incomes'),
             'data' => $incomes_data, 'color' => '#00c292',
         ]);
         $chartData->push([
-            'name' => text_format(trans('general.transfers'), 10),
+            'name' => trans('general.transfers'),
             'data' => $transfers_data, 'color' => '#2196F3',
         ]);
         $chartData->push([
-            'name' => text_format(trans('general.expenses'), 10),
+            'name' => trans('general.expenses'),
             'data' => $expenses_data, 'color' => '#F44336',
         ]);
 
@@ -210,7 +213,7 @@ class DashboardController extends Controller
      * @param $type
      * @return mixed
      */
-    private function getCategories($type)
+    private function getTypeCategories($type)
     {
         return Auth::user()->categories->where('type', $type);
     }

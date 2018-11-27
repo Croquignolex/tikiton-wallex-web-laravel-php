@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed is_an_expense
  * @property mixed is_a_transfer
  * @property mixed is_an_income
+ * @property mixed currency
  */
 class Transaction extends Model
 {
@@ -45,7 +46,8 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'amount', 'category_id', 'created_at'
+        'name', 'description', 'amount', 'category_id',
+        'currency_id', 'created_at'
     ];
 
     /**
@@ -77,6 +79,14 @@ class Transaction extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo('App\Models\Currency');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function wallets()
@@ -90,7 +100,9 @@ class Transaction extends Model
      */
     public function getFormatAmountAttribute()
     {
-        return $this->formatCurrency($this->formatNumber($this->amount), $this->wallet->currency);
+        $currency = $this->currency;
+        $amount = $this->amount / $currency->devaluation;
+        return $this->formatCurrency($this->formatNumber($amount), $currency);
     }
 
     /**
@@ -144,7 +156,7 @@ class Transaction extends Model
      */
     public function getWalletAttribute()
     {
-        return $this->wallets->first();
+        return $this->wallets->sortBy('created_at')->first();
     }
 
     /**
@@ -152,7 +164,7 @@ class Transaction extends Model
      */
     public function getTransferWalletAttribute()
     {
-        return $this->wallets->last();
+        return $this->wallets->sortBy('created_at')->last();
     }
 
     /**

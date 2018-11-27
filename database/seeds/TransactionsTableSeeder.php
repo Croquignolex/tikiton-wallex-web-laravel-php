@@ -20,13 +20,15 @@ class TransactionsTableSeeder extends Seeder
             $category->transactions()->create([
                 'name' => ucfirst($this->getUniqueName()),
                 'description' => ucfirst(Lorem::text()),
-                'amount' => rand(100000, 999999)
+                'amount' => rand(100000, 999999),
+                'currency_id' => $category->user->currencies->random()->id
             ]);
 
             $category->transactions()->create([
                 'name' => ucfirst($this->getUniqueName()),
                 'description' => ucfirst(Lorem::text()),
-                'amount' => rand(100000, 999999)
+                'amount' => rand(100000, 999999),
+                'currency_id' => $category->user->currencies->random()->id
             ]);
         }
     }

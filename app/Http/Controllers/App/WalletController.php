@@ -105,8 +105,8 @@ class WalletController extends Controller
                     'name' => $name,
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
-                    'balance' => $request->input('balance'),
-                    'threshold' => $request->input('threshold'),
+                    'balance' => doubleval($request->input('balance')) * $currency->devaluation,
+                    'threshold' =>  doubleval($request->input('threshold'))  * $currency->devaluation,
                     'color' => $request->input('color'),
                     'currency_id' => $currency->id
                 ]);
@@ -147,8 +147,8 @@ class WalletController extends Controller
                     'name' => $name,
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
-                    'balance' => $request->input('balance'),
-                    'threshold' => $request->input('threshold'),
+                    'balance' => doubleval($request->input('balance')) * $currency->devaluation,
+                    'threshold' => doubleval($request->input('threshold')) * $currency->devaluation,
                     'color' => $request->input('color'),
                     'currency_id' => $currency->id
                 ]);
@@ -278,8 +278,8 @@ class WalletController extends Controller
                     'name' => $name,
                     'description' => $request->input('description'),
                     'is_stated' => $request->input('stated') == null ? false : true,
-                    'balance' => $request->input('balance'),
-                    'threshold' => $request->input('threshold'),
+                    'balance' => doubleval($request->input('balance')) * $currency->devaluation,
+                    'threshold' => doubleval($request->input('threshold')) * $currency->devaluation,
                     'color' => $request->input('color'),
                     'currency_id' => $currency->id
                 ]);
@@ -287,7 +287,7 @@ class WalletController extends Controller
                 success_flash_message(trans('auth.success'),
                     trans('general.update_successful', ['name' => $name]));
 
-                return redirect($this->showRoute($wallet));
+                return redirect($this->showRoute($wallet, 'details'));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }

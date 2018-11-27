@@ -203,7 +203,7 @@ class CategoryController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->redirectTo($type));
+        return redirect($this->indexRoute($type));
     }
 
     /**

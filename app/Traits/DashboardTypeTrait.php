@@ -124,7 +124,7 @@ trait DashboardTypeTrait
             if($chart_type === DashboardController::PIE) $data = $this->category_amount($transaction_type, $category);
             else $data = $transaction_type === Transaction::DAILY ? $this->daysData($category) : $this->monthsData($category);
             $chartData->push([
-                'name' => text_format($category->name, 10),
+                'name' => $category->name,
                 'color' => $category->color, 'data' => $data,
             ]);
         }

@@ -20,7 +20,13 @@ class CreateTransactionsTable extends Migration
             $table->text('description');
             $table->double('amount')->unsigned();
             $table->unsignedInteger('category_id');
+            $table->unsignedInteger('currency_id');
             $table->timestamps();
+
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies')
+                ->onDelete('cascade');
 
             $table->foreign('category_id')
                 ->references('id')

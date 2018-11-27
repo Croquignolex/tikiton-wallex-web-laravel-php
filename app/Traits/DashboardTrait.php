@@ -10,36 +10,6 @@ use Illuminate\Support\Facades\Auth;
 trait DashboardTrait
 {
     /**
-     * @param Collection $categories
-     * @return Collection
-     */
-    protected function ajaxChartResponse(Collection $categories)
-    {
-        $pieChartData = collect();
-        $lineCharData = collect();
-        foreach ($categories as $category)
-        {
-            $pieChartData->push([
-                'name' => text_format($category->name, 10),
-                'color' => $category->color,
-                'dailyAmount' => $this->category_amount(Transaction::DAILY, $category),
-                'weeklyAmount' => $this->category_amount(Transaction::WEEKLY, $category),
-                'monthlyAmount' => $this->category_amount(Transaction::MONTHLY, $category),
-                'yearlyAmount' => $this->category_amount(Transaction::YEARLY, $category)
-            ]);
-
-            $lineCharData->push([
-                'name' => text_format($category->name, 10),
-                'color' => $category->color,
-                'monthsData' => $this->monthsData($category),
-                'daysData' => $this->daysData($category)
-            ]);
-        }
-
-        return collect([$pieChartData, $lineCharData]) ;
-    }
-
-    /**
      * @param Category $category
      * @return Collection
      */
@@ -162,7 +132,7 @@ trait DashboardTrait
         {
             $transactions_amount = $transactions->sum(function (Transaction $transaction) use ($type) {
                     if($transaction->category->type === $type && ($transaction->wallet->is_stated || $transaction->transfer_wallet->is_stated))
-                        return $transaction->amount * $transaction->wallet->currency->devaluation;
+                        return $transaction->amount;
                     return 0;
                 }) / $currency->devaluation;
         }
@@ -170,12 +140,12 @@ trait DashboardTrait
         {
             $transactions_amount = $transactions->sum(function (Transaction $transaction) use ($type) {
                     if($transaction->category->type === $type && $transaction->wallet->is_stated)
-                        return $transaction->amount * $transaction->wallet->currency->devaluation;
+                        return $transaction->amount;
                     return 0;
                 }) / $currency->devaluation;
         }
 
-        return $transactions_amount;
+        return round($transactions_amount, 2);
     }
 
     /**

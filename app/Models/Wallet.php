@@ -78,7 +78,8 @@ class Wallet extends Model
      */
     public function getFormatThresholdAttribute()
     {
-        return $this->formatCurrency($this->formatNumber($this->threshold), $this->currency);
+        $threshold = $this->threshold / $this->currency->devaluation;
+        return $this->formatCurrency($this->formatNumber($threshold), $this->currency);
     }
 
     /**
@@ -86,7 +87,8 @@ class Wallet extends Model
      */
     public function getFormatBalanceAttribute()
     {
-        return $this->formatCurrency($this->formatNumber($this->balance), $this->currency);
+        $balance = $this->balance / $this->currency->devaluation;
+        return $this->formatCurrency($this->formatNumber($balance), $this->currency);
     }
 
     /**
