@@ -37,6 +37,7 @@
                                         <th class="text-theme-1">#</th>
                                         <th class="text-theme-1">@lang('general.name')</th>
                                         <th class="text-theme-1">@lang('general.symbol')</th>
+                                        <th class="text-theme-1">@lang('general.dev')</th>
                                         <th class="text-theme-1">@lang('general.actions')</th>
                                     </tr>
                                 </thead>
@@ -46,6 +47,7 @@
                                             <td>{{ ($loop->index + 1) + ($paginationTools->itemsPerPage * ($paginationTools->currentPage - 1)) }}</td>
                                             <td><a href="{{ locale_route('currencies.show', [$currency]) }}" title="@lang('general.details')">{{ text_format($currency->name, 30) }}</a></td>
                                             <td>{{ $currency->symbol }}</td>
+                                            <td class="text-right">{{ $currency->format_devaluation }}</td>
                                             <td class="text-right">
                                                 <a href="{{ locale_route('currencies.edit', [$currency]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
                                                 @if($currency->can_be_deleted)
@@ -71,6 +73,7 @@
                                         <th class="text-theme-1">#</th>
                                         <th class="text-theme-1">@lang('general.name')</th>
                                         <th class="text-theme-1">@lang('general.symbol')</th>
+                                        <th class="text-theme-1">@lang('general.dev')</th>
                                         <th class="text-theme-1">@lang('general.actions')</th>
                                     </tr>
                                 </thead>

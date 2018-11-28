@@ -42,7 +42,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container">
                             <div class="contact-hd sm-form-hd text-center">
                                 <div class="account-header" style="background-color:{{ $wallet->color }};">

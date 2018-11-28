@@ -214,6 +214,7 @@ return [
     'creation_date' => 'Date de création',
     'last_update' => 'Dernière modification',
     'devaluation' => 'Dévaluation par rapport au XAF',
+    'dev' => 'Dévaluation',
     'color' => 'Couleur',
     'select_currency' => 'Sélectionner la dévise',
     'select_icon' => 'Sélectionner l\'icone',

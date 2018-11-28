@@ -214,6 +214,7 @@ return [
     'creation_date' => 'Creation date',
     'last_update' => 'Last update',
     'devaluation' => 'Devaluation toward XAF',
+    'dev' => 'Devaluation',
     'color' => 'Color',
     'select_currency' => 'Select the currency',
     'select_icon' => 'Select the icon',

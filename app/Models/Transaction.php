@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed is_a_transfer
  * @property mixed is_an_income
  * @property mixed currency
+ * @property mixed is_stated
  */
 class Transaction extends Model
 {
@@ -117,6 +118,15 @@ class Transaction extends Model
                 ($this->transfer_wallet->balance >= $this->amount);
 
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsStatedAttribute()
+    {
+        if($this->category->type === Category::EXPENSE) return $this->wallet->is_stated || $this->transfer_wallet->is_stated;
+        else return $this->wallet->is_stated;
     }
 
     /**

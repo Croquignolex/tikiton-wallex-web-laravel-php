@@ -128,22 +128,11 @@ trait DashboardTrait
     {
        $currency = $this->getCurrency();
 
-        if($type === Category::TRANSFER)
-        {
-            $transactions_amount = $transactions->sum(function (Transaction $transaction) use ($type) {
-                    if($transaction->category->type === $type && ($transaction->wallet->is_stated || $transaction->transfer_wallet->is_stated))
-                        return $transaction->amount;
-                    return 0;
-                }) / $currency->devaluation;
-        }
-        else
-        {
-            $transactions_amount = $transactions->sum(function (Transaction $transaction) use ($type) {
-                    if($transaction->category->type === $type && $transaction->wallet->is_stated)
-                        return $transaction->amount;
-                    return 0;
-                }) / $currency->devaluation;
-        }
+        $transactions_amount = $transactions->sum(function (Transaction $transaction) use ($type) {
+            if($transaction->category->type === $type && $transaction->is_stated)
+                return $transaction->amount;
+            return 0;
+        }) / $currency->devaluation;
 
         return round($transactions_amount, 2);
     }

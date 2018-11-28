@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         @forelse($transactions as $transaction)
-            <tr>
+            <tr class="{{ !$transaction->is_stated ? 'current' : '' }}">
                 <td>{{ $loop->index + 1 }}</td>
                 <td><a href="{{ locale_route('transactions.show', [$transaction]) }}" title="@lang('general.details')">{{ text_format($transaction->name, 20) }}</a></td>
                 <td>

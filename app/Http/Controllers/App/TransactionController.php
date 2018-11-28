@@ -536,7 +536,7 @@ class TransactionController extends Controller
     {
         $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
         $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
-            if($transaction->category->type === $type)
+            if($transaction->category->type === $type && $transaction->is_stated)
                 return $transaction->amount;
             return 0;
         }) * 100) / $transactionsAmount;
