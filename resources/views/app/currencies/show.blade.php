@@ -84,12 +84,12 @@
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.symbol') :</strong>
-                                                    {{ $currency->symbol }}
+                                                    <span class="text-theme-1">{{ $currency->symbol }}</span>
                                                 </li>
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.devaluation') :</strong>
-                                                    {{ $currency->format_devaluation }}
+                                                    <span class="text-theme-1">{{ $currency->format_devaluation }}</span>
                                                 </li>
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>

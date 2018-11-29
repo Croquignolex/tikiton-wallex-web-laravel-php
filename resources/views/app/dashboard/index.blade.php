@@ -13,8 +13,7 @@
                         'id' => 'accounts-balance-widget',
                         'value' => $accounts_balance,
                         'route' => locale_route('wallets.report'),
-                        'symbol' => $currency->symbol,
-                        'color' => 'text-theme-1'
+                        'symbol' => $currency->symbol
                     ])
                     @endcomponent
                 </div>
@@ -24,8 +23,7 @@
                         'id' => 'accounts-widget',
                         'value' => $accounts_nbr,
                         'route' => locale_route('wallets.index'),
-                        'symbol' => '',
-                        'color' => 'text-theme-1'
+                        'symbol' => ''
                     ])
                     @endcomponent
                 </div>
@@ -35,8 +33,7 @@
                         'id' => 'categories-widget',
                         'value' => $all_categories,
                         'route' => locale_route('categories.index'),
-                        'symbol' => '',
-                        'color' => 'text-theme-1'
+                        'symbol' => ''
                     ])
                     @endcomponent
                 </div>

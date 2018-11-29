@@ -204,6 +204,7 @@ class WalletController extends Controller
         }
         catch (Exception $exception)
         {
+
             $this->databaseError($exception);
         }
 
@@ -419,12 +420,20 @@ class WalletController extends Controller
      */
     private function getTransactionTypePercentage($transactions, $type)
     {
-        $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
-        $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
-            if($transaction->category->type === $type)
-                return $transaction->amount;
-            return 0;
-        }) * 100) / $transactionsAmount;
+        try
+        {
+            $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
+            $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
+                if($transaction->category->type === $type)
+                    return $transaction->amount;
+                return 0;
+            }) * 100) / $transactionsAmount;
+        }
+        catch (Exception $exception)
+        {
+            $percentage = 0;
+        }
+
         return round($percentage);
     }
 }

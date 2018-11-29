@@ -126,6 +126,7 @@
 	}
 	.mobile-menu-area{
 		display:block;
+		background: #1a8cff;
 	}
 	.header-top-area{
 		position:unset;
@@ -316,6 +317,7 @@
 	}
 	.mobile-menu-area{
 		display:block;
+		background: #1a8cff;
 	}
 	.left-sidebar-pro, .menu-switcher-pro{
 		display:none;

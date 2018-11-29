@@ -28,17 +28,17 @@ $(function () {
     //Widgets
     if($('#accounts-balance-widget')) {
         $('#accounts-balance-widget').sparkline([9,4,8,6,5,6,4,8,3,5,9,5], {
-            type: 'bar', height: 30, barWidth: 3, barColor: '#c257b8', barSpacing: 2
+            type: 'bar', height: 30, barWidth: 3, barColor: '#7eca48', barSpacing: 2
         });
     }
     if($('#accounts-widget')) {
         $('#accounts-widget').sparkline([9,7,5,6,5,4,9,8,5,8,7,5], {
-            type: 'bar', height: 30, barWidth: 3, barColor: '#c257b8', barSpacing: 2
+            type: 'bar', height: 30, barWidth: 3, barColor: '#7eca48', barSpacing: 2
         });
     }
     if($('#categories-widget')) {
         $('#categories-widget').sparkline([6,5,7,6,8,9,5,8,7,5,9,4], {
-            type: 'bar', height: 30, barWidth: 3, barColor: '#c257b8', barSpacing: 2
+            type: 'bar', height: 30, barWidth: 3, barColor: '#7eca48', barSpacing: 2
         });
     }
 });

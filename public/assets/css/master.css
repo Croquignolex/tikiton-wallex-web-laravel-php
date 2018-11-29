@@ -33,7 +33,7 @@ a#scrollUp {
     bottom: 0;
     right: 10px;
     padding: 5px 10px;
-    background: #c257b8;
+    background: #1a8cff;
     color: #FFF;
     -webkit-animation: bounce 2s ease infinite;
     animation: bounce 2s ease infinite;
@@ -51,21 +51,21 @@ a#scrollUp i
 { color : #ffffff !important; }
 .text-theme-1,
 .btn-outline-theme-1
-{ color: #c257b8 !important; }
+{ color: #1a8cff !important; }
 .bg-theme-1, .btn-theme-1, .badge-theme-1, .btn-outline-theme-1:active,
 .btn-outline-theme-1:hover, .btn-outline-theme-1:focus
-{ background-color: #c257b8 !important; }
+{ background-color: #1a8cff !important; }
 .border-radius-theme-1
 { border-radius: 1px !important; }
 .border-theme-1, .badge-theme-1, .btn-theme-1,
 .btn-outline-theme-1
-{ border: 1px solid #c257b8 !important; }
+{ border: 1px solid #1a8cff !important; }
 .border-bottom-theme-1
-{ border-bottom: 1px solid #c257b8 !important; }
+{ border-bottom: 1px solid #1a8cff !important; }
 .border-top-theme-1
-{ border-top: 1px solid #c257b8 !important; }
+{ border-top: 1px solid #1a8cff !important; }
 .btn-theme-1:hover, a#scrollUp:hover
-{ background-color: #9a4592 !important; }
+{ background-color: #124e93 !important; }
 
 .input-invalid { border: 1px solid #F44336 !important; }
 .input-valid { border: 1px solid #00c292 !important; }

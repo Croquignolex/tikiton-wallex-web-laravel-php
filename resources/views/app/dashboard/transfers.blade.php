@@ -13,8 +13,7 @@
                         'id' => 'daily-widget',
                         'value' => $daily,
                         'route' => locale_route('transactions.transfer.report') . '?type=' . \App\Models\Transaction::DAILY,
-                        'symbol' => $currency->symbol,
-                        'color' => 'text-success'
+                        'symbol' => $currency->symbol
                     ])
                     @endcomponent
                 </div>
@@ -24,8 +23,7 @@
                         'id' => 'weekly-widget',
                         'value' => $weekly,
                         'route' => locale_route('transactions.transfer.report') . '?type=' . \App\Models\Transaction::WEEKLY,
-                        'symbol' => $currency->symbol,
-                        'color' => 'text-success'
+                        'symbol' => $currency->symbol
                     ])
                     @endcomponent
                 </div>
@@ -35,8 +33,7 @@
                         'id' => 'monthly-widget',
                         'value' => $monthly,
                         'route' => locale_route('transactions.transfer.report') . '?type=' . \App\Models\Transaction::MONTHLY,
-                        'symbol' => $currency->symbol,
-                        'color' => 'text-success'
+                        'symbol' => $currency->symbol
                     ])
                     @endcomponent
                 </div>

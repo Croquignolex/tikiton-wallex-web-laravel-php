@@ -4,8 +4,7 @@
             @if(\Illuminate\Support\Facades\App::getLocale() === 'en')
                 <small>{{ text_format($symbol, 5) }}</small>
             @endif
-            <a href="{{ $route }}" title="@lang('general.details')"
-                class="{{ $color }}">
+            <a href="{{ $route }}" title="@lang('general.details')">
                 {{ $value }}
             </a>
             @if(\Illuminate\Support\Facades\App::getLocale() === 'fr')

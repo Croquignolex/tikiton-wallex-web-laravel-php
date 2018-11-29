@@ -41,11 +41,11 @@ p, ul, ol {
 a {
   -webkit-transition: .3s all;
   transition: .3s all;
-  color: #c257b8;
+  color: #1a8cff;
 }
 
 a:hover, a:focus, a:active {
-  color: #9a4592;
+  color: #124e93;
   text-decoration: none;
 }
 
@@ -188,7 +188,7 @@ a:hover, a:focus, a:active {
 .probootstrap-navbar .dropdown > .dropdown-menu > li a:hover {
   border-top: none;
   background: #ffffff;
-  color: #c257b8 !important;
+  color: #1a8cff !important;
 }
 
 .probootstrap-navbar .dropdown > .dropdown-menu > li a:hover,
@@ -200,7 +200,7 @@ a:hover, a:focus, a:active {
 .probootstrap-navbar .dropdown > .dropdown-menu > li:active > a {
   background: #ffffff !important;
   border-top: none;
-  color: #c257b8 !important;
+  color: #1a8cff !important;
 }
 
 .probootstrap-navbar .dropdown > .dropdown-menu > li.dropdown-submenu.open > a:before,
@@ -216,7 +216,7 @@ a:hover, a:focus, a:active {
 
 .probootstrap-navbar .dropdown-menu {
   border: none;
-  background: #c257b8 !important;
+  background: #1a8cff !important;
   border-radius: 0;
   min-width: 200px;
   white-space: normal !important;
@@ -276,7 +276,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-navbar .navbar-nav > li.active > a {
-  color: #c257b8 !important;
+  color: #1a8cff !important;
   background: transparent !important;
 }
 
@@ -295,7 +295,7 @@ only screen and (min-resolution: 2dppx) {
 .probootstrap-navbar .navbar-nav > li > a:hover,
 .probootstrap-navbar .navbar-nav > li > a:focus,
 .probootstrap-navbar .navbar-nav > li > a:active {
-  color: #c257b8;
+  color: #1a8cff;
 }
 
 .probootstrap-navbar .navbar-nav > li.open > a:hover,
@@ -308,7 +308,7 @@ only screen and (min-resolution: 2dppx) {
   border-radius: 4px;
   padding: 10px 20px;
   margin-top: 30px;
-  background: #c257b8;
+  background: #1a8cff;
   color: #ffffff;
 }
 
@@ -321,7 +321,7 @@ only screen and (min-resolution: 2dppx) {
 
 .probootstrap-navbar .navbar-nav > li.probootstra-cta-button > a.btn-ghost {
   background: transparent;
-  color: #c257b8;
+  color: #1a8cff;
 }
 
 .probootstrap-navbar .navbar-nav > li.probootstra-cta-button.last > a {
@@ -491,7 +491,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-hero.probootstrap-hero-colored {
-  background: #c257b8;
+  background: #1a8cff;
 }
 
 .probootstrap-hero.probootstrap-hero-colored h1 {
@@ -634,7 +634,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-showcase-nav ul li.active > a {
-  color: #c257b8;
+  color: #1a8cff;
   padding-left: 0px;
   display: block;
 }
@@ -667,8 +667,8 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .btn.btn-primary {
-  border: 1px solid #c257b8;
-  background: #c257b8;
+  border: 1px solid #1a8cff;
+  background: #1a8cff;
   color: #ffffff;
 }
 
@@ -678,25 +678,25 @@ only screen and (min-resolution: 2dppx) {
 
 .btn.btn-primary:focus, .btn.btn-primary:active {
   outline: none;
-  border: 1px solid #c257b8;
+  border: 1px solid #1a8cff;
 }
 
 .btn.btn-ghost {
   background: transparent;
-  border: 1px solid #c257b8;
-  color: #c257b8;
+  border: 1px solid #1a8cff;
+  color: #1a8cff;
 }
 
 .btn.btn-ghost:hover {
-  background: #c257b8;
+  background: #1a8cff;
   color: #ffffff;
 }
 
 .btn.btn-ghost:focus, .btn.btn-ghost:active {
   outline: none;
   background: transparent;
-  color: #c257b8;
-  border: 1px solid #c257b8;
+  color: #1a8cff;
+  border: 1px solid #1a8cff;
 }
 
 .probootstrap-section {
@@ -755,7 +755,7 @@ only screen and (min-resolution: 2dppx) {
 
 .probootstrap-cta {
   padding: 3em 0;
-  background: #c257b8;
+  background: #1a8cff;
   color: #ffffff;
 }
 
@@ -809,7 +809,7 @@ only screen and (min-resolution: 2dppx) {
 
 .probootstrap-cta .btn.btn-ghost:hover {
   background: #ffffff;
-  color: #c257b8;
+  color: #1a8cff;
 }
 
 .probootstrap-footer {
@@ -819,7 +819,7 @@ only screen and (min-resolution: 2dppx) {
 }
 
 .probootstrap-footer a {
-  color: rgba(194, 87, 184, 0.7);
+  color: rgba(26, 140, 255, 0.7);
 }
 
 .probootstrap-footer a:hover,
@@ -878,7 +878,7 @@ only screen and (min-resolution: 2dppx) {
 .service .icon i {
   font-size: 60px;
   color: rgba(0, 0, 0, 0.2);
-  color: #c257b8;
+  color: #1a8cff;
 }
 
 .service h3 {
@@ -947,7 +947,7 @@ only screen and (min-resolution: 2dppx) {
 .probootstrap-form .form-control:active, .probootstrap-form .form-control:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
-  border-color: #c257b8;
+  border-color: #1a8cff;
 }
 
 .probootstrap-form textarea.form-control {
@@ -1378,7 +1378,7 @@ only screen and (min-resolution: 2dppx) {
   display: block;
   text-transform: none;
   letter-spacing: normal;
-  color: #c257b8;
+  color: #1a8cff;
   font-size: 14px;
 }
 
@@ -1388,7 +1388,7 @@ only screen and (min-resolution: 2dppx) {
 
 .probootstrap-pricing .probootstrap-price-wrap .probootstrap-price {
   font-size: 50px;
-  color: #c257b8;
+  color: #1a8cff;
   font-weight: 100;
   display: block;
   margin-bottom: 10px;
@@ -1528,7 +1528,7 @@ only screen and (min-resolution: 2dppx) {
 
 .owl-theme .owl-controls .owl-nav [class*="owl-"] i {
   font-size: 24px;
-  background: #c257b8 !important;
+  background: #1a8cff !important;
   padding: 12px;
   -webkit-transition: .5s all;
   transition: .5s all;
@@ -1536,7 +1536,7 @@ only screen and (min-resolution: 2dppx) {
 
 .owl-theme .owl-controls .owl-nav [class*="owl-"]:hover i,
 .owl-theme .owl-controls .owl-nav [class*="owl-"]:focus i {
-  background: #c257b8 !important;
+  background: #1a8cff !important;
 }
 
 .owl-theme .owl-dots {
