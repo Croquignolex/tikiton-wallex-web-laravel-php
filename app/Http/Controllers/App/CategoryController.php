@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Traits\LocaleAmountTrait;
 use Exception;
 use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Traits\PaginationTrait;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
@@ -15,7 +19,7 @@ use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
-    use ErrorFlashMessagesTrait, PaginationTrait;
+    use ErrorFlashMessagesTrait, PaginationTrait, LocaleAmountTrait;
 
     /**
      * AccountController constructor.
@@ -207,6 +211,61 @@ class CategoryController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function report(Request $request)
+    {
+        if($request->query('date') == null) $date_range = 0;
+        else $date_range = $request->query('date');
+        $type = $request->query('type');
+
+        $types = [Transaction::DAILY, Transaction::WEEKLY, Transaction::MONTHLY, Transaction::YEARLY];
+        if(!(is_string($type) && in_array($type, $types)) || !is_numeric($date_range))
+        {
+            warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            return back();
+        }
+
+        $begin_date = Carbon::now(); $end_date = Carbon::now();
+        $current_currency = $this->getCurrency();
+
+        if($type === Transaction::DAILY)
+        {
+            $begin_date->addDay($date_range)->startOfDay();
+            $end_date->addDay($date_range)->endOfDay();
+        }
+        else if($type === Transaction::WEEKLY)
+        {
+            $begin_date->addWeek($date_range)->startOfWeek();
+            $end_date->addWeek($date_range)->endOfWeek();
+        }
+        else if($type === Transaction::MONTHLY)
+        {
+            $begin_date->addMonth($date_range)->startOfMonth();
+            $end_date->addMonth($date_range)->endOfMonth();
+        }
+        else
+        {
+            $begin_date->addYear($date_range)->startOfYear();
+            $end_date->addYear($date_range)->endOfYear();
+        }
+
+        $transactions = Auth::user()->transactions
+            ->where('created_at', '>=', $begin_date)
+            ->where('created_at', '<=', $end_date)
+            ->sortByDesc('created_at');
+
+        $incomes_amount = $this->transactions_category_amount($transactions, Category::INCOME);
+        $transfer_amount = $this->transactions_category_amount($transactions, Category::TRANSFER);
+        $expenses_amount = $this->transactions_category_amount($transactions, Category::EXPENSE);
+        $total = $this->transactions_category_amount($transactions);
+        return view('app.reports.categories', compact('incomes_amount',
+            'type', 'transfer_amount', 'expenses_amount', 'date_range',
+            'current_currency', 'total', 'begin_date', 'end_date'));
+    }
+
+    /**
      * Check if the account already exist
      *
      * @param  string $name
@@ -250,5 +309,41 @@ class CategoryController extends Controller
     private function indexRoute($parameter)
     {
         return locale_route('categories.index') . '?type=' . $parameter;
+    }
+
+    /**
+     * @param Collection $transactions
+     * @param $type
+     * @return string
+     */
+    private function transactions_category_amount(Collection $transactions, $type = '')
+    {
+        $currency = $this->getCurrency();
+        if($type === '')
+        {
+            $transactions_amount = $transactions->sum(function (Transaction $transaction) {
+                if($transaction->is_stated)
+                    return $transaction->amount;
+                return 0;
+            }) / $currency->devaluation;
+        }
+        else
+        {
+            $transactions_amount = $transactions->sum(function (Transaction $transaction) use ($type) {
+                if($transaction->category->type === $type && $transaction->is_stated)
+                    return $transaction->amount;
+                return 0;
+            }) / $currency->devaluation;
+        }
+        return $this->formatNumber($transactions_amount);
+    }
+
+    /**
+     *
+     */
+    protected function getCurrency()
+    {
+        return Auth::user()->currencies
+            ->where('is_current', true)->first();
     }
 }

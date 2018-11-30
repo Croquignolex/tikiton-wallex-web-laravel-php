@@ -54,7 +54,9 @@ return [
     */
 
     'days' => 'Days',
+    'week' => 'Week',
     'months' => 'Months',
+    'of' => 'of',
     'by' => 'by',
     'type' => 'Type',
     'date' => 'Date',
@@ -90,7 +92,8 @@ return [
     'account_management_desc' => 'Personalize your information and credentials for better design and good security',
     'transaction_management' => 'Transaction management',
     'transaction_management_desc' => 'Whatever the choosen wallet, control your incomes and expenses',
-    'report' => 'Repports',
+    'report' => 'Repport',
+    'reports' => 'Repports',
     'report_desc' => 'The repports gives your a complete access to any data in you different wallets',
     'dashboard' => 'Dashboard',
     'dashboard_desc' => 'This the overview of every thing that has been done in your different wallets',
@@ -292,6 +295,15 @@ return [
     'yearly_category_chart' => 'Yearly categories types chart',
     'details_daily_category_chart' => 'Weekly categories types details chart',
     'details_yearly_category_chart' => 'Yearly categories types details chart',
+    'accounts_report' => 'Accounts report',
+    'categories_report' => 'Categories report',
+    'incomes_report' => 'Incomes report',
+    'transfers_report' => 'Transfers report',
+    'expenses_report' => 'Expenses report',
+    'daily' => 'Daily',
+    'weekly' => 'Weekly',
+    'monthly' => 'Monthly',
+    'yearly' => 'Yearly',
 
     /*
     |--------------------------------------------------------------------------

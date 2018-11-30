@@ -107,6 +107,16 @@ class Transaction extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getFormatCurrentCurrencyBalanceAttribute()
+    {
+        $currency = Auth::user()->currencies()->where('is_current', true)->first();
+        $amount = $this->amount / $currency->devaluation;
+        return $this->formatNumber($amount);
+    }
+
+    /**
      * @return mixed
      */
     public function getCanBeDeletedAttribute()

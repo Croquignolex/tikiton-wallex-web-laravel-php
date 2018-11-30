@@ -20,19 +20,19 @@
                                     </li>
                                     <li class="{{ active_page(collect(['dashboard.incomes'])) }} waves-effect">
                                         <a href="{{ locale_route('dashboard.incomes') }}">
-                                            <i class="fa fa-arrow-up text-success"></i>
+                                            <i class="fa fa-bar-chart-o text-success"></i>
                                             @lang('general.incomes')
                                         </a>
                                     </li>
                                     <li class="{{ active_page(collect(['dashboard.transfers'])) }} waves-effect">
                                         <a href="{{ locale_route('dashboard.transfers') }}">
-                                            <i class="fa fa-exchange text-info"></i>
+                                            <i class="fa fa-bar-chart-o text-info"></i>
                                             @lang('general.transfers')
                                         </a>
                                     </li>
                                     <li class="{{ active_page(collect(['dashboard.expenses'])) }} waves-effect">
                                         <a href="{{ locale_route('dashboard.expenses') }}">
-                                            <i class="fa fa-arrow-down text-danger"></i>
+                                            <i class="fa fa-bar-chart-o text-danger"></i>
                                             @lang('general.expenses')
                                         </a>
                                     </li>
@@ -51,33 +51,123 @@
                                         </a>
                                     </li>
                                     <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
-                                        <a data-toggle="collapse" data-target="#mobile_sub_transaction">
+                                        <a data-toggle="collapse" data-target="#mobile-sub-transaction">
                                             <i class="fa fa-plus"></i>
                                             @lang('general.new_transaction')
                                         </a>
-                                        <ul id="mobile_sub_transaction" class="collapse dropdown-header-top">
+                                        <ul id="mobile-sub-transaction" class="collapse dropdown-header-top">
                                             <li class="waves-effect">
                                                 <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::INCOME }}">
-                                                    <span class="text-success">
-                                                        <i class="fa fa-arrow-up"></i>
-                                                        @lang('general.new_income_transaction')
-                                                    </span>
+                                                    <i class="fa fa-arrow-up text-success"></i>
+                                                    @lang('general.new_income_transaction')
                                                 </a>
                                             </li>
                                             <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
                                                 <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::TRANSFER }}">
-                                                    <span class="text-info">
-                                                        <i class="fa fa-exchange"></i>
-                                                        @lang('general.new_transfer_transaction')
-                                                    </span>
+                                                    <i class="fa fa-exchange text-info"></i>
+                                                    @lang('general.new_transfer_transaction')
                                                 </a>
                                             </li>
                                             <li class="{{ active_page(collect(['transactions.create'])) }} waves-effect">
                                                 <a href="{{ locale_route('transactions.create') }}?type={{ \App\Models\Category::EXPENSE }}">
-                                                    <span class="text-danger">
-                                                        <i class="fa fa-arrow-down"></i>
-                                                        @lang('general.new_expense_transaction')
-                                                    </span>
+                                                    <i class="fa fa-arrow-down text-danger"></i>
+                                                    @lang('general.new_expense_transaction')
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="{{ active_page(collect(['transactions.income.report'])) }} waves-effect">
+                                        <a data-toggle="collapse" data-target="#mobile-sub-incomes-report">
+                                            <i class="fa fa-calendar text-success"></i>
+                                            @lang('general.incomes_report')
+                                        </a>
+                                        <ul id="mobile-sub-incomes-report" class="collapse dropdown-header-top">
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.income.report') }}?type={{ \App\Models\Transaction::DAILY }}">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    @lang('general.daily')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.income.report') }}?type={{ \App\Models\Transaction::WEEKLY }}">
+                                                    <i class="fa fa-calendar-check-o"></i>
+                                                    @lang('general.weekly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.income.report') }}?type={{ \App\Models\Transaction::MONTHLY }}">
+                                                    <i class="fa fa-calendar-o"></i>
+                                                    @lang('general.monthly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.income.report') }}?type={{ \App\Models\Transaction::YEARLY }}">
+                                                    <i class="fa fa-calendar"></i>
+                                                    @lang('general.yearly')
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="{{ active_page(collect(['transactions.transfer.report'])) }} waves-effect">
+                                        <a data-toggle="collapse" data-target="#mobile-sub-transfers-report">
+                                            <i class="fa fa-calendar text-info"></i>
+                                            @lang('general.transfers_report')
+                                        </a>
+                                        <ul id="mobile-sub-transfers-report" class="collapse dropdown-header-top">
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.transfer.report') }}?type={{ \App\Models\Transaction::DAILY }}">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    @lang('general.daily')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.transfer.report') }}?type={{ \App\Models\Transaction::WEEKLY }}">
+                                                    <i class="fa fa-calendar-check-o"></i>
+                                                    @lang('general.weekly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.transfer.report') }}?type={{ \App\Models\Transaction::MONTHLY }}">
+                                                    <i class="fa fa-calendar-o"></i>
+                                                    @lang('general.monthly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.transfer.report') }}?type={{ \App\Models\Transaction::YEARLY }}">
+                                                    <i class="fa fa-calendar"></i>
+                                                    @lang('general.yearly')
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="{{ active_page(collect(['transactions.expense.report'])) }} waves-effect">
+                                        <a data-toggle="collapse" data-target="#mobile-sub-expenses-report">
+                                            <i class="fa fa-calendar text-danger"></i>
+                                            @lang('general.expenses_report')
+                                        </a>
+                                        <ul id="mobile-sub-expenses-report" class="collapse dropdown-header-top">
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.expense.report') }}?type={{ \App\Models\Transaction::DAILY }}">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    @lang('general.daily')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.expense.report') }}?type={{ \App\Models\Transaction::WEEKLY }}">
+                                                    <i class="fa fa-calendar-check-o"></i>
+                                                    @lang('general.weekly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.expense.report') }}?type={{ \App\Models\Transaction::MONTHLY }}">
+                                                    <i class="fa fa-calendar-o"></i>
+                                                    @lang('general.monthly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('transactions.expense.report') }}?type={{ \App\Models\Transaction::YEARLY }}">
+                                                    <i class="fa fa-calendar"></i>
+                                                    @lang('general.yearly')
                                                 </a>
                                             </li>
                                         </ul>
@@ -102,6 +192,12 @@
                                             @lang('general.new_account')
                                         </a>
                                     </li>
+                                    <li class="{{ active_page(collect(['wallets.report'])) }} waves-effect">
+                                        <a href="{{ locale_route('wallets.report') }}">
+                                            <i class="fa fa-calendar"></i>
+                                            @lang('general.accounts_report')
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="{{ active_page(app_category_pages()) }}">
@@ -122,9 +218,40 @@
                                             @lang('general.new_category')
                                         </a>
                                     </li>
+                                    <li class="{{ active_page(collect(['categories.report'])) }} waves-effect">
+                                        <a data-toggle="collapse" data-target="#mobile-sub-categories-report">
+                                            <i class="fa fa-calendar"></i>
+                                            @lang('general.categories_report')
+                                        </a>
+                                        <ul id="mobile-sub-categories-report" class="collapse dropdown-header-top">
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('categories.report') }}?type={{ \App\Models\Transaction::DAILY }}">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    @lang('general.daily')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('categories.report') }}?type={{ \App\Models\Transaction::WEEKLY }}">
+                                                    <i class="fa fa-calendar-check-o"></i>
+                                                    @lang('general.weekly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('categories.report') }}?type={{ \App\Models\Transaction::MONTHLY }}">
+                                                    <i class="fa fa-calendar-o"></i>
+                                                    @lang('general.monthly')
+                                                </a>
+                                            </li>
+                                            <li class="waves-effect">
+                                                <a href="{{ locale_route('categories.report') }}?type={{ \App\Models\Transaction::YEARLY }}">
+                                                    <i class="fa fa-calendar"></i>
+                                                    @lang('general.yearly')
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-
                             <li class="{{ active_page(app_currency_pages()) }}">
                                 <a data-toggle="collapse" data-target="#mobile_currency">
                                     <i class="fa fa-dollar"></i>

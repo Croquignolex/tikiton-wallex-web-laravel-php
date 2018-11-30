@@ -9,6 +9,8 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Traits\PaginationTrait;
+use App\Traits\LocaleAmountTrait;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -19,7 +21,7 @@ use App\Http\Requests\TransactionFilterRequest;
 
 class TransactionController extends Controller
 {
-    use ErrorFlashMessagesTrait, PaginationTrait;
+    use ErrorFlashMessagesTrait, PaginationTrait, LocaleAmountTrait;
 
     /**
      * AccountController constructor.
@@ -47,7 +49,7 @@ class TransactionController extends Controller
         try
         {
             $transactions = Auth::user()->transactions
-                ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
+                ->where('created_at', '>=', $begin_date)->where('created_at', '<=', $end_date)
                 ->sortByDesc('created_at')->load('category', 'wallets');
 
             $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
@@ -507,6 +509,91 @@ class TransactionController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function incomeReport(Request $request)
+    {
+        return $this->report($request, Category::INCOME,
+            'app.reports.incomes');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function transferReport(Request $request)
+    {
+        return $this->report($request, Category::TRANSFER,
+            'app.reports.transfers');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function expenseReport(Request $request)
+    {
+        return $this->report($request, Category::EXPENSE,
+            'app.reports.expenses');
+    }
+
+    /**
+     * @param Request $request
+     * @param $category_type
+     * @param $view_name
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    private function report(Request $request, $category_type, $view_name)
+    {
+        if($request->query('date') == null) $date_range = 0;
+        else $date_range = $request->query('date');
+        $type = $request->query('type');
+
+        $types = [Transaction::DAILY, Transaction::WEEKLY, Transaction::MONTHLY, Transaction::YEARLY];
+        if(!(is_string($type) && in_array($type, $types)) || !is_numeric($date_range))
+        {
+            warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            return back();
+        }
+
+        $begin_date = Carbon::now(); $end_date = Carbon::now();
+        $current_currency = $this->getCurrency();
+
+        if($type === Transaction::DAILY)
+        {
+            $begin_date->addDay($date_range)->startOfDay();
+            $end_date->addDay($date_range)->endOfDay();
+        }
+        else if($type === Transaction::WEEKLY)
+        {
+            $begin_date->addWeek($date_range)->startOfWeek();
+            $end_date->addWeek($date_range)->endOfWeek();
+        }
+        else if($type === Transaction::MONTHLY)
+        {
+            $begin_date->addMonth($date_range)->startOfMonth();
+            $end_date->addMonth($date_range)->endOfMonth();
+        }
+        else
+        {
+            $begin_date->addYear($date_range)->startOfYear();
+            $end_date->addYear($date_range)->endOfYear();
+        }
+
+        $transactions = $this->filterTransactionPerCategoryType(
+            Auth::user()->transactions
+                ->where('created_at', '>=', $begin_date)
+                ->where('created_at', '<=', $end_date)
+                ->sortByDesc('created_at'), $category_type);
+
+        $total = $this->transactions_category_amount($transactions);
+        return view($view_name, compact('transactions',
+            'type', 'date_range', 'current_currency', 'total', 'begin_date',
+            'end_date'));
+    }
+
+    /**
      * @param $type
      * @return bool
      */
@@ -536,10 +623,12 @@ class TransactionController extends Controller
     {
         try
         {
-            $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
+            $transactionsAmount = $transactions->sum(function (Transaction $transaction) {
+                if($transaction->is_stated) return $transaction->amount;
+                return 0;
+            });
             $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
-                        if($transaction->category->type === $type)
-                            return $transaction->amount;
+                        if($transaction->category->type === $type && $transaction->is_stated) return $transaction->amount;
                         return 0;
                     }) * 100) / $transactionsAmount;
         }
@@ -549,5 +638,42 @@ class TransactionController extends Controller
         }
 
         return round($percentage);
+    }
+
+
+    /**
+     * @param Collection $transactions
+     * @return string
+     */
+    private function transactions_category_amount(Collection $transactions)
+    {
+        $currency = $this->getCurrency();
+        $transactions_amount = $transactions->sum(function (Transaction $transaction) {
+                if($transaction->is_stated) return $transaction->amount;
+                return 0;
+            }) / $currency->devaluation;
+        return $this->formatNumber($transactions_amount);
+    }
+
+    /**
+     *
+     */
+    protected function getCurrency()
+    {
+        return Auth::user()->currencies
+            ->where('is_current', true)->first();
+    }
+
+    /**
+     * @param Collection $transactions
+     * @param $category_type
+     * @return Collection
+     */
+    private function filterTransactionPerCategoryType(Collection $transactions, $category_type)
+    {
+        return $transactions->filter(function (Transaction $transaction) use ($category_type) {
+            if($transaction->category->type === $category_type) return true;
+            return false;
+        });
     }
 }

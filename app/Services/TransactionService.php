@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\Transaction;
+use Carbon\Carbon;
 use App\Models\Category;
 use App\Utils\FormatBoolean;
-use Carbon\Carbon;
 use App\Traits\LocaleDateTimeTrait;
 use Illuminate\Support\Facades\App;
 
@@ -61,6 +62,42 @@ class TransactionService
                 $date->format($this->timeFormat($locale));
         }
         else return trans('general.unknown');
+    }
+
+    /**
+     * @param $date_range
+     * @param string $type
+     * @param $route
+     * @return \Illuminate\Support\Collection
+     */
+    public function getDateRangeChanger($date_range, $type, $route = '')
+    {
+        $monthChanger = collect();
+        $monthChanger->push($route . '?date=' . $date_range . '&type=' . $type);
+        $date = Carbon::now();
+
+        if($type === Transaction::DAILY)
+        {
+            $date->addDay($date_range);
+            $monthChanger->push($this->getDayFormatDate($date));
+        }
+        else if($type === Transaction::WEEKLY)
+        {
+            $date->addWeek($date_range);
+            $monthChanger->push($this->getWeekFormatDate($date));
+        }
+        else if($type === Transaction::MONTHLY)
+        {
+            $date->addMonth($date_range);
+            $monthChanger->push($this->getMonthFormatDate($date));
+        }
+        else
+        {
+            $date->addYear($date_range);
+            $monthChanger->push($date->year);
+        }
+
+        return $monthChanger;
     }
 
     /**

@@ -37,4 +37,13 @@ return [
     'account_edit' => 'Ici vous avez les informations et le formulaire de mise à jour de votre profil',
     'account_email' => 'Ici vous avez le formulaire de mise à jour de votre email',
     'account_password' => 'Ici vous avez le formulaire de mise à jour de votre mot de passe',
+    'dashboard_general' => 'Ici vous avez les graphes réprésentant généralement la situation de votre solde et celle de vos types de catégories',
+    'dashboard_incomes' => 'Ici vous avez les graphes réprésentant vos revenus par catégories du même type',
+    'dashboard_expenses' => 'Ici vous avez les graphes réprésentant vos dépenses par catégories du même type',
+    'dashboard_transfers' => 'Ici vous avez les graphes réprésentant vos transfers par catégories du même type',
+    'accounts_report' => 'Ici vous avez le rapport des soldes de tous les comptes',
+    'categories_report' => 'Ici vous avez le rapport des types de catégories',
+    'incomes_report' => 'Ici vous avez le rapport des révenues',
+    'transfers_report' => 'Ici vous avez le rapport des transfers',
+    'expenses_report' => 'Ici vous avez le rapport des dépenses',
 ];

@@ -55,6 +55,8 @@ return [
 
     'days' => 'Jours',
     'months' => 'Mois',
+    'week' => 'Sémaine',
+    'of' => 'de',
     'by' => 'par',
     'type' => 'Type',
     'date' => 'Date',
@@ -90,7 +92,8 @@ return [
     'account_management_desc' => 'Personalisez vos informations et vos accès pour le confort des yeux et une meilleur sécurité',
     'transaction_management' => 'Gestion des transactions',
     'transaction_management_desc' => 'Peut importe le porte-feuille choisis, controllez vos gains et dépenses',
-    'report' => 'Rapports',
+    'report' => 'Rapport',
+    'reports' => 'Rapports',
     'report_desc' => 'Les rapports vous donne une accès complèt aux données de vos différent porte-feuille',
     'dashboard' => 'Tableau de bord',
     'dashboard_desc' => 'Ceci est le récaputilatif de tous ce qui à été fait dans vos différent porte-feuille',
@@ -292,6 +295,15 @@ return [
     'yearly_category_chart' => 'Graphe des types de catégory de l\'année',
     'details_daily_category_chart' => 'Graphe des types de catégory sur la sémaine en détails',
     'details_yearly_category_chart' => 'Graphe des types de catégory sur l\'année en détails',
+    'accounts_report' => 'Rapport des comptes',
+    'categories_report' => 'Rapport des catégories',
+    'incomes_report' => 'Rapport des revenues',
+    'transfers_report' => 'Rapport des transferts',
+    'expenses_report' => 'Rapport des dépenses',
+    'daily' => 'Journalière',
+    'weekly' => 'Hebdomadaire',
+    'monthly' => 'Mensuel',
+    'yearly' => 'Annuel',
 
     /*
     |--------------------------------------------------------------------------

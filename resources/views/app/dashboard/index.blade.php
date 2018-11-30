@@ -40,6 +40,17 @@
             </div>
         </div>
     </div>
+    <div class="tips-area mg-t-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @component('components.tips', ['title' => trans('general.dashboard')])
+                        @lang('tips.dashboard_general')
+                    @endcomponent
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="charts-area mg-t-20" id="chart-refresh">
         <div class="container">
             <div class="row">
@@ -70,7 +81,7 @@
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::WEEKLY,
                            'title' => trans('general.weekly_category_chart'),
-                           'title_date' => $transactionService->getDayFormatDate(now()),
+                           'title_date' => $transactionService->getWeekFormatDate(now()),
                            'loader_id' => 'weekly-category-loader',
                            'chart_id' => 'weekly-category-chart',
                            'event_function_name' => 'weekly_category_refresh'

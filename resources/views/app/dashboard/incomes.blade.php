@@ -54,6 +54,17 @@
             </div>
         </div>
     </div>
+    <div class="tips-area mg-t-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @component('components.tips', ['title' => trans('general.dashboard')])
+                        @lang('tips.dashboard_incomes')
+                    @endcomponent
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="charts-area mg-t-20" id="chart-refresh">
         <div class="container">
             <div class="row">

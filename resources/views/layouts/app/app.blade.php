@@ -12,8 +12,37 @@
     @include('partials.app.footer')
 
     @component('components.app.new-transaction-modal', [
+        'title' => trans('general.new_transaction'),
         'id' => 'new-transaction',
         'route' => locale_route('transactions.create')
+    ])
+    @endcomponent
+
+    @component('components.app.report-modal', [
+        'title' => trans('general.categories_report'),
+        'id' => 'categories-report',
+        'route' => locale_route('categories.report')
+    ])
+    @endcomponent
+
+    @component('components.app.report-modal', [
+        'title' => trans('general.incomes_report'),
+        'id' => 'incomes-report',
+        'route' => locale_route('transactions.income.report')
+    ])
+    @endcomponent
+
+    @component('components.app.report-modal', [
+        'title' => trans('general.transfers_report'),
+        'id' => 'transfers-report',
+        'route' => locale_route('transactions.transfer.report')
+    ])
+    @endcomponent
+
+    @component('components.app.report-modal', [
+        'title' => trans('general.expenses_report'),
+        'id' => 'expenses-report',
+        'route' => locale_route('transactions.expense.report')
     ])
     @endcomponent
 @endsection

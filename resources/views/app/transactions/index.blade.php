@@ -6,11 +6,7 @@
 @section('breadcrumb.title', trans('general.transactions'))
 
 @section('breadcrumb.message')
-    <a href="{{ locale_route('transactions.index') }}">
-        @lang('general.transactions')
-    </a>
-    [{{ $transactionService->getMediumFormatDate($begin_date) }} -
-    {{ $transactionService->getMediumFormatDate($end_date) }}]
+    <a href="{{ locale_route('transactions.index') }}">@lang('general.transactions')</a>
     ({{ $transactions->count() }})
 @endsection
 
@@ -45,6 +41,10 @@
                         ])
                         @endcomponent
                         <div class="white-container table-responsive">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                [{{ $transactionService->getMediumFormatDate($begin_date) }} -
+                                {{ $transactionService->getMediumFormatDate($end_date) }}]
+                            </div>
                             @component('components.app.transaction-table',
                                 ['transactions' => $transactions])
                             @endcomponent

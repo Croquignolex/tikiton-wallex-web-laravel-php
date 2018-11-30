@@ -52,19 +52,19 @@
                             </li>
                             <li class="{{ active_page(collect(['dashboard.incomes'])) }} waves-effect">
                                 <a href="{{ locale_route('dashboard.incomes') }}">
-                                    <i class="fa fa-arrow-up text-success"></i>
+                                    <i class="fa fa-bar-chart-o text-success"></i>
                                     @lang('general.incomes')
                                 </a>
                             </li>
                             <li class="{{ active_page(collect(['dashboard.transfers'])) }} waves-effect">
                                 <a href="{{ locale_route('dashboard.transfers') }}">
-                                    <i class="fa fa-exchange text-info"></i>
+                                    <i class="fa fa-bar-chart-o text-info"></i>
                                     @lang('general.transfers')
                                 </a>
                             </li>
                             <li class="{{ active_page(collect(['dashboard.expenses'])) }} waves-effect">
                                 <a href="{{ locale_route('dashboard.expenses') }}">
-                                    <i class="fa fa-arrow-down text-danger"></i>
+                                    <i class="fa fa-bar-chart-o text-danger"></i>
                                     @lang('general.expenses')
                                 </a>
                             </li>
@@ -84,6 +84,24 @@
                                     @lang('general.new_transaction')
                                 </a>
                             </li>
+                            <li class="{{ active_page(collect(['transactions.income.report'])) }} waves-effect">
+                                <a href="javascript: void(0);" data-toggle="modal" data-target="#incomes-report">
+                                    <i class="fa fa-table text-success"></i>
+                                    @lang('general.incomes_report')
+                                </a>
+                            </li>
+                            <li class="{{ active_page(collect(['transactions.transfer.report'])) }} waves-effect">
+                                <a href="javascript: void(0);" data-toggle="modal" data-target="#transfers-report">
+                                    <i class="fa fa-table text-info"></i>
+                                    @lang('general.transfers_report')
+                                </a>
+                            </li>
+                            <li class="{{ active_page(collect(['transactions.expense.report'])) }} waves-effect">
+                                <a href="javascript: void(0);" data-toggle="modal" data-target="#expenses-report">
+                                    <i class="fa fa-table text-danger"></i>
+                                    @lang('general.expenses_report')
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div id="account" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(app_wallet_pages()) === 'active' ? 'in active': '' }}">
@@ -100,6 +118,12 @@
                                     @lang('general.new_account')
                                 </a>
                             </li>
+                            <li class="{{ active_page(collect(['wallets.report'])) }} waves-effect">
+                                <a href="{{ locale_route('wallets.report') }}">
+                                    <i class="fa fa-table"></i>
+                                    @lang('general.accounts_report')
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div id="category" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(app_category_pages()) === 'active' ? 'in active': '' }}">
@@ -114,6 +138,12 @@
                                 <a href="{{ locale_route('categories.create') }}">
                                     <i class="fa fa-plus"></i>
                                     @lang('general.new_category')
+                                </a>
+                            </li>
+                            <li class="{{ active_page(collect(['categories.report'])) }} waves-effect">
+                                <a href="javascript: void(0);" data-toggle="modal" data-target="#categories-report">
+                                    <i class="fa fa-table"></i>
+                                    @lang('general.categories_report')
                                 </a>
                             </li>
                         </ul>

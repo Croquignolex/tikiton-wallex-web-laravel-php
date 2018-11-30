@@ -163,9 +163,8 @@ trait LocaleDateTimeTrait
     private function dateWeekFormat($locale, Carbon $date)
     {
         if($locale === 'fr' || $locale === 'en')
-            return $date->startOfWeek()->day . ' - ' .
-                $date->endOfWeek()->day . ' ' .
-                trans('month.' . $date->month) . ' ' . $date->year;
+            return trans('general.week') . ' ' .
+                $date->weekOfYear . ' ' . trans('general.of') . ' ' . $date->year;
         else return trans('general.unknown');
     }
 

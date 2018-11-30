@@ -169,6 +169,7 @@
     @endif
 
     @component('components.app.new-transaction-modal', [
+        'title' => trans('general.add_transaction'),
         'id' => 'add-transaction',
         'route' => locale_route('wallets.transactions.create', [$wallet])
     ])

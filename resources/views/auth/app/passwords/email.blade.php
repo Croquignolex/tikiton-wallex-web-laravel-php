@@ -7,12 +7,12 @@
     <div class="login-content">
         <!-- Login -->
         <div class="nk-block toggled">
-            <div class="logo">
-                <a href="{{ locale_route('home') }}">
-                    <img src="{{ img_asset('logo') }}" alt="...">
-                </a>
-            </div>
             <div class="nk-form" id="form-validation">
+                <div class="logo">
+                    <a href="{{ locale_route('home') }}">
+                        <img src="{{ img_asset('logo') }}" alt="...">
+                    </a>
+                </div>
                 <h5 class="text-uppercase">
                     {{ trans('general.pwd_reset') }}
                 </h5>
@@ -43,7 +43,7 @@
                             </div>
                         @endcomponent
                     </div>
-                    <button type="submit" class="btn btn-login btn-success btn-float" title="{{ trans('auth.send_reset_link') }}">
+                    <button type="submit" class="btn btn-login btn-theme-1 btn-float" title="{{ trans('auth.send_reset_link') }}">
                         <i class="fa fa-chevron-right"></i>
                     </button>
                 </form>

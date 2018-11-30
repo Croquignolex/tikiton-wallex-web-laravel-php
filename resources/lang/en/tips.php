@@ -37,4 +37,13 @@ return [
     'account_edit' => 'Here you have information and your profile update form',
     'account_email' => 'Here you have your e-mail address update form',
     'account_password' => 'Here you have your password update form',
+    'dashboard_general' => 'He you have a general representation of you balance and your categories types',
+    'dashboard_incomes' => 'Here you have incomes chart by categories of the same type',
+    'dashboard_expenses' => 'Here you have transfers chart by categories of the same type',
+    'dashboard_transfers' => 'Here you have expenses chart by categories of the same type',
+    'accounts_report' => 'Here you have all accounts balances report',
+    'categories_report' => 'Here you have categories types report',
+    'incomes_report' => 'Here you have incomes report',
+    'transfers_report' => 'Here you have transfers report',
+    'expenses_report' => 'Here you have expenses report',
 ];

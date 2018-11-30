@@ -94,6 +94,16 @@ class Wallet extends Model
     /**
      * @return string
      */
+    public function getFormatCurrentCurrencyBalanceAttribute()
+    {
+        $currency = Auth::user()->currencies()->where('is_current', true)->first();
+        $balance = $this->balance / $currency->devaluation;
+        return $this->formatNumber($balance);
+    }
+
+    /**
+     * @return string
+     */
     public function getFormatStatedAttribute()
     {
         return $this->is_stated

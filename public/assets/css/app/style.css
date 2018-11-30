@@ -29,10 +29,15 @@ a {
     border: none;
     box-shadow: none;
 }
-.transaction-modal-action {
-    background-color: #FFFFFF;
+.modal-action {
+    border: 1px solid #ffffff;
+    color: #ffffff;
     padding: 20px;
-    margin: 10px;
+    background-color: #1a8cff;
+}
+.modal-action:hover {
+    background-color: #7eca48;
+    color: #ffffff;
 }
 .chart-dismiss {
     float:right;

@@ -10,6 +10,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Traits\PaginationTrait;
+use App\Traits\LocaleAmountTrait;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WalletRequest;
@@ -19,7 +20,7 @@ use App\Http\Requests\TransactionFilterRequest;
 
 class WalletController extends Controller
 {
-    use ErrorFlashMessagesTrait, PaginationTrait;
+    use ErrorFlashMessagesTrait, PaginationTrait, LocaleAmountTrait;
 
     /**
      * AccountController constructor.
@@ -38,7 +39,7 @@ class WalletController extends Controller
         $wallets = collect();
         try
         {
-            $wallets = Auth::user()->wallets()->with('currency')->get()
+            $wallets = Auth::user()->wallets()->get()
                 ->sortByDesc('updated_at')->load('currency');
         }
         catch (Exception $exception)
@@ -386,6 +387,33 @@ class WalletController extends Controller
     }
 
     /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function report()
+    {
+        $wallets = collect(); $current_currency = null; $total = 0;
+        try
+        {
+            $wallets = Auth::user()->wallets()->get()
+                ->sortByDesc('updated_at')->load('currency');
+            $current_currency = Auth::user()->currencies()
+                ->where('is_current', true)->first();
+
+            $total = $this->formatNumber(
+                $wallets->where('is_stated', true)->sum(function (Wallet $wallet) {
+                            return $wallet->balance;
+            }) / $current_currency->devaluation);
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return view('app.reports.wallets', compact('wallets',
+            'current_currency', 'total'));
+    }
+
+    /**
      * Check if the account already exist
      *
      * @param  string $name
@@ -422,10 +450,12 @@ class WalletController extends Controller
     {
         try
         {
-            $transactionsAmount = $transactions->sum(function (Transaction $transaction) { return $transaction->amount; });
+            $transactionsAmount = $transactions->sum(function (Transaction $transaction) {
+                if($transaction->is_stated) return $transaction->amount;
+                return 0;
+            });
             $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
-                if($transaction->category->type === $type)
-                    return $transaction->amount;
+                if($transaction->category->type === $type && $transaction->is_stated) return $transaction->amount;
                 return 0;
             }) * 100) / $transactionsAmount;
         }
