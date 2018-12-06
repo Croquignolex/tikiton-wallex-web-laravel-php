@@ -168,7 +168,9 @@ class AccountController extends Controller
                         try
                         {
                             //TODO: Edit contact form email
+                            //TODO: Save to news later list
                             $this->userFactoryData($user);
+                            //Save to news later list
                             //Mail::to(config('company.email_1'))->send(new NewCustomerMail($user));
                         }
                         catch (Exception $exception)
