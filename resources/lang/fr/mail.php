@@ -19,6 +19,7 @@ return [
         vous avez éffectués cette action, s\'il vous plais validez votre adresse email en cliquant sur le 
         bouton ci-dessous',
     'validate_my_account' => 'Valider mon compte',
+    'validate_my_email' => 'Valider mon e-mail',
     'reset_my_password' => 'Réinitialiser mon mot de passe',
     'bottom_register_msg' => 'Si ce bouton ne fonctionne pas, essayez de copier et coller cet URL dans
         votre navigateur web. Si le problème perssiste, s\'il vous plais sentez vous libre de nous

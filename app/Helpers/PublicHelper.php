@@ -72,6 +72,19 @@ if(!function_exists('js_admin_asset'))
     }
 }
 
+if(!function_exists('external_img_asset'))
+{
+    /**
+     * @param $img_file
+     * @param $extension
+     * @return string
+     */
+    function external_img_asset($img_file, $extension = 'png')
+    {
+        return asset(img_asset($img_file, $extension));
+    }
+}
+
 if(!function_exists('img_asset'))
 {
     /**

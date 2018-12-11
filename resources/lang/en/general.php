@@ -304,6 +304,7 @@ return [
     'weekly' => 'Weekly',
     'monthly' => 'Monthly',
     'yearly' => 'Yearly',
+    'admin_thanks' => 'Thanks (:app team)',
 
     /*
     |--------------------------------------------------------------------------
@@ -346,7 +347,7 @@ return [
     'sales' => 'Sales',
     'leave_message' => 'Leave a message',
 
-    'admin_thanks' => 'Thanks (:app team)',
+
     'bad_link' => 'Bad link or expired',
     'well_confirmed' => 'Your account is successfully validate. Login and start management your wallets',
 

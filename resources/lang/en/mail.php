@@ -19,6 +19,7 @@ return [
         email. If you did make this action, please validate your email by clicking on the
         button bellow',
     'validate_my_account' => 'Validate my account',
+    'validate_my_email' => 'Validate my email',
     'reset_my_password' => 'Reset my password',
     'bottom_register_msg' => 'If this button above does not work, try copying and pasting this
         URL into your browser. If you continue to have problems, please feel free to contact

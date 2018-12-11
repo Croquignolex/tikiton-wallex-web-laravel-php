@@ -43,6 +43,7 @@ return [
     'well_confirmed' => 'You are successfully identified. Login and start your transactions',
     'well_reset_sent' => 'The reset link has been send to your through e-mail, check your e-mail',
     'account_validation' => 'Account validation',
+    'email_validation' => 'Email validation',
     'enter_email' => 'Enter your email',
     'enter_password' => 'Enter your password',
     'fill_form' => 'Fill the form',

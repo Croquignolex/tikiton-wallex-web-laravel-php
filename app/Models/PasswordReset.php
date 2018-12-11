@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property mixed token
+ * @property mixed user
  */
 class PasswordReset extends Model
 {
@@ -15,26 +15,14 @@ class PasswordReset extends Model
      * @var array
      */
     protected $fillable = [
-        'email'
+        'token', 'user_id'
     ];
 
     /**
-     * Boot functions
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    protected static function boot()
+    public function user()
     {
-        static::creating(function ($password_reset) {
-            $password_reset->token = str_random(64);
-        });
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getResetLinkAttribute()
-    {
-        return locale_route('password.reset', [
-            'token' => $this->token
-        ]);
+        return $this->belongsTo('App\Models\User');
     }
 }

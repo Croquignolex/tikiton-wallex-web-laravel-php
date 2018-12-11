@@ -4,6 +4,8 @@ namespace App\Http\Controllers\App\Auth;
 
 use Exception;
 use App\Models\User;
+use App\Mail\UserRegisterMail;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Traits\ErrorFlashMessagesTrait;
@@ -59,8 +61,7 @@ class RegisterController extends Controller
 
             try
             {
-                //TODO: Edit contact form email
-                //Mail::to($user->email)->send(new UserRegisterMail($user));
+                Mail::to($user->email)->send(new UserRegisterMail($user));
                 success_flash_message(trans('auth.success'), trans('auth.registration_message'));
             }
             catch (Exception $exception)

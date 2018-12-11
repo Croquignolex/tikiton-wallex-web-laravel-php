@@ -7,11 +7,14 @@ use App\Models\User;
 use App\Models\Setting;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Mail\UserEmailChangeMail;
+use App\Mail\NewConfirmedUserMail;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\EmailRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\PasswordRequest;
 use App\Traits\ErrorFlashMessagesTrait;
 
@@ -120,11 +123,10 @@ class AccountController extends Controller
     {
         try
         {
-            Auth::user()->update(['email' => $request->email, 'is_confirmed' => false]);
+            $user = Auth::user()->update(['email' => $request->email, 'is_confirmed' => false]);
             try
             {
-                //TODO: Edit contact form email
-                //Mail::to($user->email)->send(new UserEmailChangeMail($user));
+                Mail::to($user->email)->send(new UserEmailChangeMail($user));
                 info_flash_message(trans('auth.info'), trans('auth.email_sent'));
             }
             catch (Exception $exception)
@@ -167,11 +169,8 @@ class AccountController extends Controller
                     {
                         try
                         {
-                            //TODO: Edit contact form email
-                            //TODO: Save to news later list
                             $this->userFactoryData($user);
-                            //Save to news later list
-                            //Mail::to(config('company.email_1'))->send(new NewCustomerMail($user));
+                            Mail::to(config('company.email_1'))->send(new NewConfirmedUserMail($user));
                         }
                         catch (Exception $exception)
                         {

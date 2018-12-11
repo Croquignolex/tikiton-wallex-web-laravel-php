@@ -5,7 +5,8 @@ namespace App\Http\Controllers\App\Auth;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PasswordReset;
+use App\Mail\UserPasswordResetMail;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Traits\ResetPasswordUserTrait;
 use App\Traits\ErrorFlashMessagesTrait;
@@ -100,15 +101,12 @@ class ForgotPasswordController extends Controller
     {
         try
         {
-            $password_reset = PasswordReset::where(['email' => $user->email])->first();
-
-            if(is_null($password_reset)) PasswordReset::create(['email' => $user->email]);
-            else $password_reset->update(['token' => str_random(64)]);
+            if($user->password_reset === null) $user->password_reset()->create(['token' => str_random(64)]);
+            else $user->password_reset()->update(['token' => str_random(64)]);
 
             try
             {
-                //TODO: Edit contact form email
-                //Mail::to($user->email)->send(new UserPasswordResetMail($user));
+                Mail::to($user->email)->send(new UserPasswordResetMail($user));
                 return true;
             }
             catch (Exception $exception)

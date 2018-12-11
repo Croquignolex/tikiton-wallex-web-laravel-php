@@ -304,6 +304,7 @@ return [
     'weekly' => 'Hebdomadaire',
     'monthly' => 'Mensuel',
     'yearly' => 'Annuel',
+    'admin_thanks' => 'Merci (Equipe :app)',
 
     /*
     |--------------------------------------------------------------------------
@@ -345,7 +346,7 @@ return [
     'sales' => 'Ventes',
     'leave_message' => 'Laisser un méssage',
 
-    'admin_thanks' => 'Merci (Equipe :app)',
+
     'bad_link' => 'Le lien a expiré ou n\'est pas correct',
     'well_confirmed' => 'Votre compte est validé avec succèss. connectez-vous et commencez à gérer vos porte-feuilles',
 

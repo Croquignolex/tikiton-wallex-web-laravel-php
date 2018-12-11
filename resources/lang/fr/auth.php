@@ -43,6 +43,7 @@ return [
     'well_confirmed' => 'Vous êtes identifié avec succèss. connectez-vous et commencez vos transactions' ,
     'well_reset_sent' => 'Le lien de réinitialisation vous a été envoyé par mail, veillez consulter vos mails',
     'account_validation' => 'Validation du compte',
+    'email_validation' => 'Validation de l\'e-mail',
     'enter_email' => 'Entrez votre email',
     'enter_password' => 'Entrez votre mot de passe',
     'fill_form' => 'Remplissez le formulaire',

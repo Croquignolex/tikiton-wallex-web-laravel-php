@@ -1047,7 +1047,7 @@ ul.notika-menu-wrap li a{
     transition:all .4s ease 0s;
 }
 /*----------------------------------------*/
-/*  12.  Todo CSS
+/*  12. CSS
 /*----------------------------------------*/
 .todo-list li {
     border: 0px;
@@ -2922,7 +2922,6 @@ hr {
     width: 100%;
 }
 .dataTables_filter label:after {
-    /*TODO: Put this in Fontawesome*/
     content: "\f002";
     font-family: 'FontAwesome';
     position: absolute;
@@ -2942,7 +2941,6 @@ hr {
     content: "\f053";
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.next:before, .dataTables_wrapper .dataTables_paginate .paginate_button.previous:before {
-    /*TODO: Put this in Fontawesome*/
     font-family: 'FontAwesome';
     font-size: 14px;
     line-height: 35px;

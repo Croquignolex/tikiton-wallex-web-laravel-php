@@ -207,7 +207,7 @@ trait LocaleDateTimeTrait
             return trans('day.' . $date->dayOfWeek) . ' ' .
                 $date->day . ' ' .
                 trans('month.' . $date->month) . ' ' .
-                $date->year . ' ' .
+                $date->year . ' à ' .
                 $date->format($this->timeFormat($locale)) . ' GMT';
         }
         elseif ($locale === 'en')
@@ -215,7 +215,7 @@ trait LocaleDateTimeTrait
             return trans('day.' . $date->dayOfWeek) . ' ' .
                 trans('month.' . $date->month) . ' ' .
                 $date->day . ' ' .
-                $date->year . ' ' .
+                $date->year . ' at ' .
                 $date->format($this->timeFormat($locale)) . ' GMT';
         }
         else return trans('general.unknown');

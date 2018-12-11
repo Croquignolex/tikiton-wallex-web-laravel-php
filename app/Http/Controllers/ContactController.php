@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Setting;
 use App\Models\Contact;
+use App\Mail\ContactFormMail;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ContactRequest;
 use App\Traits\ErrorFlashMessagesTrait;
 
@@ -39,8 +41,7 @@ class ContactController extends Controller
                 {
                     try
                     {
-                        //TODO: Edit contact form email
-                        //Mail::to(config('company.email_1'))->send(new ContactFormMail($contact));
+                        Mail::to(config('company.email_1'))->send(new ContactFormMail($contact));
                     }
                     catch (Exception $exception)
                     {

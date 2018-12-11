@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
+ * @property mixed id
  * @property string city
  * @property mixed image
  * @property string phone
@@ -21,6 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property bool is_confirmed
  * @property string description
  * @property bool is_super_admin
+ * @property mixed password_reset
  * @property mixed format_last_name
  * @property mixed format_first_name
  * @property array|null|string email
@@ -30,7 +32,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    //TODO:Create user default settings where a new user is added
     use LocaleDateTimeTrait, DescriptionTrait;
 
     /**
@@ -63,6 +64,14 @@ class User extends Authenticatable
             $user->token = str_random(64);
             $user->password = Hash::make($user->password);
         });
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function password_reset()
+    {
+        return $this->hasOne('App\Models\PasswordReset');
     }
 
     /**
@@ -120,6 +129,16 @@ class User extends Authenticatable
     {
         return locale_route('account.validation', [
             'email' => $this->email, 'token' => $this->token
+        ]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResetLinkAttribute()
+    {
+        return locale_route('password.reset', [
+            'token' => $this->password_reset->token
         ]);
     }
 

@@ -1,9 +1,6 @@
 <?php
 
 return [
-    'coming_email' => env('COMING_SOON_EMAIL', 'Laravel'),
-    'coming_name' => env('COMING_SOON_NAME', 'Laravel'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
