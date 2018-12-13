@@ -10,6 +10,7 @@ return [
     |
     */
 
+    'unknown' => 'Inconnu',
     'home' => 'Accueil',
     'about' => 'A propos',
     'contact' => 'Contact',
@@ -195,6 +196,7 @@ return [
     'delete_currency' => 'Supprimer la dévise: :name',
     'delete_category' => 'Supprimer la catégorie: :name',
     'delete_transaction' => 'Supprimer la transaction: :name',
+    'delete_notification' => 'Supprimer la notification: :name',
     'activate_currency' => 'Activer la dévise: :name',
     'cfm_action' => 'Vous confirmez cette action',
     'delete_successful' => ':name à été supprimé(e) avec succès',

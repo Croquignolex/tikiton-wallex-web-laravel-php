@@ -1,3 +1,4 @@
+@inject('notificationService', 'App\Services\NotificationService')
 <!--Start Header Area-->
 <div class="header-top-area">
     <div class="container">
@@ -11,42 +12,10 @@
                 <div class="header-top-menu">
                     <ul class="nav navbar-nav notika-top-nav">
                         <li class="nav-item dropdown">
-                            <a href="javascript: void(0);" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                <span><i class="fa fa-envelope-o"></i></span>
-                                @if(false)
-                                    <div class="spinner4 spinner-4"></div>
-                                @endif
-                                <div class="ntd-ctn-success"><span>0</span></div>
-                            </a>
-                            <div role="menu" class="dropdown-menu message-dd animated zoomIn">
-                                <div class="hd-mg-tt">
-                                    <h2 class="text-theme-1 text-uppercase">
-                                        <strong>@lang('general.messages')</strong>
-                                    </h2>
-                                </div>
-                                <div class="hd-message-info">
-                                    <a href="#">
-                                        <div class="hd-message-sn">
-                                            <div class="hd-message-img">
-                                                <img src="{{ img_asset('logo') }}" alt="..." />
-                                            </div>
-                                            <div class="hd-mg-ctn">
-                                                <h3>David Belle</h3>
-                                                <p>Cum sociis natoque penatibus et magnis dis parturient montes</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="hd-mg-va">
-                                    <a href="#">@lang('general.view_all')</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="javascript: void(0);" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                <span><i class="fa fa-bell-o flash-theme"></i></span>
+                            <a href="javascript: void(0);" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle" id="notification" @click="showNotifications">
+                                <span><i class="fa fa-bell-o {{ $notificationService->getBlinkClass() }}"></i></span>
                                 <div class="spinner4 spinner-4"></div>
-                                <div class="ntd-ctn-danger"><span>4</span></div>
+                                <div class="ntd-ctn-{{ $notificationService->getBadgeColor() }}"><span>{{ $notificationService->getNotificationsNumber() }}</span></div>
                             </a>
                             <div role="menu" class="dropdown-menu message-dd notification-dd animated zoomIn">
                                 <div class="hd-mg-tt">
@@ -55,26 +24,41 @@
                                     </h2>
                                 </div>
                                 <div class="hd-message-info">
-                                    <a href="#">
-                                        <div class="hd-message-sn">
-                                            <div class="hd-message-img">
-                                                <img src="{{ img_asset('logo') }}" alt="..." />
+                                    @forelse($notificationService->getNotifications() as $notification)
+                                        <a href="{{ $notification->url }}">
+                                            <div class="alert alert-default notification-line" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                                                    onclick="document.getElementById('delete-notification-{{ $notification->id }}').submit();">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h5 class="text-{{ $notification->color }}">
+                                                    <i class="fa fa-{{ $notification->icon }}"></i>
+                                                    {{ $notification->details }}
+                                                </h5>
+                                                <h5 class="text-muted font-italic">
+                                                    {{ $notification->long_created_date }}
+                                                </h5>
                                             </div>
-                                            <div class="hd-mg-ctn">
-                                                <h3>David Belle</h3>
-                                                <p>Cum sociis natoque penatibus et magnis dis parturient montes</p>
-                                            </div>
+                                        </a>
+                                        <form id="delete-notification-{{ $notification->id }}" action="{{ locale_route('notifications.destroy', [$notification]) }}" method="POST" class="hidden">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                        </form>
+                                    @empty
+                                        <div class="alert alert-info text-center" role="alert">
+                                            @lang('general.no_data')
                                         </div>
-                                    </a>
+                                    @endforelse
                                 </div>
                                 <div class="hd-mg-va">
-                                    <a href="#">@lang('general.view_all')</a>
+                                    <a href="{{ locale_route('notifications.index') }}">@lang('general.view_all')</a>
                                 </div>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="javascript: void(0);" role="button" title="@lang('general.log_out')"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a class="nav-link logout" href="javascript: void(0);" role="button" data-placement="bottom"
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                               data-content="@lang('general.log_out')" data-trigger="hover" data-toggle="popover">
                                 <i class="fa fa-power-off"></i>
                             </a>
                             <form id="logout-form" action="{{ locale_route('logout') }}" method="POST" style="display: none;">

@@ -23,6 +23,28 @@ new Vue({
     }
 });
 
+new Vue({
+    el: '#notification',
+    data: {},
+    methods: {
+        showNotifications: function () {
+            showNotifications();
+        }
+    }
+});
+
+function showNotifications()
+{
+    $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+    $.ajax({
+        method: 'GET', url: '/notifications/viewed', dataType: "json"
+    })
+    .fail(function() {
+        notification('Error', 'Request failed',
+            'danger', 'fa fa-remove', 'bounceIn', 'bounceOut', 5000);
+    });
+}
+
 (function ($) {
  "use strict";
 		$(".chosen")[0] && $(".chosen").chosen({

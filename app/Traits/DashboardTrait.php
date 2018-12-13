@@ -63,7 +63,7 @@ trait DashboardTrait
         for($i = 1; $i <= 12; $i++)
         {
             $month = now()->startOfYear()->addMonth($i - 1);
-            $transactions = $this->filterTransactionPerCategoryType(Auth::user()->transactions
+            $transactions = $this->filterTransactionsPerCategoryType(Auth::user()->transactions
                 ->where('created_at', '>=', $month->startOfMonth())
                 ->where('created_at', '<=', $month->endOfMonth()), $category_type);
             $perMonths->push([
@@ -84,7 +84,7 @@ trait DashboardTrait
         for($i = 1; $i <= 7; $i++)
         {
             $day = now()->startOfWeek()->addDay($i - 1);
-            $transactions = $this->filterTransactionPerCategoryType(Auth::user()->transactions
+            $transactions = $this->filterTransactionsPerCategoryType(Auth::user()->transactions
                 ->where('created_at', '>=', $day->startOfDay())
                 ->where('created_at', '<=', $day->endOfDay()), $category_type);
             $perDays->push([
@@ -156,7 +156,7 @@ trait DashboardTrait
      */
     protected function category_type_amount($transaction_type, $category_type)
     {
-        $transactions = $this->filterTransactionPerCategoryType($this->transactions($transaction_type), $category_type);
+        $transactions = $this->filterTransactionsPerCategoryType($this->transactions($transaction_type), $category_type);
         return $this->transactions_category_amount($transactions, $category_type);
     }
 
@@ -177,7 +177,7 @@ trait DashboardTrait
      * @param $category_type
      * @return Collection
      */
-    private function filterTransactionPerCategoryType(Collection $transactions, $category_type)
+    private function filterTransactionsPerCategoryType(Collection $transactions, $category_type)
     {
         return $transactions->filter(function (Transaction $transaction) use ($category_type) {
             if($transaction->category->type === $category_type) return true;

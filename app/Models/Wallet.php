@@ -48,6 +48,42 @@ class Wallet extends Model
     ];
 
     /**
+     * Boot functions
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($wallet) {
+            if ($wallet->balance === $wallet->threshold) {
+                Auth::user()->notifications()->create([
+                    'type' => Notification::REACHED,
+                    'wallet_id' => $wallet->id
+                ]);
+            }
+            elseif ($wallet->balance === 0.0) {
+                Auth::user()->notifications()->create([
+                    'type' => Notification::EMPTY,
+                    'wallet_id' => $wallet->id
+                ]);
+            }
+            elseif ($wallet->balance < $wallet->threshold) {
+                Auth::user()->notifications()->create([
+                    'type' => Notification::PASSED,
+                    'wallet_id' => $wallet->id
+                ]);
+            }
+        });
+
+        static::created(function ($wallet) {
+            Auth::user()->notifications()->create([
+                'type' => Notification::NEW,
+                'wallet_id' => $wallet->id
+            ]);
+        });
+    }
+
+    /**
      * @param Wallet $wallet
      * @return string
      */
@@ -71,6 +107,14 @@ class Wallet extends Model
     {
         return $this->belongsToMany('App\Models\Transaction')
             ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany('App\Models\Notification');
     }
 
     /**

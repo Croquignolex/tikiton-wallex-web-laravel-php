@@ -123,9 +123,11 @@ class AccountController extends Controller
     {
         try
         {
-            $user = Auth::user()->update(['email' => $request->email, 'is_confirmed' => false]);
+            $user = Auth::user();
+            $user->update(['email' => $request->email, 'is_confirmed' => false]);
             try
             {
+
                 Mail::to($user->email)->send(new UserEmailChangeMail($user));
                 info_flash_message(trans('auth.info'), trans('auth.email_sent'));
             }
@@ -169,12 +171,13 @@ class AccountController extends Controller
                     {
                         try
                         {
-                            $this->userFactoryData($user);
+                            if(!$user->is_factored) $this->userFactoryData($user);
                             Mail::to(config('company.email_1'))->send(new NewConfirmedUserMail($user));
                         }
                         catch (Exception $exception)
                         {
                             $this->mailError($exception);
+                            return redirect(locale_route('home'));
                         }
                     }
                 }
@@ -206,7 +209,7 @@ class AccountController extends Controller
         //Default currencies
         $currency = $user->currencies()->create([
             'name' => 'FCFA', 'devaluation' => 1, 'symbol' => 'XAF',
-            'description' => 'Center Africa currency'
+            'description' => 'Center Africa currency', 'is_current' => true
         ]);
         $user->currencies()->create([
             'name' => 'US DOLLAR', 'devaluation' => 550, 'symbol' => '$',
@@ -258,22 +261,27 @@ class AccountController extends Controller
         $income_transaction = $income->transactions()->create([
             'name' => 'Dummy income',
             'description' => 'Dummy income transaction',
-            'amount' => 0
+            'amount' => 0,
+            'currency_id' => $currency->id
         ]);
         $transfer_transaction = $transfer->transactions()->create([
             'name' => 'Dummy transfer',
             'description' => 'Dummy transfer transaction',
-            'amount' => 0
+            'amount' => 0,
+            'currency_id' => $currency->id
         ]);
         $expense_transaction = $expense->transactions()->create([
             'name' => 'Dummy expense',
             'description' => 'Dummy expense transaction',
-            'amount' => 0
+            'amount' => 0,
+            'currency_id' => $currency->id
         ]);
         $income_transaction->wallets()->save($personal_wallet);
         $transfer_transaction->wallets()->save($current_account_wallet);
         $transfer_transaction->wallets()->save($saving_account_wallet);
         $expense_transaction->wallets()->save($personal_wallet);
+
+        $user->update(['is_factored' => true]);
     }
 
     /**

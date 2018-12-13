@@ -101,6 +101,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function notifications()
+    {
+        return $this->hasMany('App\Models\Notification');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function user_settings()
     {
         return $this->hasMany('App\Models\UserSetting');

@@ -17,7 +17,7 @@ class CurrencyController extends Controller
     use ErrorFlashMessagesTrait, PaginationTrait;
 
     /**
-     * AccountController constructor.
+     * CurrencyController constructor.
      */
     public function __construct()
     {
@@ -214,7 +214,7 @@ class CurrencyController extends Controller
                     info_flash_message(trans('auth.info'),
                         trans('general.delete_successful', ['name' => $currency->name]));
                 }
-                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_account'));
+                else danger_flash_message(trans('auth.error'), trans('general.c_n_d_currency'));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }

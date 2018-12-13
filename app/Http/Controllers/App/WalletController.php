@@ -438,7 +438,8 @@ class WalletController extends Controller
      */
     private function showRoute(Wallet $wallet, $tab = '')
     {
-        return locale_route('wallets.show', [$wallet]) . '?tab=' . $tab;
+        if($tab === '') return locale_route('wallets.show', [$wallet]);
+        else return locale_route('wallets.show', [$wallet]) . '?tab=' . $tab;
     }
 
     /**

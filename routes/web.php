@@ -63,6 +63,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/dashboard/expenses/yearly/fill', 'DashboardExpensesController@yearlyAjax');
     Route::get('/dashboard/expenses/months/fill', 'DashboardExpensesController@monthsAjax');
     Route::get('/dashboard/expenses/days/fill', 'DashboardExpensesController@daysAjax');
+    Route::get('/notifications/viewed', 'NotificationsController@viewedAjax');
     Route::get('/dashboard/general', function () { return redirect(locale_route('dashboard.index')); });
     Route::get('/dashboard/incomes', function () { return redirect(locale_route('dashboard.incomes')); });
     Route::get('/dashboard/transfers', function () { return redirect(locale_route('dashboard.transfers')); });
@@ -93,6 +94,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/transactions/{transaction}/edit', function (Transaction $transaction) { return redirect(locale_route('transactions.edit', [$transaction])); });
     Route::get('/transactions/{transaction}', function (Transaction $transaction) { return redirect(locale_route('transactions.show', [$transaction])); });
     Route::get('/wallets/{wallet}/transactions/create', function (Wallet $wallet) { return redirect(locale_route('wallets.transactions.create', [$wallet])); });
+    Route::get('/notifications', function () { return redirect(locale_route('notifications.index')); });
 
     //--Localized app routes...
     Route::get('/{language}/dashboard/general', 'DashboardController@index')->name('dashboard.index');
@@ -124,6 +126,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::resource('/{language}/settings', 'UserSettingController');
     Route::resource('/{language}/categories', 'CategoryController', ['except' => ['show']]);
     Route::resource('/{language}/transactions', 'TransactionController');
+    Route::resource('/{language?}/notifications', 'NotificationsController', ['only' => ['index', 'destroy']]);
 
     //--Auth routes...
     Route::group(['namespace' => 'Auth'], function() {

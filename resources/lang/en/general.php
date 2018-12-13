@@ -13,7 +13,6 @@ return [
     'home' => 'Home',
     'about' => 'About',
     'contact' => 'Contact',
-    'cart' => 'Cart',
     'search' => 'Search',
     'about_us' => 'About us',
     'our_products' => 'Our products',
@@ -22,10 +21,8 @@ return [
     'our_services' => 'Our services',
     'services' => 'Services',
     'contact_us' => 'Contact us',
-    'blog' => 'Blog',
     'account' => 'Account',
     'accounts' => 'Accounts',
-    'wish_list' => 'Wish list',
 
     /*
     |--------------------------------------------------------------------------
@@ -41,8 +38,6 @@ return [
     'pwd_reset' => 'Password reset',
     'old_password' => 'Old password',
     'new_password' => 'New password',
-    'my_account' => 'My account',
-    'my_wish_list' => 'My wish list',
     'log_out' => 'Logout',
 
     /*
@@ -53,6 +48,7 @@ return [
     |
     */
 
+    'unknown' => 'Unknown',
     'days' => 'Days',
     'week' => 'Week',
     'months' => 'Months',
@@ -195,6 +191,7 @@ return [
     'delete_currency' => 'Delete currency: :name',
     'delete_category' => 'Delete category: :name',
     'delete_transaction' => 'Delete transaction: :name',
+    'delete_notification' => 'Delete notification: :name',
     'activate_setting' => 'Activate setting: :name',
     'cfm_action' => 'Do you confirm this action',
     'delete_successful' => ':name is successfully deleted',

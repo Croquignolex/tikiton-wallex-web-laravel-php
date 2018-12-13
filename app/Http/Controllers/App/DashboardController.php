@@ -20,7 +20,7 @@ class DashboardController extends Controller
     const BAR = 'bar'; const POLAR = 'polar';
 
     /**
-     * AccountController constructor.
+     * DashboardController constructor.
      */
     public function __construct()
     {
@@ -47,6 +47,8 @@ class DashboardController extends Controller
         }
         catch (Exception $exception)
         {
+            $currency = Auth::user()->currencies->first();
+            $accounts_balance = 0; $accounts_nbr = 0; $all_categories = 0;
             $this->databaseError($exception);
         }
 

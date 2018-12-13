@@ -46,4 +46,5 @@ return [
     'incomes_report' => 'Ici vous avez le rapport des révenues',
     'transfers_report' => 'Ici vous avez le rapport des transfers',
     'expenses_report' => 'Ici vous avez le rapport des dépenses',
+    'notifications' => 'Ici vous avez la liste de tous vos notifications',
 ];

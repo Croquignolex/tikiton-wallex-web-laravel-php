@@ -57,6 +57,12 @@ a {
     opacity:.5
 }
 .chart-dismiss:active { color:#1a8cff;}
+.notification-line {
+    margin-bottom: 0;
+}
+.notification-line h5 {
+    font-weight: normal !important;
+}
 /* ==========================================================================
 Base styles: opinionated defaults (Extra)
 ========================================================================== */

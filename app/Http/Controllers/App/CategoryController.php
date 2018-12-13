@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\App;
 
-use App\Traits\LocaleAmountTrait;
 use Exception;
 use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Traits\PaginationTrait;
+use App\Traits\LocaleAmountTrait;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -22,7 +22,7 @@ class CategoryController extends Controller
     use ErrorFlashMessagesTrait, PaginationTrait, LocaleAmountTrait;
 
     /**
-     * AccountController constructor.
+     * CategoryController constructor.
      */
     public function __construct()
     {

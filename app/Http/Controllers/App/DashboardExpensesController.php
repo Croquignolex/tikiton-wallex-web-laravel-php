@@ -14,7 +14,7 @@ class DashboardExpensesController extends Controller
     protected $type; protected $view_name;
 
     /**
-     * AccountController constructor.
+     * DashboardExpensesController constructor.
      */
     public function __construct()
     {

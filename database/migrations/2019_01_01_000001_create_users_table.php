@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('phone', 255)->nullable();
             $table->string('profession', 255)->nullable();
             $table->text('description')->nullable();
+            $table->boolean('is_factored')->default(false);
             $table->boolean('is_confirmed')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_super_admin')->default(false);

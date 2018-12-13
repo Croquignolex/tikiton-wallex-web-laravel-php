@@ -46,4 +46,5 @@ return [
     'incomes_report' => 'Here you have incomes report',
     'transfers_report' => 'Here you have transfers report',
     'expenses_report' => 'Here you have expenses report',
+    'notifications' => 'Here you have the list of all your notifications',
 ];
