@@ -55,20 +55,21 @@ class Wallet extends Model
         parent::boot();
 
         static::updated(function ($wallet) {
+            $user = $wallet->currency->user;
             if ($wallet->balance === $wallet->threshold) {
-                Auth::user()->notifications()->create([
+                $user->notifications()->create([
                     'type' => Notification::REACHED,
                     'wallet_id' => $wallet->id
                 ]);
             }
             elseif ($wallet->balance === 0.0) {
-                Auth::user()->notifications()->create([
+                $user->notifications()->create([
                     'type' => Notification::EMPTY,
                     'wallet_id' => $wallet->id
                 ]);
             }
             elseif ($wallet->balance < $wallet->threshold) {
-                Auth::user()->notifications()->create([
+                $user->notifications()->create([
                     'type' => Notification::PASSED,
                     'wallet_id' => $wallet->id
                 ]);
@@ -76,7 +77,8 @@ class Wallet extends Model
         });
 
         static::created(function ($wallet) {
-            Auth::user()->notifications()->create([
+            $user = $wallet->currency->user;
+            $user->notifications()->create([
                 'type' => Notification::NEW,
                 'wallet_id' => $wallet->id
             ]);
