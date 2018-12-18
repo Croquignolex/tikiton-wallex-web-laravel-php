@@ -227,7 +227,8 @@ class CategoryController extends Controller
             return back();
         }
 
-        $begin_date = Carbon::now(); $end_date = Carbon::now();
+        $begin_date = Carbon::now(session('timezone'));
+        $end_date = Carbon::now(session('timezone'));
         $current_currency = $this->getCurrency();
 
         if($type === Transaction::DAILY)
@@ -251,10 +252,16 @@ class CategoryController extends Controller
             $end_date->addYear($date_range)->endOfYear();
         }
 
+        $begin_date->setTimezone('UTC');
+        $end_date->setTimezone('UTC');
+
         $transactions = Auth::user()->transactions
             ->where('created_at', '>=', $begin_date)
             ->where('created_at', '<=', $end_date)
             ->sortByDesc('created_at');
+
+        $begin_date->setTimezone(session('timezone'));
+        $end_date->setTimezone(session('timezone'));
 
         $incomes_amount = $this->transactions_category_amount($transactions, Category::INCOME);
         $transfer_amount = $this->transactions_category_amount($transactions, Category::TRANSFER);

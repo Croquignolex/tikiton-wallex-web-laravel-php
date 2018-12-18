@@ -41,7 +41,12 @@ class ContactController extends Controller
                 {
                     try
                     {
+                        $timezone = $request->session()->get('timezone', function (){
+                            return config('company.admin_timezone');
+                        });
+                        session(['timezone' => config('company.admin_timezone')]);
                         Mail::to(config('company.email_1'))->send(new ContactFormMail($contact));
+                        session(['timezone' => $timezone]);
                     }
                     catch (Exception $exception)
                     {

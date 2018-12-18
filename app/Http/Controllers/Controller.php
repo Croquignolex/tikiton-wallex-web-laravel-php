@@ -19,12 +19,7 @@ class Controller extends BaseController
      */
     protected function carbonFormatDate($date)
     {
-        $locale = App::getLocale();
-        if($locale === 'en')
-            return Carbon::createFromFormat('m/d/Y h:i A', $date);
-        else if($locale === 'fr')
-            return Carbon::createFromFormat('d/m/Y H:i', $date);
-
-        return Carbon::now();
+        if(App::getLocale() === 'en') return Carbon::createFromFormat('m/d/Y h:i A', $date, session('timezone'));
+        else return Carbon::createFromFormat('d/m/Y H:i', $date, session('timezone'));
     }
 }

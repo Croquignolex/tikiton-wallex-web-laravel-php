@@ -23,13 +23,13 @@
                         <a href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"
                            style="color:{{ $transaction->wallet->color }}"
                            title="@lang('general.details')">
-                            {{ text_format($transaction->wallet->name, 10) }}
+                            {{ text_format($transaction->wallet->name, 12) }}
                         </a>
                         <i class="fa fa-long-arrow-right"></i>
                         <a href="{{ locale_route('wallets.show', [$transaction->transfer_wallet]) }}"
                            style="color:{{ $transaction->transfer_wallet->color }}"
                            title="@lang('general.details')">
-                            {{ text_format($transaction->transfer_wallet->name, 10) }}
+                            {{ text_format($transaction->transfer_wallet->name, 12) }}
                         </a>
                     @else
                         <a href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"

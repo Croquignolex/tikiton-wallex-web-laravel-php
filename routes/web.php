@@ -135,6 +135,7 @@ Route::group(['namespace' => 'App'], function() {
         Route::get('/register', function () { return redirect(locale_route('register')); });
 
         //--Account routes...
+        Route::post('/user/timezone', 'AccountController@timezoneAjax');
         Route::get('/account/validation/{email}/{token}', function ($email, $token) { return redirect(locale_route('account.validation', compact('email', 'token'))); });
         Route::get('/account', function () { return redirect(locale_route('account.index')); });
         Route::get('/account/email', function () { return redirect(locale_route('account.email')); });

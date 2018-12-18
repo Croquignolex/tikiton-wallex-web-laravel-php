@@ -1,7 +1,7 @@
 {{ mb_strtoupper('Formulaire de contact') }}
 
 
-Ce méssage vous à été envoyé dépuis le formulaire de contact le {{ $contact->fr_created_date }} à {{ $user->fr_created_time }}.
+Ce méssage vous à été envoyé dépuis le formulaire de contact le {{ $contact->fr_created_date }} à {{ $contact->fr_created_time }}.
 Voici les détails de ce méssage:
 
 Nom: {{ $contact->format_name }}

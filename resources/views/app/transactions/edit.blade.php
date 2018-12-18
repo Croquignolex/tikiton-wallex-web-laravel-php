@@ -60,7 +60,7 @@
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
                                                        'name' => 'date',
-                                                       'class' => 'form-control', 'value' => (old('date') ?? $transactionService->getNormalFormatDate($transaction->created_at))
+                                                       'class' => 'form-control', 'value' => (old('date') ?? $transactionService->getNormalFormatDate($transaction->created_at, 'tz'))
                                                        ])
                                                     @endcomponent
                                                 </div>

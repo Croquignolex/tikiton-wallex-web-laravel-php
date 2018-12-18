@@ -37,8 +37,8 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = collect();
-        $begin_date = Carbon::now()->startOfDay();
-        $end_date = Carbon::now()->endOfDay();
+        $begin_date = Carbon::now(session('timezone'))->startOfDay();
+        $end_date = Carbon::now(session('timezone'))->endOfDay();
 
         if(session()->has('begin_date') && session()->has('end_date'))
         {
@@ -48,9 +48,15 @@ class TransactionController extends Controller
 
         try
         {
+            $begin_date->setTimezone('UTC');
+            $end_date->setTimezone('UTC');
+
             $transactions = Auth::user()->transactions
                 ->where('created_at', '>=', $begin_date)->where('created_at', '<=', $end_date)
                 ->sortByDesc('created_at')->load('category', 'wallets');
+
+            $begin_date->setTimezone(session('timezone'));
+            $end_date->setTimezone(session('timezone'));
 
             $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
             $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);;
@@ -164,6 +170,7 @@ class TransactionController extends Controller
         try
         {
             $creation_date = $this->carbonFormatDate($request->input('date'));
+            $creation_date->setTimezone('UTC');
             if(Hash::check(Category::TRANSFER, $type))
             {
                 $debit_wallet_id = intval($request->input('debit_account'));
@@ -288,6 +295,7 @@ class TransactionController extends Controller
         try
         {
             $creation_date = $this->carbonFormatDate($request->input('date'));
+            $creation_date->setTimezone('UTC');
             if(Hash::check(Category::TRANSFER, $type))
             {
                 $credit_account_id = intval($request->input('credit_account'));
@@ -441,6 +449,8 @@ class TransactionController extends Controller
     public function update(TransactionUpdateRequest $request, $language, Transaction $transaction)
     {
         $name = $request->input('name');
+        $creation_date = $this->carbonFormatDate($request->input('date'));
+        $creation_date->setTimezone('UTC');
         try
         {
             if($transaction->authorised)
@@ -448,7 +458,7 @@ class TransactionController extends Controller
                 $transaction->update([
                     'name' => $name,
                     'description' => $request->input('description'),
-                    'created_at' => $this->carbonFormatDate($request->input('date'))
+                    'created_at' => $creation_date
                 ]);
 
                 success_flash_message(trans('auth.success'), trans('general.update_successful', ['name' => $name]));
@@ -557,7 +567,8 @@ class TransactionController extends Controller
             return back();
         }
 
-        $begin_date = Carbon::now(); $end_date = Carbon::now();
+        $begin_date = Carbon::now(session('timezone'));
+        $end_date = Carbon::now(session('timezone'));
         $current_currency = $this->getCurrency();
 
         if($type === Transaction::DAILY)
@@ -581,11 +592,17 @@ class TransactionController extends Controller
             $end_date->addYear($date_range)->endOfYear();
         }
 
+        $begin_date->setTimezone('UTC');
+        $end_date->setTimezone('UTC');
+
         $transactions = $this->filterTransactionPerCategoryType(
             Auth::user()->transactions
                 ->where('created_at', '>=', $begin_date)
                 ->where('created_at', '<=', $end_date)
                 ->sortByDesc('created_at'), $category_type);
+
+        $begin_date->setTimezone(session('timezone'));
+        $end_date->setTimezone(session('timezone'));
 
         $total = $this->transactions_category_amount($transactions);
         return view($view_name, compact('transactions',

@@ -181,7 +181,8 @@ class WalletController extends Controller
     public function show(Request $request, $language, Wallet $wallet)
     {
         $tab = $request->query('tab');
-        $begin_date = Carbon::now()->startOfDay(); $end_date = Carbon::now()->endOfDay();
+        $begin_date = Carbon::now(session('timezone'))->startOfDay();
+        $end_date = Carbon::now(session('timezone'))->endOfDay();
 
         if(session()->has('begin_date') && session()->has('end_date'))
         {
@@ -190,9 +191,15 @@ class WalletController extends Controller
         }
         try
         {
+            $begin_date->setTimezone('UTC');
+            $end_date->setTimezone('UTC');
+
             $transactions = $wallet->transactions
                 ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
                 ->sortByDesc('created_at')->load('category', 'wallets');
+
+            $begin_date->setTimezone(session('timezone'));
+            $end_date->setTimezone(session('timezone'));
 
             $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
             $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);

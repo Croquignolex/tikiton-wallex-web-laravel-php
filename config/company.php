@@ -19,6 +19,7 @@ return [
     'phone_2' => env('COMPANY_PHONE_2', 'Laravel'),
     'web_site' => env('COMPANY_WEB_SITE', 'http://laravel.com'),
     'developer_web_site' => env('COMPANY_DEVELOPER_WEB_SITE', 'http://laravel.com'),
+    'admin_timezone' => env('ADMIN_TIMEZONE', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------

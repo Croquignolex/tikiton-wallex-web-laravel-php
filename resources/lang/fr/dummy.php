@@ -24,6 +24,7 @@ return [
     'current_account_desc' => 'Compte courrant dans ma banque',
     'saving_account' => 'Compte d\'épargne',
     'saving_account_desc' => 'Compte d\'épargne dans ma banque',
+    'salary' => 'Salary',
     'salary_desc' => 'Salaire mensuel du bureau',
     'transfer_order' => 'Order de virement',
     'transfer_order_desc' => 'Order de virement de ma banque',

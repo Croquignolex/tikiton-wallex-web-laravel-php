@@ -7,7 +7,7 @@
         <td>
             <p style="text-align: justify;">
                 Ce méssage vous à été envoyé dépuis le formulaire de
-                contact le <span style="color: #1a8cff;">{{ $contact->fr_created_date }} à {{ $user->fr_created_time }}</span>.
+                contact le <span style="color: #1a8cff;">{{ $contact->fr_created_date }} à {{ $contact->fr_created_time }}</span>.
                 Voici les détails de ce méssage:
             </p>
             <p style="text-align: justify;">

@@ -7,15 +7,13 @@ use Illuminate\Support\Facades\App;
 
 trait LocaleDateTimeTrait
 {
-    //private $time_zone = 'America/Toronto';
-
     /**
      * @return string
      */
     public function getCreatedDateAttribute()
     {
-        $date = new Carbon($this->created_at);
-        return $date->format($this->dateFormat(App::getLocale()));
+        return $this->dateFormat(App::getLocale(),
+            $this->getTimezoneDate($this->created_at));
     }
 
     /**
@@ -23,8 +21,8 @@ trait LocaleDateTimeTrait
      */
     public function getLongCreatedDateAttribute()
     {
-        $date = new Carbon($this->created_at);
-        return $this->dateLongFormat(App::getLocale(), $date);
+        return $this->dateLongFormat(App::getLocale(),
+            $this->getTimezoneDate($this->created_at));
     }
 
     /**
@@ -32,8 +30,8 @@ trait LocaleDateTimeTrait
      */
     public function getCreatedTimeAttribute()
     {
-        $date = new Carbon($this->created_at);
-        return $date->format($this->timeFormat(App::getLocale())) . ' GMT';
+        return $this->timeFormat(App::getLocale(),
+            $this->getTimezoneDate($this->created_at));
     }
 
     /**
@@ -42,8 +40,8 @@ trait LocaleDateTimeTrait
      */
     public function getFrCreatedDateAttribute()
     {
-        $date = new Carbon($this->created_at);
-        return $date->format($this->dateFormat('fr'));
+        return $this->dateFormat('fr',
+            $this->getTimezoneDate($this->created_at));
     }
 
     /**
@@ -52,8 +50,8 @@ trait LocaleDateTimeTrait
      */
     public function getFrLongCreatedDateAttribute()
     {
-        $date = new Carbon($this->created_at);
-        return $this->dateLongFormat('fr', $date);
+        return $this->dateLongFormat('fr',
+            $this->getTimezoneDate($this->created_at));
     }
 
     /**
@@ -62,8 +60,8 @@ trait LocaleDateTimeTrait
      */
     public function getFrCreatedTimeAttribute()
     {
-        $date = new Carbon($this->created_at);
-        return $date->format($this->timeFormat('fr')) . ' GMT';
+        return $this->timeFormat('fr',
+            $this->getTimezoneDate($this->created_at));
     }
 
     /**
@@ -71,8 +69,8 @@ trait LocaleDateTimeTrait
      */
     public function getUpdatedDateAttribute()
     {
-        $date = new Carbon($this->updated_at);
-        return $date->format($this->dateFormat(App::getLocale()));
+        return $this->dateFormat(App::getLocale(),
+            $this->getTimezoneDate($this->updated_at));
     }
 
     /**
@@ -80,8 +78,8 @@ trait LocaleDateTimeTrait
      */
     public function getLongUpdatedDateAttribute()
     {
-        $date = new Carbon($this->updated_at);
-        return $this->dateLongFormat(App::getLocale(), $date);
+        return $this->dateLongFormat(App::getLocale(),
+            $this->getTimezoneDate($this->updated_at));
     }
 
     /**
@@ -89,8 +87,8 @@ trait LocaleDateTimeTrait
      */
     public function getUpdatedTimeAttribute()
     {
-        $date = new Carbon($this->updated_at);
-        return $date->format($this->timeFormat(App::getLocale())) . ' GMT';
+        return $this->timeFormat(App::getLocale(),
+            $this->getTimezoneDate($this->updated_at));
     }
 
     /**
@@ -98,8 +96,8 @@ trait LocaleDateTimeTrait
      */
     public function getFrUpdatedDateAttribute()
     {
-        $date = new Carbon($this->updated_at);
-        return $date->format($this->dateFormat('fr'));
+        return $this->dateFormat('fr',
+            $this->getTimezoneDate($this->updated_at));
     }
 
     /**
@@ -107,8 +105,8 @@ trait LocaleDateTimeTrait
      */
     public function getFrLongUpdatedDateAttribute()
     {
-        $date = new Carbon($this->updated_at);
-        return $this->dateLongFormat('fr', $date);
+        return $this->dateLongFormat('fr',
+            $this->getTimezoneDate($this->updated_at));
     }
 
     /**
@@ -116,19 +114,8 @@ trait LocaleDateTimeTrait
      */
     public function getFrUpdatedTimeAttribute()
     {
-        $date = new Carbon($this->updated_at);
-        return $date->format($this->timeFormat('fr')) . ' GMT';
-    }
-
-    /**
-     * @param $locale
-     * @return string
-     */
-    private function dateFormat($locale)
-    {
-        if($locale === 'fr') return 'd/m/Y';
-        elseif ($locale === 'en') return 'm/d/Y';
-        else return 'd/m/Y';
+        return $this->timeFormat('fr',
+            $this->getTimezoneDate($this->updated_at));
     }
 
     /**
@@ -138,21 +125,20 @@ trait LocaleDateTimeTrait
      */
     private function dateDayFormat($locale, Carbon $date)
     {
-        if($locale === 'fr')
-        {
-            return trans('day.i' . $date->dayOfWeek) . ' ' .
-                $date->day . ' ' .
-                trans('month.i' . $date->month) . ' ' .
-                $date->year;
-        }
-        elseif ($locale === 'en')
+        if($locale === 'en')
         {
             return trans('day.i' . $date->dayOfWeek) . ' ' .
                 trans('month.i' . $date->month) . ' ' .
                 $date->day . ' ' .
                 $date->year;
         }
-        else return trans('general.unknown');
+        else
+        {
+            return trans('day.i' . $date->dayOfWeek) . ' ' .
+                $date->day . ' ' .
+                trans('month.i' . $date->month) . ' ' .
+                $date->year;
+        }
     }
 
     /**
@@ -190,7 +176,7 @@ trait LocaleDateTimeTrait
         if($locale === 'fr' || $locale === 'en')
         {
             return $this->dateDayFormat($locale, $date) . ' ' .
-                $date->format($this->timeFormat($locale)) . ' GMT';
+                $this->timeFormat($locale, $date);
         }
         else return trans('general.unknown');
     }
@@ -202,33 +188,58 @@ trait LocaleDateTimeTrait
      */
     private function dateLongFormat($locale, Carbon $date)
     {
-        if($locale === 'fr')
-        {
-            return trans('day.' . $date->dayOfWeek) . ' ' .
-                $date->day . ' ' .
-                trans('month.' . $date->month) . ' ' .
-                $date->year . ' à ' .
-                $date->format($this->timeFormat($locale)) . ' GMT';
-        }
-        elseif ($locale === 'en')
+        if($locale === 'en')
         {
             return trans('day.' . $date->dayOfWeek) . ' ' .
                 trans('month.' . $date->month) . ' ' .
                 $date->day . ' ' .
                 $date->year . ' at ' .
-                $date->format($this->timeFormat($locale)) . ' GMT';
+                $this->timeFormat($locale, $date);
         }
-        else return trans('general.unknown');
+        else
+        {
+            return trans('day.' . $date->dayOfWeek) . ' ' .
+                $date->day . ' ' .
+            trans('month.' . $date->month) . ' ' .
+                $date->year . ' à ' .
+            $this->timeFormat($locale, $date);
+        }
     }
 
     /**
      * @param $locale
+     * @param Carbon $date
      * @return string
      */
-    private function timeFormat($locale)
+    private function dateFormat($locale, Carbon $date)
     {
-        if($locale === 'fr') return 'H:i';
-        elseif ($locale === 'en') return 'h:i A';
-        else return 'H:i';
+        if($locale === 'en') $format = 'm/d/Y';
+        else $format = 'd/m/Y';
+
+        return $date->format($format);
+    }
+
+    /**
+     * @param $locale
+     * @param Carbon $date
+     * @return string
+     */
+    private function timeFormat($locale, Carbon $date)
+    {
+        if($locale === 'en') $format = 'h:i A';
+        else $format = 'H:i';
+
+        return $date->format($format);
+    }
+
+    /**
+     * @param Carbon $date
+     * @return Carbon
+     */
+    private function getTimezoneDate(Carbon $date)
+    {
+        $timezone_date = new Carbon($date, 'UTC');
+        $timezone_date->setTimezone(session('timezone'));
+        return $timezone_date;
     }
 }

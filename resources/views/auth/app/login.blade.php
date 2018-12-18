@@ -78,4 +78,5 @@
     <script src="{{ js_asset('bootstrap-maxlength') }}" type="text/javascript"></script>
     <script src="{{ js_asset('form-validator') }}" type="text/javascript"></script>
     <script src="{{ js_asset('min-max-3') }}" type="text/javascript"></script>
+    <script src="{{ js_asset('timezone-detect') }}" type="text/javascript"></script>
 @endpush

@@ -27,8 +27,9 @@ class AccountController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->only('validation');
-        $this->middleware('auth')->except('validation');
+        $this->middleware('guest')->only(['validation']);
+        $this->middleware('auth')->except(['validation', 'timezoneAjax']);
+        $this->middleware('ajax')->only(['timezoneAjax']);
     }
 
     /**
@@ -172,7 +173,12 @@ class AccountController extends Controller
                         try
                         {
                             if(!$user->is_factored) $this->userFactoryData($user);
+                            $timezone = $request->session()->get('timezone', function (){
+                                return config('company.admin_timezone');
+                            });
+                            session(['timezone' => config('company.admin_timezone')]);
                             Mail::to(config('company.email_1'))->send(new NewConfirmedUserMail($user));
+                            session(['timezone' => $timezone]);
                         }
                         catch (Exception $exception)
                         {
@@ -190,6 +196,16 @@ class AccountController extends Controller
         }
 
         return redirect(locale_route('login'));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function timezoneAjax(Request $request)
+    {
+        session(['timezone' => $request->input('timezone')]);
+        return response()->json();
     }
 
     /**

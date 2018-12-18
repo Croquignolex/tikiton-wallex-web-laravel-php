@@ -19,7 +19,7 @@ class TransactionService
      */
     public function getDayFormatDate(Carbon $date)
     {
-        return $this->dateDayFormat(App::getLocale(), $date);
+        return $this->dateDayFormat(App::getLocale(), $this->getTimezoneDate($date));
     }
 
     /**
@@ -28,7 +28,7 @@ class TransactionService
      */
     public function getWeekFormatDate(Carbon $date)
     {
-        return $this->dateWeekFormat(App::getLocale(), $date);
+        return $this->dateWeekFormat(App::getLocale(), $this->getTimezoneDate($date));
     }
 
     /**
@@ -37,7 +37,7 @@ class TransactionService
      */
     public function getMonthFormatDate(Carbon $date)
     {
-        return $this->dateShortFormat(App::getLocale(), $date);
+        return $this->dateShortFormat(App::getLocale(), $this->getTimezoneDate($date));
     }
 
     /**
@@ -46,20 +46,25 @@ class TransactionService
      */
     public function getMediumFormatDate(Carbon $date)
     {
-        return $this->dateMediumFormat(App::getLocale(), $date);
+        return $this->dateMediumFormat(App::getLocale(), $this->getTimezoneDate($date));
     }
 
     /**
-     * @param $date
+     * @param Carbon $date
+     * @param string $tz
      * @return string
      */
-    public function getNormalFormatDate(Carbon $date)
+    public function getNormalFormatDate(Carbon $date, $tz = '')
     {
         $locale = App::getLocale();
         if($locale === 'fr' || $locale === 'en')
         {
-            return $date->format($this->dateFormat($locale)) . ' ' .
-                $date->format($this->timeFormat($locale));
+            if($tz === '') return $this->dateFormat($locale, $date) . ' ' . $this->timeFormat($locale, $date);
+            else
+            {
+                $timezone_date = $this->getTimezoneDate($date);
+                return $this->dateFormat($locale, $timezone_date) . ' ' . $this->timeFormat($locale, $timezone_date);
+            }
         }
         else return trans('general.unknown');
     }
@@ -74,7 +79,7 @@ class TransactionService
     {
         $monthChanger = collect();
         $monthChanger->push($route . '?date=' . $date_range . '&type=' . $type);
-        $date = Carbon::now();
+        $date = Carbon::now(session('timezone'));
 
         if($type === Transaction::DAILY)
         {
