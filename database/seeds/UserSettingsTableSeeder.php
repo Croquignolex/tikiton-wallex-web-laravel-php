@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 use Faker\Provider\Lorem;
 use App\Models\UserSetting;
@@ -14,7 +15,10 @@ class UserSettingsTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
+        $users = User::all()->filter(function (User $user) {
+            if($user->role->type === Role::USER) return true;
+            return false;
+        });
         foreach ($users as $user)
         {
             for($i = 1; $i <= 2; $i++)

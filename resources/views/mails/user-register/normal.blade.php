@@ -1,4 +1,4 @@
-@extends('layouts.mail')
+@extends('layouts.app.mail')
 
 @section('head', mb_strtoupper(trans('auth.account_validation')))
 

@@ -31,7 +31,6 @@ Route::get('/{language}/policy', 'PolicyController')->name('policy');
 Route::get('/{language}/about', 'AboutController')->name('about');
 Route::get('/{language}/faqs', 'FaqsController')->name('faqs');
 Route::get('/{language}/contact', 'ContactController@index')->name('contact');
-
 Route::post('/{language}/contact', 'ContactController@send');
 
 //--App routes...
@@ -158,9 +157,9 @@ Route::group(['namespace' => 'App'], function() {
         Route::get('/{language}/account', 'AccountController@index')->name('account.index');
         Route::get('/{language}/account/email', 'AccountController@email')->name('account.email');
         Route::get('/{language}/account/password', 'AccountController@password')->name('account.password');
-        Route::post('/{language}/account', 'AccountController@update');
+        Route::put('/{language}/account', 'AccountController@update');
+        Route::put('/{language}/account/password', 'AccountController@changePassword');
         Route::post('/{language}/account/email', 'AccountController@sendLink');
-        Route::post('/{language}/account/password', 'AccountController@changePassword');
 
         //--Localized password reset routes...
         Route::get('/{language}/password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -169,4 +168,49 @@ Route::group(['namespace' => 'App'], function() {
         Route::post('/{language}/password/reset/{token}', 'ResetPasswordController@reset');
     });
 });
+
+//--Admin routes...
+Route::prefix('admin')->group(function() {
+    Route::group(['namespace' => 'Admin'], function() {
+        Route::get('/', function () { return redirect(route('admin.dashboard.index')); });
+        Route::get('/dashboard', 'DashboardController@index')->name('admin.dashboard.index');
+        Route::get('/notifications/viewed', 'NotificationsController@viewedAjax');
+
+        Route::resource('/users', 'UsersController', ['names' => [
+            'index' => 'admin.users.index', 'create' => 'admin.users.create',
+            'store' => 'admin.users.store', 'show' => 'admin.users.show',
+            'edit' => 'admin.users.edit', 'update' => 'admin.users.update',
+            'destroy' => 'admin.users.destroy'
+        ]]);
+        Route::resource('/notifications', 'NotificationsController', [
+            'only' => ['index', 'destroy'],
+            'names' => ['index' => 'admin.notifications.index', 'destroy' => 'admin.notifications.destroy']
+        ]);
+
+        //--Auth routes...
+        Route::group(['namespace' => 'Auth'], function() {
+            //--Admin login routes...
+            Route::get('/login', 'LoginController@showLoginForm')->name('admin.login');
+            Route::post('/login', 'LoginController@login');
+            Route::post('/logout', 'LoginController@logout')->name('admin.logout');
+
+            //--Admin password reset routes...
+            Route::get('/password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+            Route::post('/password/reset', 'ForgotPasswordController@sendResetLinkEmail');
+            Route::get('/password/reset/{token}', 'ResetPasswordController@showResetForm')->name('admin.password.reset');
+            Route::post('/password/reset/{token}', 'ResetPasswordController@reset');
+
+            //--Account routes...
+            Route::get('/account/validation/{email}/{token}', 'AccountController@validation')->name('admin.account.validation');
+            Route::get('/account', 'AccountController@index')->name('admin.account.index');
+            Route::get('/account/password', 'AccountController@password')->name('admin.account.password');
+            Route::get('/account/email', 'AccountController@email')->name('admin.account.email');
+            Route::put('/account', 'AccountController@update');
+            Route::put('/account/password', 'AccountController@changePassword');
+            Route::post('/account/email', 'AccountController@sendLink');
+        });
+    });
+});
+
+
 

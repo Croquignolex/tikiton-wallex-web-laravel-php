@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use App\Models\Role;
 use Faker\Provider\Lorem;
 use Illuminate\Database\Seeder;
 
@@ -13,30 +13,52 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user_max = rand(5, 15);
+        Role::where('type', Role::USER)->first()->users()->create([
+            'password' => 'wallex',
+            'is_confirmed' => true,
+            'token' => str_random(64),
+            'city' => title_case(Lorem::word()),
+            'country' => title_case(Lorem::word()),
+            'phone' => str_shuffle('0123456789'),
+            'last_name' => 'User',
+            'post_code' => title_case(Lorem::word()),
+            'first_name' => 'TEST',
+            'description' => ucfirst(Lorem::paragraph()),
+            'address' => title_case(Lorem::sentence(2)),
+            'profession' => title_case(Lorem::sentence(2)),
+            'email' => 'user.test@wallex.com',
+        ]);
 
-        for($i = 1; $i <= $user_max; $i++)
-        {
-            $first_name = Lorem::word();
-            $last_name = Lorem::word();
+        Role::where('type', Role::ADMIN)->first()->users()->create([
+            'password' => 'wallex',
+            'is_confirmed' => true,
+            'token' => str_random(64),
+            'city' => title_case(Lorem::word()),
+            'country' => title_case(Lorem::word()),
+            'phone' => str_shuffle('0123456789'),
+            'last_name' => 'Administrator',
+            'post_code' => title_case(Lorem::word()),
+            'first_name' => 'TEST',
+            'description' => ucfirst(Lorem::paragraph()),
+            'address' => title_case(Lorem::sentence(2)),
+            'profession' => title_case(Lorem::sentence(2)),
+            'email' => 'admin.test@wallex.com',
+        ]);
 
-            User::create([
-                'is_admin' => $i <= 4,
-                'password' => 'wallex',
-                'is_confirmed' => true,
-                'is_super_admin' => $i === 1,
-                'token' => str_random(64),
-                'city' => title_case(Lorem::word()),
-                'country' => title_case(Lorem::word()),
-                'phone' => str_shuffle('0123456789'),
-                'last_name' =>  title_case($last_name),
-                'post_code' => title_case(Lorem::word()),
-                'first_name' => title_case($first_name),
-                'description' => ucfirst(Lorem::paragraph()),
-                'address' => title_case(Lorem::sentence(2)),
-                'profession' => title_case(Lorem::sentence(2)),
-                'email' => $i === 1 ? 'alexstephane.ngombol@wallex.com' : $first_name . '.' . $last_name . '@wallex.com'
-            ]);
-        }
+        Role::where('type', Role::SUPER_ADMIN)->first()->users()->create([
+            'password' => 'k@lonayA10',
+            'is_confirmed' => true,
+            'token' => str_random(64),
+            'city' => 'Douala',
+            'country' => 'Cameroon',
+            'phone' => '(+237) 691503072',
+            'last_name' => 'NGOMBOL',
+            'post_code' => '',
+            'first_name' => 'Alex Stéphane',
+            'description' => 'Hello',
+            'address' => 'Douala Ndogbong',
+            'profession' => 'Junior web app developer',
+            'email' => 'alexstephane.ngombol@wallex.com',
+        ]);
     }
 }

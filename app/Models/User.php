@@ -9,11 +9,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property mixed id
+ * @property mixed role
  * @property string city
  * @property mixed image
  * @property string phone
  * @property string token
- * @property bool is_admin
  * @property string address
  * @property string country
  * @property mixed extension
@@ -21,7 +21,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string profession
  * @property bool is_confirmed
  * @property string description
- * @property bool is_super_admin
  * @property mixed password_reset
  * @property mixed format_last_name
  * @property mixed format_first_name
@@ -41,9 +40,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name', 'last_name', 'post_code', 'extension',
-        'city', 'country', 'phone', 'profession', 'address',
-        'image', 'description', 'email', 'is_confirmed', 'is_admin',
-        'is_super_admin', 'email', 'password'
+        'city', 'country', 'phone', 'profession', 'address', 'role_id',
+        'image', 'description', 'email', 'is_confirmed', 'email', 'password'
     ];
 
     /**
@@ -52,7 +50,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'is_confirmed', 'is_admin', 'is_super_admin', 'email'
+        'password', 'is_confirmed', 'email'
     ];
 
     /**
@@ -64,6 +62,20 @@ class User extends Authenticatable
             $user->token = str_random(64);
             $user->password = Hash::make($user->password);
         });
+
+        static::created(function ($user) {
+            $user->admin_notifications()->create([
+                'type' => AdminNotification::NEW
+            ]);
+        });
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role()
+    {
+        return $this->belongsTo('App\Models\Role');
     }
 
     /**
@@ -109,6 +121,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function admin_notifications()
+    {
+        return $this->hasMany('App\Models\AdminNotification');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function user_settings()
     {
         return $this->hasMany('App\Models\UserSetting');
@@ -135,9 +155,17 @@ class User extends Authenticatable
      */
     public function getConfirmationLinkAttribute()
     {
-        return locale_route('account.validation', [
-            'email' => $this->email, 'token' => $this->token
-        ]);
+        if($this->role->type === Role::USER) return locale_route('account.validation', ['email' => $this->email, 'token' => $this->token]);
+        else return route('admin.account.validation', ['email' => $this->email, 'token' => $this->token]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDashboardRouteAttribute()
+    {
+        if($this->role->type === Role::USER) return locale_route('dashboard.index');
+        else return route('admin.dashboard.index');
     }
 
     /**
@@ -145,9 +173,8 @@ class User extends Authenticatable
      */
     public function getResetLinkAttribute()
     {
-        return locale_route('password.reset', [
-            'token' => $this->password_reset->token
-        ]);
+        if($this->role->type === Role::USER) return locale_route('password.reset', ['token' => $this->password_reset->token]);
+        else return route('admin.password.reset', ['token' => $this->password_reset->token]);
     }
 
     /**
@@ -172,16 +199,5 @@ class User extends Authenticatable
     public function getFormatFullNameAttribute()
     {
         return $this->format_first_name . ' ' . $this->format_last_name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFormatRoleAttribute()
-    {
-        if($this->is_super_admin) return trans('general.super_admin');
-        elseif($this->is_admin) return trans('general.admin');
-
-        return trans('general.user');
     }
 }

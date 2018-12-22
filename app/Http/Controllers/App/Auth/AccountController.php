@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\App\Auth;
 
 use Exception;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\AdminNotification;
 use App\Mail\UserEmailChangeMail;
 use App\Mail\NewConfirmedUserMail;
 use App\Http\Requests\UserRequest;
@@ -157,11 +159,12 @@ class AccountController extends Controller
         try
         {
             $user = User::where([
-                'token' => $token, 'email' => $email, 'is_confirmed' => false,
-                'is_admin' => false, 'is_super_admin' => false
+                'token' => $token,
+                'email' => $email,
+                'is_confirmed' => false
             ])->first();
 
-            if($user === null) danger_flash_message(trans('auth.error'), trans('general.bad_link'));
+            if($user === null || $user->role->type !== Role::USER) danger_flash_message(trans('auth.error'), trans('general.bad_link'));
             else
             {
                 $user->update(['is_confirmed' => true, 'token' => str_random(64)]);
@@ -302,6 +305,9 @@ class AccountController extends Controller
         $expense_transaction->wallets()->save($personal_wallet);
 
         $user->update(['is_factored' => true]);
+        $user->admin_notifications()->create([
+            'type' => AdminNotification::CONFIRMED
+        ]);
     }
 
     /**

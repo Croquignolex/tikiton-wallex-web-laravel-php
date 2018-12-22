@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\App\Auth;
 
 use Exception;
-use App\Models\User;
+use App\Models\Role;
 use App\Mail\UserRegisterMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
@@ -52,7 +52,7 @@ class RegisterController extends Controller
     {
         try
         {
-            $user = User::create([
+            $user = Role::where('type', Role::USER)->first()->users()->create([
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
                 'last_name' => $request->input('last_name'),

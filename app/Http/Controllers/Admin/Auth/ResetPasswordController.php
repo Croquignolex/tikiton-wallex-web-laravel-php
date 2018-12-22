@@ -1,8 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
+use Exception;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Traits\ErrorFlashMessagesTrait;
+use App\Traits\ResetPasswordAdminTrait;
+use Illuminate\Support\Facades\Password;
+use App\Http\Requests\ResetPasswordRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -18,22 +26,131 @@ class ResetPasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
+    use ResetsPasswords, ErrorFlashMessagesTrait,
+        ResetPasswordAdminTrait;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * ResetPasswordController constructor.
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('admin.guest');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showResetForm()
+    {
+        return view('auth.admin.passwords.reset');
+    }
+
+    public function reset(ResetPasswordRequest $request, $token)
+    {
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $response = $this->resetProcess($this->credentials($request), $token);
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        if($response == Password::PASSWORD_RESET) return $this->sendResetResponse($response);
+        else return $this->sendResetFailedResponse($request, $response);
+    }
+
+    /**
+     * Reset the password for the given token.
+     *
+     * @param  array $credentials
+     * @param $token
+     * @return mixed
+     */
+    protected function resetProcess(array $credentials, $token)
+    {
+        // If the responses from the validate method is not a user instance, we will
+        // assume that it is a redirect and simply return it from this method and
+        // the user is properly redirected having an error message on the post.
+        if (is_null($user = $this->getUser($credentials))) {
+            return Password::INVALID_USER;
+        }
+
+        if (is_null($user = $this->getTokenUser($credentials, $token))) {
+            return Password::INVALID_TOKEN;
+        }
+
+        // Once the reset has been validated, we'll call the given callback with the
+        // new password. This gives the user an opportunity to store the password
+        // in their persistent storage. Then we'll delete the token and return.
+        $this->resetPassword($user, $credentials['password']);
+
+        return Password::PASSWORD_RESET;
+    }
+
+    /**
+     * @param array $credentials
+     * @param $token
+     * @return null
+     */
+    protected function getTokenUser(array $credentials, $token)
+    {
+        try
+        {
+            $user = $this->getUser($credentials);
+            $password_reset = $user->password_reset;
+            if($password_reset->token !== $token) return null;
+            else
+            {
+                $password_reset->delete();
+                return $user;
+            }
+        }
+        catch(Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+        return null;
+    }
+
+    /**
+     * @param $user
+     * @param $password
+     */
+    protected function resetPassword(User $user, $password)
+    {
+        try
+        {
+            $user->update(['password' => Hash::make($password)]);
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+    }
+
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetResponse($response)
+    {
+        success_flash_message(trans('auth.success'), trans($response));
+        return redirect(route('admin.login'))->with('status', trans($response));
+    }
+
+    /**
+     * Get the response for a failed password reset.
+     *
+     * @param Request $request
+     * @param  string $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        danger_flash_message(trans('auth.error'), trans($response));
+        return redirect()->back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => trans($response)]);
     }
 }

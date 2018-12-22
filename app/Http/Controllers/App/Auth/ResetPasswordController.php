@@ -5,7 +5,6 @@ namespace App\Http\Controllers\App\Auth;
 use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PasswordReset;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Traits\ErrorFlashMessagesTrait;
@@ -98,12 +97,13 @@ class ResetPasswordController extends Controller
     {
         try
         {
-            $password_reset = PasswordReset::where(['email' => $credentials['email'], 'token' => $token])->first();
-            if(is_null($password_reset)) return null;
+            $user = $this->getUser($credentials);
+            $password_reset = $user->password_reset;
+            if($password_reset->token !== $token) return null;
             else
             {
                 $password_reset->delete();
-                return $this->getUser($credentials);
+                return $user;
             }
         }
         catch(Exception $exception)

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\App\Auth;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
@@ -73,6 +75,26 @@ class LoginController extends Controller
     }
 
     /**
+     * Attempt to log the user into the application.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
+        $user = User::where(['email' => $credentials['email']])->first();
+        if($user !== null)
+        {
+            if($user->role->type === Role::USER)
+                return $this->guard()->attempt($this->credentials($request),
+                    $request->filled('remember'));
+        }
+
+        return false;
+    }
+
+    /**
      * @param Request $request
      * @return array
      */
@@ -80,9 +102,6 @@ class LoginController extends Controller
     {
         $credentials = $request->only($this->username(), 'password');
         $credentials = array_add($credentials, 'is_confirmed', true);
-        $credentials = array_add($credentials, 'is_super_admin', false);
-        $credentials = array_add($credentials, 'is_admin', false);
-
         return $credentials;
     }
 
@@ -107,26 +126,9 @@ class LoginController extends Controller
     }
 
     /**
-     * Log the user out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-
-        $request->session()->invalidate();
-
-        info_flash_message(trans('auth.info'), trans('auth.logout_message'));
-
-        return redirect($this->redirectTo());
-    }
-
-    /**
      * @return string
      */
-    protected function redirectTo()
+    private function redirectTo()
     {
         return  locale_route('dashboard.index');
     }

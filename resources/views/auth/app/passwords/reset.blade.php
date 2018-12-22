@@ -60,7 +60,7 @@
                         @endcomponent
                     </div>
                     <div class="input-group mg-t-15">
-                        @component('components.app.label-input', ['name' => 'password_confirmation'])
+                        @component('components.app.label-input', ['name' => 'pwd_cfm'])
                             <span class="input-group-addon nk-ic-st-pro">
                                 <i class="fa fa-lock"></i>
                             </span>
@@ -68,7 +68,7 @@
                                 @component('components.input', [
                                    'name' => 'password_confirmation', 'type' => 'password',
                                    'class' => 'form-control', 'value' => old('password_confirmation'),
-                                   'placeholder'  => trans('general.pwd_cfm') . '*',
+                                   'placeholder' => trans('general.pwd_cfm') . '*',
                                    'min_length' => 6
                                    ])
                                 @endcomponent

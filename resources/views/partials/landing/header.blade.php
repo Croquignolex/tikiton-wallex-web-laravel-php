@@ -39,7 +39,7 @@
                 <li class="{{ active_page(contact_pages()) }}"><a href="{{ locale_route('contact') }}">@lang('general.contact_us')</a></li>
                 @auth
                     <li class="probootstra-cta-button last">
-                        <a href="{{ locale_route('dashboard.index') }}" class="btn btn-outline-theme-1">
+                        <a href="{{ Auth::user()->dashboard_route }}" class="btn btn-outline-theme-1">
                             <i class="fa fa-user"></i>
                             {{ \Illuminate\Support\Facades\Auth::user()->format_first_name }}
                         </a>

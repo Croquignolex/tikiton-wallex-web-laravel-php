@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
 use Faker\Provider\Lorem;
@@ -15,10 +16,13 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $types = [Category::EXPENSE, Category::TRANSFER, Category::INCOME];
-        $users = User::where('is_admin', false)->where('is_super_admin', false)->get();
+        $users = User::all()->filter(function (User $user) {
+                if($user->role->type === Role::USER) return true;
+                return false;
+            });
         foreach ($users as $user)
         {
-            $max = rand(2, 9);
+            $max = rand(2, 15);
             for($i = 1; $i <= $max; $i++)
             {
                 $user->categories()->create([

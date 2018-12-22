@@ -44,7 +44,7 @@ a#scrollUp i
 
 .btn-outline-theme-1, .modal-default
 { background-color: #ffffff !important; }
-.btn-theme-1, .badge-theme-1,
+.btn-theme-1, .btn-theme-2, .badge-theme-1,
 .btn-outline-theme-1:hover, .btn-outline-theme-1:focus, .btn-outline-theme-1:active,
 .modal-danger, .btn-danger, .modal-info, .btn-info, .modal-success, .btn-success,
 .modal-warning
@@ -52,20 +52,31 @@ a#scrollUp i
 .text-theme-1,
 .btn-outline-theme-1
 { color: #1a8cff !important; }
+.text-theme-2,
+.btn-outline-theme-2
+{ color: #777777 !important; }
 .bg-theme-1, .btn-theme-1, .badge-theme-1, .btn-outline-theme-1:active,
 .btn-outline-theme-1:hover, .btn-outline-theme-1:focus
 { background-color: #1a8cff !important; }
+.bg-theme-2, .btn-theme-2, .badge-theme-2, .btn-outline-theme-2:active,
+.btn-outline-theme-2:hover, .btn-outline-theme-2:focus
+{ background-color: #777777 !important; }
 .border-radius-theme-1
 { border-radius: 1px !important; }
 .border-theme-1, .badge-theme-1, .btn-theme-1,
 .btn-outline-theme-1
 { border: 1px solid #1a8cff !important; }
+.border-theme-2, .badge-theme-2, .btn-theme-2,
+.btn-outline-theme-2
+{ border: 1px solid #777777 !important; }
 .border-bottom-theme-1
 { border-bottom: 1px solid #1a8cff !important; }
 .border-top-theme-1
 { border-top: 1px solid #1a8cff !important; }
 .btn-theme-1:hover, a#scrollUp:hover
 { background-color: #124e93 !important; }
+.btn-theme-2:hover
+{ background-color: #3d3d3d !important; }
 
 .input-invalid { border: 1px solid #F44336 !important; }
 .input-valid { border: 1px solid #00c292 !important; }

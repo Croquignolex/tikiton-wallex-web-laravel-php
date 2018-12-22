@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\AdminNotification;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationService
@@ -13,8 +15,9 @@ class NotificationService
      */
     public function __construct()
     {
-        $this->notifications = Auth::user()->notifications
-            ->where('viewed', false)->sortByDesc('created_at');
+        $user =  Auth::user();
+        if($user->role->type === Role::USER) $this->notifications = $user->notifications->where('viewed', false)->sortByDesc('created_at');
+        else $this->notifications = AdminNotification::where('viewed', false)->get()->sortByDesc('created_at');
     }
 
     /**

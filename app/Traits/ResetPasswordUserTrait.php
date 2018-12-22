@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Exception;
+use App\Models\Role;
 use App\Models\User;
 
 trait ResetPasswordUserTrait
@@ -15,11 +16,9 @@ trait ResetPasswordUserTrait
     {
         try
         {
-            return User::where([
-                'email' => $credentials['email'],
-                'is_admin' => false,
-                'is_super_admin' => false
-            ])->first();
+            $user = User::where(['email' => $credentials['email']])->first();
+            if($user !== null) if($user->role->type === Role::USER) return $user;
+            return null;
         }
         catch(Exception $exception)
         {

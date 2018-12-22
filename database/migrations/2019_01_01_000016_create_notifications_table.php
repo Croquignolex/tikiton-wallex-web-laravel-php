@@ -17,8 +17,8 @@ class CreateNotificationsTable extends Migration
             $table->increments('id');
             $table->smallInteger('type');
             $table->boolean('viewed')->default(false);
-            $table->integer('user_id')->unsigned();
-            $table->integer('wallet_id')->unsigned();
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('wallet_id');
             $table->timestamps();
 
             $table->foreign('user_id')

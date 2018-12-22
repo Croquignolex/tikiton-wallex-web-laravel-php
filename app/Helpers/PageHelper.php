@@ -104,6 +104,17 @@ if(!function_exists('app_dashboard_pages'))
     }
 }
 
+if(!function_exists('admin_dashboard_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function admin_dashboard_pages()
+    {
+        return collect(['admin.dashboard.index']);
+    }
+}
+
 if(!function_exists('app_wallet_pages'))
 {
     /**
@@ -173,6 +184,17 @@ if(!function_exists('app_user_pages'))
     function app_user_pages()
     {
         return collect(['account.index', 'account.email', 'account.password']);
+    }
+}
+
+if(!function_exists('app_admin_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function app_admin_pages()
+    {
+        return collect(['admin.account.index', 'admin.account.email', 'admin.account.password']);
     }
 }
 
