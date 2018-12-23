@@ -75,7 +75,8 @@ class Currency extends Model
      */
     public function getAuthorisedAttribute()
     {
-        return Auth::user()->currencies->contains($this);
+        return Auth::user()->currencies->contains($this)
+            || Auth::user()->role->type !== Role::USER;
     }
 
     /**

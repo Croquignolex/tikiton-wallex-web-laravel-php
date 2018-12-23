@@ -176,12 +176,26 @@ Route::prefix('admin')->group(function() {
         Route::get('/dashboard', 'DashboardController@index')->name('admin.dashboard.index');
         Route::get('/notifications/viewed', 'NotificationsController@viewedAjax');
 
-        Route::resource('/users', 'UsersController', ['names' => [
-            'index' => 'admin.users.index', 'create' => 'admin.users.create',
-            'store' => 'admin.users.store', 'show' => 'admin.users.show',
-            'edit' => 'admin.users.edit', 'update' => 'admin.users.update',
-            'destroy' => 'admin.users.destroy'
-        ]]);
+        Route::put('/users/disable/{user}', 'UserController@disable')->name('admin.users.disable');
+        Route::put('/users/enable/{user}', 'UserController@enable')->name('admin.users.enable');
+
+        Route::resource('/users', 'UserController', [
+            'only' => ['index', 'create', 'store', 'show'],
+            'names' => ['index' => 'admin.users.index', 'create' => 'admin.users.create',
+                'store' => 'admin.users.store', 'show' => 'admin.users.show']
+        ]);
+        /*Route::resource('/wallets', 'WalletController', [
+            'only' => ['show'],
+            'names' => ['show' => 'admin.wallets.show']
+        ]);
+        Route::resource('/categories', 'CategoryController', [
+            'only' => ['show'],
+            'names' => ['show' => 'admin.categories.show']
+        ]);
+        Route::resource('/currency', 'CurrencyController', [
+            'only' => ['show'],
+            'names' => ['show' => 'admin.currency.show']
+        ]);*/
         Route::resource('/notifications', 'NotificationsController', [
             'only' => ['index', 'destroy'],
             'names' => ['index' => 'admin.notifications.index', 'destroy' => 'admin.notifications.destroy']

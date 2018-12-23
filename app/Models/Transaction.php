@@ -168,7 +168,8 @@ class Transaction extends Model
      */
     public function getAuthorisedAttribute()
     {
-        return Auth::user()->transactions->contains($this);
+        return Auth::user()->transactions->contains($this)
+            || Auth::user()->role->type !== Role::USER;
     }
 
     /**

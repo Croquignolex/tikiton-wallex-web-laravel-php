@@ -131,10 +131,13 @@ if(!function_exists('text_format'))
      */
     function text_format($text, $maxCharacters)
     {
-        if(strlen($text) <= $maxCharacters)
-            return $text;
-        else
-            return substr($text, 0, $maxCharacters) . '...';
+        $formatted_text = $text;
+        if(strlen($text) > $maxCharacters)
+            $formatted_text = substr($text, 0, $maxCharacters) . '...';
+
+        if(strlen($formatted_text) === 0) $formatted_text = $text;
+
+        return $formatted_text;
     }
 }
 

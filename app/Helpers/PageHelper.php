@@ -9,7 +9,20 @@ if(!function_exists('page_title'))
     function page_title($page)
     {
         $base_name = config('app.name');
-        return $page == '' ? $base_name : $page . ' - ' .  $base_name;
+        return $page === '' ? $base_name : $page . ' - ' .  $base_name;
+    }
+}
+
+if(!function_exists('admin_page_title'))
+{
+    /**
+     * @param $page
+     * @return string
+     */
+    function admin_page_title($page)
+    {
+        $base_name = config('app.name');
+        return $page === '' ? '(admin) ' . $base_name : $page . ' - (admin) ' .  $base_name;
     }
 }
 
@@ -104,17 +117,6 @@ if(!function_exists('app_dashboard_pages'))
     }
 }
 
-if(!function_exists('admin_dashboard_pages'))
-{
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    function admin_dashboard_pages()
-    {
-        return collect(['admin.dashboard.index']);
-    }
-}
-
 if(!function_exists('app_wallet_pages'))
 {
     /**
@@ -187,14 +189,37 @@ if(!function_exists('app_user_pages'))
     }
 }
 
-if(!function_exists('app_admin_pages'))
+if(!function_exists('admin_account_pages'))
 {
     /**
      * @return \Illuminate\Support\Collection
      */
-    function app_admin_pages()
+    function admin_account_pages()
     {
         return collect(['admin.account.index', 'admin.account.email', 'admin.account.password']);
     }
 }
 
+if(!function_exists('admin_dashboard_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function admin_dashboard_pages()
+    {
+        return collect(['admin.dashboard.index']);
+    }
+}
+
+if(!function_exists('admin_users_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function admin_users_pages()
+    {
+        return collect(['admin.users.index', 'admin.users.create',
+            'admin.users.show', 'admin.wallets.show', 'admin.categories.show',
+            'admin.currencies.show']);
+    }
+}

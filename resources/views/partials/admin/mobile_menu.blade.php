@@ -20,7 +20,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="{{ active_page(app_admin_pages()) }}">
+                            <li class="{{ active_page(admin_account_pages()) }}">
                                 <a data-toggle="collapse" data-target="#mobile_user">
                                     <i class="fa fa-user"></i>
                                     {{ text_format(\Illuminate\Support\Facades\Auth::user()->format_full_name, 40) }}

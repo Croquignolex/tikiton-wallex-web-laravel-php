@@ -53,7 +53,8 @@ class Notification extends Model
      */
     public function getAuthorisedAttribute()
     {
-        return Auth::user()->notifications->contains($this);
+        return Auth::user()->notifications->contains($this)
+            || Auth::user()->role->type !== Role::USER;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\DescriptionTrait;
 use App\Traits\LocaleDateTimeTrait;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -18,10 +19,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string country
  * @property mixed extension
  * @property string post_code
+ * @property mixed authorised
+ * @property mixed is_factored
  * @property string profession
  * @property bool is_confirmed
  * @property string description
  * @property mixed password_reset
+ * @property mixed format_full_name
  * @property mixed format_last_name
  * @property mixed format_first_name
  * @property array|null|string email
@@ -199,5 +203,13 @@ class User extends Authenticatable
     public function getFormatFullNameAttribute()
     {
         return $this->format_first_name . ' ' . $this->format_last_name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthorisedAttribute()
+    {
+        return Auth::user()->role->type !== Role::USER;
     }
 }

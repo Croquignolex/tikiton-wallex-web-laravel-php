@@ -6,9 +6,7 @@ use Exception;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Setting;
-use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Models\AdminNotification;
 use App\Mail\UserEmailChangeMail;
 use App\Mail\NewConfirmedUserMail;
 use App\Http\Requests\UserRequest;
@@ -17,12 +15,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use App\Traits\UserFactoryDataTrait;
 use App\Http\Requests\PasswordRequest;
 use App\Traits\ErrorFlashMessagesTrait;
 
 class AccountController extends Controller
 {
-    use ErrorFlashMessagesTrait;
+    use ErrorFlashMessagesTrait, UserFactoryDataTrait;
 
     /**
      * AccountController constructor.
@@ -175,7 +174,7 @@ class AccountController extends Controller
                     {
                         try
                         {
-                            if(!$user->is_factored) $this->userFactoryData($user);
+                            $this->userFactoryData($user);
                             $timezone = $request->session()->get('timezone', function (){
                                 return config('company.admin_timezone');
                             });
@@ -209,105 +208,6 @@ class AccountController extends Controller
     {
         session(['timezone' => $request->input('timezone')]);
         return response()->json();
-    }
-
-    /**
-     * @param User $user
-     */
-    private function userFactoryData(User $user)
-    {
-        //Default settings
-        $user->user_settings()->create([
-            'name' => trans('dummy.novice'), 'is_current' => true,
-            'description' => trans('dummy.novice_desc')
-        ]);
-        $user->user_settings()->create([
-            'tips' => false, 'name' => trans('dummy.expert'),
-            'description' => trans('dummy.expert_desc')
-        ]);
-        //Default currencies
-        $currency = $user->currencies()->create([
-            'name' => 'FCFA', 'devaluation' => 1, 'symbol' => 'XAF',
-            'description' => trans('dummy.xaf_desc'), 'is_current' => true
-        ]);
-        $user->currencies()->create([
-            'name' => 'US DOLLAR', 'devaluation' => 576.43, 'symbol' => '$',
-            'description' => trans('dummy.dollar_desc')
-        ]);
-        $user->currencies()->create([
-            'name' => 'EURO', 'devaluation' => 654.85, 'symbol' => '€',
-            'description' => trans('dummy.euro_desc')
-        ]);
-        $user->currencies()->create([
-            'name' => 'POUNDS', 'devaluation' => 729.79, 'symbol' => '£',
-            'description' => trans('dummy.pounds_desc')
-        ]);
-        //Default wallets
-        $personal_wallet = $user->wallets()->create([
-            'balance' => 0, 'threshold' => 0, 'stated' => true,
-            'description' => trans('dummy.wallet_desc'), 'name' => trans('dummy.wallet'),
-            'color' => '#1a8cff', 'currency_id' => $currency->id
-        ]);
-        $current_account_wallet = $user->wallets()->create([
-            'balance' => 0, 'threshold' => 0,
-            'description' => trans('dummy.current_account_desc'),
-            'color' => '#00c292', 'name' => trans('dummy.current_account'), 'currency_id' => $currency->id
-        ]);
-        $saving_account_wallet = $user->wallets()->create([
-            'balance' => 0, 'threshold' => 0,
-            'description' => trans('dummy.saving_account_desc'),
-            'color' => '#F44336', 'name' => trans('dummy.saving_account'), 'currency_id' => $currency->id
-        ]);
-        //Default categories
-        $income = $user->categories()->create([
-            'description' => trans('dummy.salary_desc'),
-            'color' => '#00c292',
-            'name' => trans('dummy.salary'),
-            'icon' => 'money',
-            'type' => Category::INCOME
-        ]);
-        $transfer = $user->categories()->create([
-            'description' => trans('dummy.transfer_order_desc'),
-            'color' => '#2196F3',
-            'name' => trans('dummy.transfer_order'),
-            'icon' => 'bank',
-            'type' => Category::TRANSFER
-        ]);
-        $expense = $user->categories()->create([
-            'description' => trans('dummy.electricity_desc'),
-            'color' => '#F44336',
-            'name' => trans('dummy.electricity'),
-            'icon' => 'flash',
-            'type' => Category::EXPENSE
-        ]);
-        //Default transactions
-        $income_transaction = $income->transactions()->create([
-            'name' => trans('dummy.income'),
-            'description' => trans('dummy.income_desc'),
-            'amount' => 0,
-            'currency_id' => $currency->id
-        ]);
-        $transfer_transaction = $transfer->transactions()->create([
-            'name' => trans('dummy.transfer'),
-            'description' => trans('dummy.transfer_desc'),
-            'amount' => 0,
-            'currency_id' => $currency->id
-        ]);
-        $expense_transaction = $expense->transactions()->create([
-            'name' => trans('dummy.expense'),
-            'description' => trans('dummy.expense_desc'),
-            'amount' => 0,
-            'currency_id' => $currency->id
-        ]);
-        $income_transaction->wallets()->save($personal_wallet);
-        $transfer_transaction->wallets()->save($current_account_wallet);
-        $transfer_transaction->wallets()->save($saving_account_wallet);
-        $expense_transaction->wallets()->save($personal_wallet);
-
-        $user->update(['is_factored' => true]);
-        $user->admin_notifications()->create([
-            'type' => AdminNotification::CONFIRMED
-        ]);
     }
 
     /**

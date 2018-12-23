@@ -1,6 +1,6 @@
 @extends('layouts.admin.admin')
 
-@section('admin.layout.title', page_title(trans('general.general')))
+@section('admin.layout.title', admin_page_title(trans('general.general')))
 
 @section('admin.layout.body')
 @endsection

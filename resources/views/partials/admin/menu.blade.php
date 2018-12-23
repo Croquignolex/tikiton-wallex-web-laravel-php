@@ -9,7 +9,12 @@
                             <i class="fa fa-pie-chart"></i>
                         </a>
                     </li>
-                    <li class="{{ active_page(app_admin_pages()) }}">
+                    <li class="{{ active_page(admin_users_pages()) }}">
+                        <a data-toggle="tab" href="#users" title="Utilisateurs">
+                            <i class="fa fa-users"></i>
+                        </a>
+                    </li>
+                    <li class="{{ active_page(admin_account_pages()) }}">
                         <a data-toggle="tab" href="#user">
                             <i class="fa fa-user"></i>
                             {{ text_format(\Illuminate\Support\Facades\Auth::user()->format_full_name, 40) }}
@@ -27,7 +32,23 @@
                             </li>
                         </ul>
                     </div>
-                    <div id="user" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(app_admin_pages()) === 'active' ? 'in active': '' }}">
+                    <div id="users" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(admin_users_pages()) === 'active' ? 'in active' : '' }}">
+                        <ul class="notika-main-menu-dropdown">
+                            <li class="{{ active_page(collect(['admin.users.index'])) }} waves-effect">
+                                <a href="{{ route('admin.users.index') }}">
+                                    <i class="fa fa-users"></i>
+                                    Utilisateurs
+                                </a>
+                            </li>
+                            <li class="{{ active_page(collect(['admin.users.create'])) }} waves-effect">
+                                <a href="{{ route('admin.users.create') }}">
+                                    <i class="fa fa-plus"></i>
+                                    Nouvel utilisateur
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="user" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(admin_account_pages()) === 'active' ? 'in active': '' }}">
                         <ul class="notika-main-menu-dropdown">
                             <li class="{{ active_page(collect(['admin.account.index'])) }} waves-effect">
                                 <a href="{{ route('admin.account.index') }}">

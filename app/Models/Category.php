@@ -81,7 +81,8 @@ class Category extends Model
      */
     public function getAuthorisedAttribute()
     {
-        return Auth::user()->categories->contains($this);
+        return Auth::user()->categories->contains($this)
+            || Auth::user()->role->type !== Role::USER;
     }
 
     /**

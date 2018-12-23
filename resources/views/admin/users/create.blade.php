@@ -1,17 +1,17 @@
 @extends('layouts.admin.breadcrumb')
 
-@section('breadcrumb.admin.layout.title', admin_page_title(trans('general.change_password')))
+@section('breadcrumb.admin.layout.title', admin_page_title('Nouvel utilisateur'))
 
-@section('breadcrumb.title', trans('general.change_password'))
+@section('breadcrumb.title', 'Nouvel utilisateur')
 
 @section('breadcrumb.message')
-    <a href="{{ route('admin.account.index') }}">{{ text_format(\Illuminate\Support\Facades\Auth::user()->format_full_name, 50) }}</a>
+    <a href="{{ route('admin.users.index') }}">Utilisateurs</a>
     <i class="fa fa-caret-right"></i>
-    @lang('general.change_password')
+    Nouvel utilisateur
 @endsection
 
 @section('breadcrumb.icon')
-    <i class="fa fa-lock"></i>
+    <i class="fa fa-users"></i>
 @endsection
 
 @section('breadcrumb.admin.layout.body')
@@ -32,23 +32,47 @@
                                     </div>
                                 </div>
                             @endif
-                            <form action="" method="POST" @submit="validateFormElements">
+                            <form action="{{ route('admin.users.store') }}" method="POST" @submit="validateFormElements">
                                 {{ csrf_field() }}
-                                {{ method_field('PUT') }}
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group">
-                                            @component('components.admin.label-input', ['name' => 'old_password'])
+                                            @component('components.admin.label-input', ['name' => 'first_name'])
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
-                                                       'name' => 'old_password', 'type' => 'password', 'class' => 'form-control',
-                                                       'placeholder'  => trans('general.old_password') . '*', 'value' => old('old_password'),
-                                                       'min_length' => 6
+                                                       'name' => 'first_name',
+                                                       'class' => 'form-control', 'value' => old('first_name'),
+                                                       'placeholder'  => trans('general.first_name') . '*'
                                                        ])
                                                     @endcomponent
                                                 </div>
                                             @endcomponent
                                         </div>
+                                        <div class="form-group">
+                                            @component('components.admin.label-input', ['name' => 'last_name'])
+                                                <div class="nk-int-st">
+                                                    @component('components.input', [
+                                                       'name' => 'last_name',
+                                                       'class' => 'form-control', 'value' => old('last_name'),
+                                                       'placeholder'  => trans('general.last_name') . '*'
+                                                       ])
+                                                    @endcomponent
+                                                </div>
+                                            @endcomponent
+                                        </div>
+                                        <div class="form-group">
+                                            @component('components.admin.label-input', ['name' => 'email'])
+                                                <div class="nk-int-st">
+                                                    @component('components.input', [
+                                                       'name' => 'email', 'type' => 'email',
+                                                       'class' => 'form-control', 'value' => old('email'),
+                                                       'placeholder'  => trans('general.email') . '*'
+                                                       ])
+                                                    @endcomponent
+                                                </div>
+                                            @endcomponent
+                                        </div>
+
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group">
@@ -76,9 +100,9 @@
                                             @endcomponent
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-success waves-effect" title="@lang('general.update_password')">
-                                                <i class="fa fa-repeat"></i>
-                                                @lang('general.update')
+                                            <button type="submit" class="btn btn-success waves-effect" title="Nouvel utilisateur">
+                                                <i class="fa fa-plus"></i>
+                                                @lang('general.add')
                                             </button>
                                         </div>
                                     </div>

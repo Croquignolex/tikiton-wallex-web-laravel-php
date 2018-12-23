@@ -75,7 +75,8 @@ class UserSetting extends Model
      */
     public function getAuthorisedAttribute()
     {
-       return Auth::user()->user_settings->contains($this);
+       return Auth::user()->user_settings->contains($this)
+           || Auth::user()->role->type !== Role::USER;
     }
 
     /**

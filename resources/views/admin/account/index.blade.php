@@ -1,6 +1,6 @@
 @extends('layouts.admin.breadcrumb')
 
-@section('breadcrumb.admin.layout.title', page_title(trans('general.edit_profile')))
+@section('breadcrumb.admin.layout.title', admin_page_title(trans('general.edit_profile')))
 
 @section('breadcrumb.title', trans('general.edit_profile'))
 

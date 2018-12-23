@@ -170,6 +170,7 @@ class Wallet extends Model
      */
     public function getAuthorisedAttribute()
     {
-        return Auth::user()->wallets->contains($this);
+        return Auth::user()->wallets->contains($this)
+            || Auth::user()->role->type !== Role::USER;
     }
 }
