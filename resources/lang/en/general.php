@@ -165,6 +165,7 @@ return [
     'category' => 'Category',
     'categories' => 'Categories',
     'update_category' => 'Update category',
+    'category_details' => 'Category details',
     'setting' => 'Setting',
     'settings' => 'Settings',
     'new_setting' => 'New setting',

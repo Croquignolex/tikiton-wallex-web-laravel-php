@@ -6,6 +6,7 @@ use App\Traits\NameTrait;
 use App\Utils\FormatBoolean;
 use App\Traits\SlugSaveTrait;
 use App\Traits\SlugRouteTrait;
+use App\Traits\TableNameTrait;
 use App\Traits\DescriptionTrait;
 use App\Traits\LocaleDateTimeTrait;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserSetting extends Model
 {
     use LocaleDateTimeTrait, NameTrait, DescriptionTrait,
-        SlugSaveTrait, SlugRouteTrait;
+        SlugSaveTrait, SlugRouteTrait, TableNameTrait;
 
     /**
      * The attributes that are mass assignable.

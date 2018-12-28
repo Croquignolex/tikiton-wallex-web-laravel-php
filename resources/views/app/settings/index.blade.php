@@ -44,16 +44,20 @@
                                     @forelse($paginationTools->displayItems as $setting)
                                         <tr class="{{ $setting->is_current ? 'current' : '' }}">
                                             <td>{{ ($loop->index + 1) + ($paginationTools->itemsPerPage * ($paginationTools->currentPage - 1)) }}</td>
-                                            <td><a href="{{ locale_route('settings.show', [$setting]) }}" title="@lang('general.details')">{{ text_format($setting->name, 30) }}</a></td>
+                                            <td>
+                                                <span class="text-right" data-content="{{ $setting->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                    {{ $setting->table_name }}
+                                                </span>
                                             <td>
                                                 <small class="text-{{ $setting->format_tips->color }}">
                                                     {{ $setting->format_tips->text }}
                                                 </small>
                                             </td>
                                             <td class="text-right">
-                                                <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                                                <a href="{{ locale_route('settings.show', [$setting]) }}" class="text-theme-1" title="@lang('general.details')"><i class="fa fa-eye "></i></a>&nbsp;
+                                                <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                                                 @if($setting->can_be_deleted)
-                                                    <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-setting-{{ $setting->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
+                                                    &nbsp;<a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-setting-{{ $setting->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
                                                     <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-setting-{{ $setting->id }}" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                                                 @endif
                                             </td>

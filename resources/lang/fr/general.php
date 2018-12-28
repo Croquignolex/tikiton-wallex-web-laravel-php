@@ -170,6 +170,7 @@ return [
     'category' => 'Categorie',
     'categories' => 'Categories',
     'update_category' => 'Mettre à jour la categorie',
+    'category_details' => 'Détais de la categorie',
     'setting' => 'Paramètre',
     'settings' => 'Paramètres',
     'new_setting' => 'Nouveau paramètre',

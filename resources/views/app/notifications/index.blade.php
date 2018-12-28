@@ -52,7 +52,7 @@
                                             </td>
                                             <td class="text-right">{{ $notification->long_created_date }}</td>
                                             <td class="text-right">
-                                                <a href="{{ $notification->url }}" class="text-warning" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
+                                                <a href="{{ $notification->url }}" class="text-theme-1" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
                                                 @if($notification->authorised)
                                                     <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-notification-{{ $notification->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                                                 @endif

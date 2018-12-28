@@ -45,16 +45,20 @@
                                     @forelse($paginationTools->displayItems as $currency)
                                         <tr class="{{ $currency->is_current ? 'current' : '' }}">
                                             <td>{{ ($loop->index + 1) + ($paginationTools->itemsPerPage * ($paginationTools->currentPage - 1)) }}</td>
-                                            <td><a href="{{ locale_route('currencies.show', [$currency]) }}" title="@lang('general.details')">{{ text_format($currency->name, 30) }}</a></td>
+                                            <td>
+                                                <span class="text-right" data-content="{{ $currency->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                    {{ $currency->table_name }}
+                                                </span>
                                             <td>{{ $currency->symbol }}</td>
                                             <td class="text-right">{{ $currency->format_devaluation }}</td>
                                             <td class="text-right">
-                                                <a href="{{ locale_route('currencies.edit', [$currency]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                                                <a href="{{ locale_route('currencies.show', [$currency]) }}" class="text-theme-1" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
+                                                <a href="{{ locale_route('currencies.edit', [$currency]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                                                 @if($currency->can_be_deleted)
-                                                    <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-currency-{{ $currency->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
+                                                    &nbsp;<a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-currency-{{ $currency->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                                                 @endif
                                                 @if(!$currency->is_current)
-                                                    <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-currency-{{ $currency->id }}" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
+                                                    &nbsp;<a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-currency-{{ $currency->id }}" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                                                 @endif
                                             </td>
                                         </tr>

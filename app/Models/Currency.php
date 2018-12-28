@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\SlugRouteTrait;
 use App\Traits\SlugSaveTrait;
+use App\Traits\SlugRouteTrait;
+use App\Traits\TableNameTrait;
 use App\Traits\LocaleAmountTrait;
 use App\Traits\LocaleDateTimeTrait;
 use Illuminate\Support\Facades\App;
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
 class Currency extends Model
 {
     use LocaleDateTimeTrait, LocaleAmountTrait,
-        SlugSaveTrait, SlugRouteTrait;
+        SlugSaveTrait, SlugRouteTrait, TableNameTrait;
 
     /**
      * The attributes that are mass assignable.

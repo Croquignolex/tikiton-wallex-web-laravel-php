@@ -106,10 +106,14 @@ class CurrencyController extends Controller
      */
     public function show(Request $request, $language, Currency $currency)
     {
+        $tab = $request->query('tab');
+        $currency->load('wallets');
         try
         {
             $currency->load('wallets');
-            if($currency->authorised) return view('app.currencies.show', compact('currency'));
+            $wallets = $currency->wallets->sortByDesc('updated_at');
+            if($currency->authorised) return view('app.currencies.show', compact('currency',
+                'tab', 'wallets'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)
@@ -182,7 +186,7 @@ class CurrencyController extends Controller
                 success_flash_message(trans('auth.success'),
                     trans('general.update_successful', ['name' => $name]));
 
-                return redirect($this->showRoute($currency));
+                return redirect($this->showRoute($currency, 'details'));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -303,10 +307,12 @@ class CurrencyController extends Controller
 
     /**
      * @param Currency $currency
+     * @param string $tab
      * @return bool
      */
-    private function showRoute(Currency $currency)
+    private function showRoute(Currency $currency, $tab = '')
     {
-        return locale_route('currencies.show', [$currency]);
+        if($tab === '') return locale_route('currencies.show', [$currency]);
+        else return locale_route('currencies.show', [$currency]) . '?tab=' . $tab;
     }
 }

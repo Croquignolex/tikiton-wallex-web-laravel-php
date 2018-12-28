@@ -6,9 +6,9 @@
 @section('breadcrumb.title', trans('general.add_' . $type))
 
 @section('breadcrumb.message')
-    <a href="{{ locale_route('wallets.index') }}">@lang('general.accounts')</a>
+    <a href="{{ locale_route('categories.index') }}">@lang('general.categories')</a>
     <i class="fa fa-caret-right"></i>
-    <a href="{{ locale_route('wallets.show', [$wallet]) }}">{{ $wallet->name }}</a>
+    <a href="{{ locale_route('categories.show', [$category]) }}">{{ $category->name }}</a>
     <i class="fa fa-caret-right"></i>
     @lang('general.add_' . $type)
 @endsection
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @component('components.tips', ['title' => trans('general.transactions')])
-                            @lang('tips.transactions_add', ['name' => $wallet->name ])
+                            @lang('tips.transactions_add', ['name' => $category->name ])
                         @endcomponent
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -40,9 +40,8 @@
                                     </div>
                                 </div>
                             @endif
-                            <form action="{{ locale_route('wallets.transactions.store', [$wallet]) }}" method="POST" @submit="validateFormElements">
+                            <form action="{{ locale_route('categories.transactions.store', [$category]) }}" method="POST" @submit="validateFormElements">
                                 {{ csrf_field() }}
-                                <input type="hidden" name="token" value="{{ \Illuminate\Support\Facades\Hash::make($type) }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group">
@@ -57,23 +56,26 @@
                                                 </div>
                                             @endcomponent
                                         </div>
-                                        <div class="form-group">
-                                            @component('components.app.label-input', ['name' => 'category'])
-                                                @component('components.app.select', [
-                                                   'name' => 'category', 'header' => trans('general.select_category')
-                                                ])
-                                                    @foreach($categories as $category)
-                                                        <option value="{{ $category->id }}"
-                                                                data-content="<i class='fa fa-{{ $category->icon }}' style='color: {{ $category->color }};'></i> {{ $category->name }}"
-                                                                {{ $category->id === intval(old('category')) ? 'selected' : '' }}></option>
-                                                    @endforeach
-                                                @endcomponent
-                                            @endcomponent
+                                        <div class="form-group mg-b-40 text-left">
+                                            <strong class="text-theme-1"><small>@lang('general.category') :</small></strong>
+                                            <span style="color:{{ $category->color }};">
+                                                <i class="fa fa-{{ $category->icon }}"></i>
+                                                {{ text_format($category->name, 50) }}
+                                            </span>
                                         </div>
                                         @if($type === \App\Models\Category::TRANSFER)
-                                            <div class="form-group mg-b-40 text-left">
-                                                <strong class="text-theme-1"><small>@lang('general.debit_account') :</small></strong>
-                                                {{ $wallet->name }} ({{ $wallet->format_balance }})
+                                            <div class="form-group">
+                                                @component('components.app.label-input', ['name' => 'debit_account'])
+                                                    @component('components.app.select', [
+                                                       'name' => 'debit_account', 'header' => trans('general.select_debit_account')
+                                                    ])
+                                                        @foreach($wallets as $wallet)
+                                                            <option value="{{ $wallet->id }}"
+                                                                    data-subtext="({{ $wallet->format_balance }})"
+                                                                    {{ $wallet->id === intval(old('debit_account')) ? 'selected' : '' }}>{{ $wallet->name }}</option>
+                                                        @endforeach
+                                                    @endcomponent
+                                                @endcomponent
                                             </div>
                                             <div class="form-group">
                                                 @component('components.app.label-input', ['name' => 'transaction_amount'])
@@ -88,9 +90,18 @@
                                                 @endcomponent
                                             </div>
                                         @else
-                                            <div class="form-group mg-b-40 text-left">
-                                                <strong class="text-theme-1"><small>@lang('general.account') :</small></strong>
-                                                {{ $wallet->name }} ({{ $wallet->format_balance }})
+                                            <div class="form-group">
+                                                @component('components.app.label-input', ['name' => 'account'])
+                                                    @component('components.app.select', [
+                                                       'name' => 'account', 'header' => trans('general.select_account')
+                                                    ])
+                                                        @foreach($wallets as $wallet)
+                                                            <option value="{{ $wallet->id }}"
+                                                                    data-subtext="({{ $wallet->format_balance }})"
+                                                                    {{ $wallet->id === intval(old('account')) ? 'selected' : '' }}>{{ $wallet->name }}</option>
+                                                        @endforeach
+                                                    @endcomponent
+                                                @endcomponent
                                             </div>
                                             <div class="form-group">
                                                 @component('components.app.label-input', ['name' => 'transaction_amount'])

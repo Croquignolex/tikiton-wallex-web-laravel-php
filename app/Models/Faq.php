@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\App;
 use App\Traits\LocaleDateTimeTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property mixed fr_answer
@@ -22,7 +23,7 @@ class Faq extends Model
      * @var array
      */
     protected $fillable = [
-        'fr_question', 'fr_answer', 'en_question', 'v'
+        'fr_question', 'fr_answer', 'en_question', 'en_answer'
     ];
 
     /**
@@ -30,12 +31,9 @@ class Faq extends Model
      */
     public function getFormatQuestionAttribute()
     {
-        $question = '';
-
-        if(App::getLocale() === 'fr') $question = $this->fr_question;
-        else if (App::getLocale() === 'en') $question = $this->en_question;
-
-        return $question;
+        $language = App::getLocale();
+        if($language === 'en') return $this->en_question;
+        else return $this->fr_question;
     }
 
     /**
@@ -43,11 +41,16 @@ class Faq extends Model
      */
     public function getFormatAnswerAttribute()
     {
-        $answer = '';
+        $language = App::getLocale();
+        if($language === 'en') return $this->en_answer;
+        else return $this->fr_answer;
+    }
 
-        if(App::getLocale() === 'fr') $answer = $this->fr_answer;
-        else if (App::getLocale() === 'en') $answer = $this->en_answer;
-
-        return $answer;
+    /**
+     * @return mixed
+     */
+    public function getAuthorisedAttribute()
+    {
+        return Auth::user()->role->type !== Role::USER;
     }
 }

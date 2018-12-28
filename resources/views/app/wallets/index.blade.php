@@ -37,9 +37,9 @@
                                         <div class="contact-hd sm-form-hd text-center" style="background-color:{{ $wallet->color }};">
                                             <div class="account-header">
                                                 <h5 class="text-uppercase">
-                                                    <a href="{{ locale_route('wallets.show', [$wallet]) }}" title="@lang('general.details')">
-                                                        {{ text_format($wallet->format_name, 20) }}
-                                                    </a>
+                                                    <span class="text-right" data-content="{{ $wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                        {{ $wallet->table_name }}
+                                                    </span>
                                                 </h5>
                                                 <div class="text-right">
                                                     {{ $wallet->format_balance }}
@@ -50,9 +50,10 @@
                                             <small class="text-{{ $wallet->format_stated->color }}">
                                                 {{ $wallet->format_stated->text }}
                                             </small>&nbsp;
-                                            <a href="{{ locale_route('wallets.edit', [$wallet]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                                            <a href="{{ locale_route('wallets.show', [$wallet]) }}" class="text-theme-1" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
+                                            <a href="{{ locale_route('wallets.edit', [$wallet]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                                             @if($wallet->can_be_deleted)
-                                                <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-wallet-{{ $wallet->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
+                                                &nbsp;<a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-wallet-{{ $wallet->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                                             @endif
                                         </div>
                                     </div>

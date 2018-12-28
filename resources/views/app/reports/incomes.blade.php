@@ -64,17 +64,18 @@
                                     @forelse($transactions as $transaction)
                                         <tr class="{{ !$transaction->is_stated ? 'current' : '' }}">
                                             <td>{{ $loop->index + 1 }}</td>
-                                            <td><a href="{{ locale_route('transactions.show', [$transaction]) }}" title="@lang('general.details')">{{ text_format($transaction->name, 20) }}</a></td>
                                             <td>
-                                                <a href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"
-                                                   style="color:{{ $transaction->wallet->color }}"
-                                                   title="@lang('general.details')">
-                                                    {{ text_format($transaction->wallet->name, 20) }}
-                                                </a>
+                                                <span class="text-right" data-content="{{ $transaction->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                    {{ $transaction->table_name }}
+                                                </span>
+                                            <td>
+                                                <span class="text-right" data-content="{{ $transaction->wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                    {{ $transaction->wallet->table_name }}
+                                                </span>
                                             </td>
                                             <td>
                                                 <div class="text-center" data-content="{{ $transaction->category->name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                                                    <i class="fa fa-{{ $transaction->category->icon }}" style="color:{{ $transaction->category->color }};"></i>
+                                                    <i class="fa fa-{{ $transaction->category->icon }}"></i>
                                                 </div>
                                             </td>
                                             <td>

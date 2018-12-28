@@ -6,6 +6,7 @@ use App\Traits\NameTrait;
 use App\Utils\FormatBoolean;
 use App\Traits\SlugSaveTrait;
 use App\Traits\SlugRouteTrait;
+use App\Traits\TableNameTrait;
 use App\Traits\DescriptionTrait;
 use App\Traits\LocaleAmountTrait;
 use App\Traits\LocaleDateTimeTrait;
@@ -20,20 +21,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed wallet
  * @property mixed wallets
  * @property mixed category
- * @property mixed created_at
- * @property mixed authorised
- * @property mixed transfer_wallet
- * @property mixed can_be_deleted
- * @property mixed transaction_wallets
- * @property mixed is_an_expense
- * @property mixed is_a_transfer
- * @property mixed is_an_income
  * @property mixed currency
  * @property mixed is_stated
+ * @property mixed table_name
+ * @property mixed created_at
+ * @property mixed authorised
+ * @property mixed is_an_income
+ * @property mixed is_an_expense
+ * @property mixed is_a_transfer
+ * @property mixed can_be_deleted
+ * @property mixed transfer_wallet
+ * @property mixed transaction_wallets
  */
 class Transaction extends Model
 {
-    use LocaleDateTimeTrait, NameTrait, SlugRouteTrait,
+    use LocaleDateTimeTrait, NameTrait, SlugRouteTrait, TableNameTrait,
         DescriptionTrait, LocaleAmountTrait, SlugSaveTrait;
 
     const DAILY = 'daily';

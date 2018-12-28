@@ -20,6 +20,46 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li class="{{ active_page(admin_users_pages()) }}">
+                                <a data-toggle="collapse" data-target="#mobile_users">
+                                    <i class="fa fa-users"></i>
+                                    Utilisateurs
+                                </a>
+                                <ul class="collapse dropdown-header-top">
+                                    <li class="{{ active_page(collect(['admin.users.index'])) }}">
+                                        <a href="{{ route('admin.users.index') }}">
+                                            <i class="fa fa-users"></i>
+                                            Utilisateurs
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['admin.users.create'])) }} waves-effect">
+                                        <a href="{{ route('admin.users.create') }}">
+                                            <i class="fa fa-plus"></i>
+                                            Nouvel utilisateur
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="{{ active_page(admin_users_pages()) }}">
+                                <a data-toggle="collapse" data-target="#mobile_faqs">
+                                    <i class="fa fa-question-circle"></i>
+                                    FAQs
+                                </a>
+                                <ul class="collapse dropdown-header-top">
+                                    <li class="{{ active_page(collect(['admin.faqs.index'])) }} waves-effect">
+                                        <a href="{{ route('admin.faqs.index') }}">
+                                            <i class="fa fa-question-circle"></i>
+                                            FAQs
+                                        </a>
+                                    </li>
+                                    <li class="{{ active_page(collect(['admin.faqs.create'])) }} waves-effect">
+                                        <a href="{{ route('admin.faqs.create') }}">
+                                            <i class="fa fa-plus"></i>
+                                            Nouvel FAQs
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="{{ active_page(admin_account_pages()) }}">
                                 <a data-toggle="collapse" data-target="#mobile_user">
                                     <i class="fa fa-user"></i>

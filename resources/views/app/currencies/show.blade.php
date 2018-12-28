@@ -27,12 +27,12 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
-                            <a href="{{ locale_route('currencies.edit', [$currency]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                            <a href="{{ locale_route('currencies.edit', [$currency]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                             @if($currency->can_be_deleted)
-                                <a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-currency" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
+                                &nbsp;<a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-currency" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                             @endif
                             @if(!$currency->is_current)
-                                <a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-currency" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
+                                &nbsp;<a href="javascript: void(0);" class="text-success" data-toggle="modal" data-target="#activate-currency" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                             @endif
                         </div>
                     </div>
@@ -45,40 +45,64 @@
                             </div>
                             <div class="widget-tabs-list">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#accounts">@lang('general.accounts')</a></li>
-                                    <li><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
+                                    <li class="{{ $tab !== 'details' ? 'active' : '' }}"><a data-toggle="tab" href="#accounts">@lang('general.accounts')</a></li>
+                                    <li class="{{ $tab === 'details' ? 'active' : '' }}"><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
                                     <li><a data-toggle="tab" href="#description">@lang('general.description')</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="accounts" class="tab-pane fade in active">
-                                        <div class="tab-ctn">
-                                            <div class="text-right">
-                                                <a href="{{ locale_route('currencies.wallets.create', [$currency]) }}">
-                                                    <i class="fa fa-plus"></i>
-                                                    @lang('general.add_account')
-                                                </a>
-                                            </div>
-                                            <ul>
-                                                @forelse($currency->wallets as $wallet)
-                                                    <li>
-                                                        <i class="fa fa-caret-right"></i>
-                                                        <strong>
-                                                            <a href="{{ locale_route('wallets.show', [$wallet]) }}"
-                                                               title="@lang('general.details')">{{ $wallet->name }}</a> :
-                                                        </strong>
-                                                        {{ $wallet->format_balance }}
-                                                    </li>
-                                                @empty
-                                                    <div class="text-center">
-                                                        <div class="alert alert-info text-center" role="alert">
-                                                            @lang('general.no_data')
-                                                        </div>
-                                                    </div>
-                                                @endforelse
-                                            </ul>
+                                    <div id="accounts" class="tab-pane fade {{ $tab !== 'details' ? 'in active' : '' }} table-responsive">
+                                        <div class="text-right mg-b-15">
+                                            <a href="{{ locale_route('currencies.wallets.create', [$currency]) }}">
+                                                <i class="fa fa-plus"></i>
+                                                @lang('general.add_account')
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                    <tr class="text-uppercase">
+                                                        <th class="text-theme-1">#</th>
+                                                        <th class="text-theme-1">@lang('general.name')</th>
+                                                        <th class="text-theme-1">@lang('general.balance')</th>
+                                                        <th class="text-theme-1">@lang('general.threshold')</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse($wallets as $wallet)
+                                                        <tr class="{{ !$wallet->is_stated ? 'current' : '' }}">
+                                                            <td>{{ $loop->index + 1 }}</td>
+                                                            <td>
+                                                                <a data-content="{{ $wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                                                                   href="{{ locale_route('wallets.show', [$wallet]) }}"
+                                                                   style="color:{{ $wallet->color }}">
+                                                                    {{ $wallet->table_name }}
+                                                                </a>
+                                                            </td>
+                                                            <td><span class="text-success">{{ $wallet->format_balance }}</span></td>
+                                                            <td><span class="text-danger">{{ $wallet->format_threshold }}</span></td>
+                                                        </tr>
+                                                    @empty
+                                                        <td colspan="4" class="text-center">
+                                                            <div class="text-center">
+                                                                <div class="alert alert-info text-center" role="alert">
+                                                                    @lang('general.no_data')
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    @endforelse
+                                                </tbody>
+                                                <thead>
+                                                    <tr class="text-uppercase">
+                                                        <th class="text-theme-1">#</th>
+                                                        <th class="text-theme-1">@lang('general.name')</th>
+                                                        <th class="text-theme-1">@lang('general.balance')</th>
+                                                        <th class="text-theme-1">@lang('general.threshold')</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div id="details" class="tab-pane fade">
+                                    <div id="details" class="tab-pane fade {{ $tab === 'details' ? 'in active' : '' }}">
                                         <div class="tab-ctn">
                                             <ul>
                                                 <li>

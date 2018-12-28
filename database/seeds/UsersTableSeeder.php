@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder
         Role::where('type', Role::USER)->first()->users()->create([
             'password' => 'wallex',
             'is_confirmed' => true,
+            'is_factored' => true,
             'token' => str_random(64),
             'city' => title_case(Lorem::word()),
             'country' => title_case(Lorem::word()),
@@ -32,6 +33,7 @@ class UsersTableSeeder extends Seeder
         Role::where('type', Role::ADMIN)->first()->users()->create([
             'password' => 'wallex',
             'is_confirmed' => true,
+            'is_factored' => true,
             'token' => str_random(64),
             'city' => title_case(Lorem::word()),
             'country' => title_case(Lorem::word()),
@@ -48,6 +50,7 @@ class UsersTableSeeder extends Seeder
         Role::where('type', Role::SUPER_ADMIN)->first()->users()->create([
             'password' => 'k@lonayA10',
             'is_confirmed' => true,
+            'is_factored' => true,
             'token' => str_random(64),
             'city' => 'Douala',
             'country' => 'Cameroon',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Http\Requests\TransactionFilterRequest;
 use Exception;
 use App\Models\Category;
 use App\Models\Transaction;
@@ -86,7 +87,7 @@ class CategoryController extends Controller
 
         try
         {
-            Auth::user()->categories()->create([
+            $category = Auth::user()->categories()->create([
                 'name' => $name,
                 'description' => $request->input('description'),
                 'icon' => $icon,
@@ -97,7 +98,7 @@ class CategoryController extends Controller
             success_flash_message(trans('auth.success'),
                 trans('general.add_successful', ['name' => $name]));
 
-            return redirect($this->indexRoute($type));
+            return redirect($this->showRoute($category));
         }
         catch (Exception $exception)
         {
@@ -105,6 +106,73 @@ class CategoryController extends Controller
         }
 
         return back()->withInput($request->all());
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param $language
+     * @param Category $category
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, $language, Category $category)
+    {
+        $tab = $request->query('tab');
+        $begin_date = Carbon::now(session('timezone'))->startOfDay();
+        $end_date = Carbon::now(session('timezone'))->endOfDay();
+        $category->load('transactions');
+
+        if(session()->has('begin_date') && session()->has('end_date'))
+        {
+            $begin_date = session('begin_date');
+            $end_date = session('end_date');
+        }
+        try
+        {
+            $begin_date->setTimezone('UTC');
+            $end_date->setTimezone('UTC');
+
+            $transactions = $category->transactions
+                ->where('created_at', '>=', $begin_date)->where('created_at', '<=', $end_date)
+                ->sortByDesc('created_at')->load('category', 'wallets');
+
+            $begin_date->setTimezone(session('timezone'));
+            $end_date->setTimezone(session('timezone'));
+
+            if($category->authorised) return view('app.categories.show', compact('category', 'transactions',
+                'begin_date', 'end_date', 'tab'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+    /**
+     * @param TransactionFilterRequest $request
+     * @param $language
+     * @param Category $category
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function filter(TransactionFilterRequest $request, $language, Category $category)
+    {
+        try
+        {
+            session()->flash('begin_date', $this->carbonFormatDate($request->input('begin_date')));
+            session()->flash('end_date', $this->carbonFormatDate($request->input('end_date')));
+        }
+        catch (Exception $exception)
+        {
+            warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+            return back()->withInput($request->all());
+        }
+
+        return redirect(locale_route('categories.show', [$category]));
     }
 
     /**
@@ -163,7 +231,7 @@ class CategoryController extends Controller
                 success_flash_message(trans('auth.success'),
                     trans('general.update_successful', ['name' => $name]));
 
-                return redirect($this->indexRoute($category->type));
+                return redirect($this->showRoute($category, 'details'));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
@@ -207,7 +275,7 @@ class CategoryController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->indexRoute($type));
+        return redirect(locale_route('categories.index') . '?type=' . $type);
     }
 
     /**
@@ -310,15 +378,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param $parameter
-     * @return bool
-     */
-    private function indexRoute($parameter)
-    {
-        return locale_route('categories.index') . '?type=' . $parameter;
-    }
-
-    /**
      * @param Collection $transactions
      * @param $type
      * @return string
@@ -330,7 +389,11 @@ class CategoryController extends Controller
         {
             $transactions_amount = $transactions->sum(function (Transaction $transaction) {
                 if($transaction->is_stated)
-                    return $transaction->amount;
+                {
+                    if($transaction->category->type === Category::EXPENSE) return - $transaction->amount;
+                    else if($transaction->category->type === Category::INCOME) return $transaction->amount;
+                    return 0;
+                }
                 return 0;
             }) / $currency->devaluation;
         }
@@ -352,5 +415,16 @@ class CategoryController extends Controller
     {
         return Auth::user()->currencies
             ->where('is_current', true)->first();
+    }
+
+    /**
+     * @param Category $category
+     * @param string $tab
+     * @return bool
+     */
+    private function showRoute(Category $category, $tab = '')
+    {
+        if($tab === '') return locale_route('categories.show', [$category]);
+        else return locale_route('categories.show', [$category]) . '?tab=' . $tab;
     }
 }

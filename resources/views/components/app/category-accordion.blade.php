@@ -15,9 +15,10 @@
                                     {{ text_format($category->name, 50) }}
                                 </div>
                                 <div class="col-xs-4 text-right">
-                                    <a href="{{ locale_route('categories.edit', [$category]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                                    <a href="{{ locale_route('categories.show', [$category]) }}" class="text-theme-1" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
+                                    <a href="{{ locale_route('categories.edit', [$category]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                                     @if($category->can_be_deleted)
-                                        <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-category-{{ $category->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
+                                        &nbsp;<a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-category-{{ $category->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                                     @endif
                                 </div>
                             </div>

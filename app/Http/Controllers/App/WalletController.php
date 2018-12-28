@@ -103,19 +103,7 @@ class WalletController extends Controller
             $currency = Currency::where('id', intval($request->input('currency')))->first();
             if($currency->authorised)
             {
-                $wallet = Auth::user()->wallets()->create([
-                    'name' => $name,
-                    'description' => $request->input('description'),
-                    'is_stated' => $request->input('stated') == null ? false : true,
-                    'balance' => doubleval($request->input('balance')) * $currency->devaluation,
-                    'threshold' =>  doubleval($request->input('threshold'))  * $currency->devaluation,
-                    'color' => $request->input('color'),
-                    'currency_id' => $currency->id
-                ]);
-
-                success_flash_message(trans('auth.success'),
-                    trans('general.add_successful', ['name' => $name]));
-
+                $wallet = $this->walletStore($request, $currency, $name);
                 return redirect($this->showRoute($wallet));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -145,19 +133,7 @@ class WalletController extends Controller
         {
             if($currency->authorised)
             {
-                Auth::user()->wallets()->create([
-                    'name' => $name,
-                    'description' => $request->input('description'),
-                    'is_stated' => $request->input('stated') == null ? false : true,
-                    'balance' => doubleval($request->input('balance')) * $currency->devaluation,
-                    'threshold' => doubleval($request->input('threshold')) * $currency->devaluation,
-                    'color' => $request->input('color'),
-                    'currency_id' => $currency->id
-                ]);
-
-                success_flash_message(trans('auth.success'),
-                    trans('general.add_successful', ['name' => $name]));
-
+                $this->walletStore($request, $currency, $name);
                 return redirect(locale_route('currencies.show', [$currency]));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -183,6 +159,7 @@ class WalletController extends Controller
         $tab = $request->query('tab');
         $begin_date = Carbon::now(session('timezone'))->startOfDay();
         $end_date = Carbon::now(session('timezone'))->endOfDay();
+        $wallet->load('transactions', 'currency');
 
         if(session()->has('begin_date') && session()->has('end_date'))
         {
@@ -195,7 +172,7 @@ class WalletController extends Controller
             $end_date->setTimezone('UTC');
 
             $transactions = $wallet->transactions
-                ->where('created_at', '>=', $begin_date)->where('created_at', '<=',$end_date)
+                ->where('created_at', '>=', $begin_date)->where('created_at', '<=', $end_date)
                 ->sortByDesc('created_at')->load('category', 'wallets');
 
             $begin_date->setTimezone(session('timezone'));
@@ -205,7 +182,6 @@ class WalletController extends Controller
             $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);
             $expensesPercent = $this->getTransactionTypePercentage($transactions, Category::EXPENSE);
 
-            $wallet->load('transactions', 'currency');
             if($wallet->authorised) return view('app.wallets.show', compact('wallet', 'transactions',
                 'begin_date', 'end_date', 'tab', 'incomesPercent', 'transfersPercent', 'expensesPercent'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -450,6 +426,30 @@ class WalletController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param Currency $currency
+     * @param $name
+     * @return mixed
+     */
+    private function walletStore(Request $request, Currency $currency, $name)
+    {
+        $wallet = Auth::user()->wallets()->create([
+            'name' => $name,
+            'description' => $request->input('description'),
+            'is_stated' => $request->input('stated') == null ? false : true,
+            'balance' => doubleval($request->input('balance')) * $currency->devaluation,
+            'threshold' =>  doubleval($request->input('threshold'))  * $currency->devaluation,
+            'color' => $request->input('color'),
+            'currency_id' => $currency->id
+        ]);
+
+        success_flash_message(trans('auth.success'),
+            trans('general.add_successful', ['name' => $name]));
+
+        return $wallet;
+    }
+
+    /**
      * @param $transactions
      * @param $type
      * @return float
@@ -463,9 +463,9 @@ class WalletController extends Controller
                 return 0;
             });
             $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
-                if($transaction->category->type === $type && $transaction->is_stated) return $transaction->amount;
-                return 0;
-            }) * 100) / $transactionsAmount;
+                        if($transaction->category->type === $type && $transaction->is_stated) return $transaction->amount;
+                        return 0;
+                    }) * 100) / $transactionsAmount;
         }
         catch (Exception $exception)
         {

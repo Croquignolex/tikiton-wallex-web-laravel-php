@@ -27,9 +27,9 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
-                            <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                            <a href="{{ locale_route('settings.edit', [$setting]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                             @if($setting->can_be_deleted)
-                                <a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-setting" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
+                                &nbsp;<a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-setting" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>&nbsp;
                                 <a href="javascript: void(0);" class="text-success hand-cursor" data-toggle="modal" data-target="#activate-setting" title="@lang('general.activate')"><i class="fa fa-check"></i></a>
                             @endif
                         </div>

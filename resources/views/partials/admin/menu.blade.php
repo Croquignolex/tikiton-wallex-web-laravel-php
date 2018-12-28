@@ -14,6 +14,11 @@
                             <i class="fa fa-users"></i>
                         </a>
                     </li>
+                    <li class="{{ active_page(admin_faq_pages()) }}">
+                        <a data-toggle="tab" href="#faq" title="FAQs">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </li>
                     <li class="{{ active_page(admin_account_pages()) }}">
                         <a data-toggle="tab" href="#user">
                             <i class="fa fa-user"></i>
@@ -44,6 +49,22 @@
                                 <a href="{{ route('admin.users.create') }}">
                                     <i class="fa fa-plus"></i>
                                     Nouvel utilisateur
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="faq" class="tab-pane notika-tab-menu-bg animated flipInX {{ active_page(admin_faq_pages()) === 'active' ? 'in active' : '' }}">
+                        <ul class="notika-main-menu-dropdown">
+                            <li class="{{ active_page(collect(['admin.faqs.index'])) }} waves-effect">
+                                <a href="{{ route('admin.faqs.index') }}">
+                                    <i class="fa fa-question-circle"></i>
+                                    FAQs
+                                </a>
+                            </li>
+                            <li class="{{ active_page(collect(['admin.faqs.create'])) }} waves-effect">
+                                <a href="{{ route('admin.faqs.create') }}">
+                                    <i class="fa fa-plus"></i>
+                                    Nouvel FAQs
                                 </a>
                             </li>
                         </ul>

@@ -27,9 +27,9 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container text-right">
-                            <a href="{{ locale_route('transactions.edit', [$transaction]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
+                            <a href="{{ locale_route('transactions.edit', [$transaction]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>
                             @if($transaction->can_be_deleted)
-                                <a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-transaction" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
+                                &nbsp;<a href="javascript: void(0);" class="text-danger hand-cursor" data-toggle="modal" data-target="#delete-transaction" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>
                             @endif
                         </div>
                     </div>

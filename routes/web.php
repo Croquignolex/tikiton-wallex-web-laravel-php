@@ -102,6 +102,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/{language}/dashboard/expenses', 'DashboardExpensesController@index')->name('dashboard.expenses');
     Route::get('/{language}/currencies/{currency}/wallets/create', 'WalletController@currencyCreate')->name('currencies.wallets.create');
     Route::get('/{language}/wallets/{wallet}/transactions/create', 'TransactionController@walletCreate')->name('wallets.transactions.create');
+    Route::get('/{language}/categories/{category}/transactions/create', 'TransactionController@categoryCreate')->name('categories.transactions.create');
     Route::get('/{language}/wallets/report', 'WalletController@report')->name('wallets.report');
     Route::get('/{language}/transactions/income/report', 'TransactionController@incomeReport')->name('transactions.income.report');
     Route::get('/{language}/transactions/transfer/report', 'TransactionController@transferReport')->name('transactions.transfer.report');
@@ -110,8 +111,10 @@ Route::group(['namespace' => 'App'], function() {
 
     Route::post('/{language}/currencies/{currency}/wallets', 'WalletController@currencyStore')->name('currencies.wallets.store');
     Route::post('/{language}/wallets/{wallet}/transactions', 'TransactionController@walletStore')->name('wallets.transactions.store');
+    Route::post('/{language}/categories/{category}/transactions', 'TransactionController@categoryStore')->name('categories.transactions.store');
     Route::post('/{language}/transactions/filter', 'TransactionController@filter')->name('transactions.filter');
     Route::post('/{language}/wallets/{wallet}/transactions/filter', 'WalletController@filter')->name('wallets.transactions.filter');
+    Route::post('/{language}/categories/{category}/transactions/filter', 'CategoryController@filter')->name('categories.transactions.filter');
 
     Route::put('/{language}/currencies/activate/{currency}', 'CurrencyController@activate')->name('currencies.activate');
     Route::put('/{language}/settings/activate/{setting}', 'UserSettingController@activate')->name('settings.activate');
@@ -123,7 +126,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::resource('/{language}/wallets', 'WalletController');
     Route::resource('/{language}/currencies', 'CurrencyController');
     Route::resource('/{language}/settings', 'UserSettingController');
-    Route::resource('/{language}/categories', 'CategoryController', ['except' => ['show']]);
+    Route::resource('/{language}/categories', 'CategoryController');
     Route::resource('/{language}/transactions', 'TransactionController');
     Route::resource('/{language?}/notifications', 'NotificationsController', ['only' => ['index', 'destroy']]);
 
@@ -184,21 +187,19 @@ Route::prefix('admin')->group(function() {
             'names' => ['index' => 'admin.users.index', 'create' => 'admin.users.create',
                 'store' => 'admin.users.store', 'show' => 'admin.users.show']
         ]);
-        /*Route::resource('/wallets', 'WalletController', [
-            'only' => ['show'],
-            'names' => ['show' => 'admin.wallets.show']
+        Route::resource('/faqs', 'FaqsController', [
+            'names' => ['index' => 'admin.faqs.index', 'create' => 'admin.faqs.create',
+                'store' => 'admin.faqs.store', 'show' => 'admin.faqs.show',
+                'edit' => 'admin.faqs.edit', 'update' => 'admin.faqs.update',
+                'destroy' => 'admin.faqs.destroy']
         ]);
-        Route::resource('/categories', 'CategoryController', [
-            'only' => ['show'],
-            'names' => ['show' => 'admin.categories.show']
-        ]);
-        Route::resource('/currency', 'CurrencyController', [
-            'only' => ['show'],
-            'names' => ['show' => 'admin.currency.show']
-        ]);*/
         Route::resource('/notifications', 'NotificationsController', [
             'only' => ['index', 'destroy'],
             'names' => ['index' => 'admin.notifications.index', 'destroy' => 'admin.notifications.destroy']
+        ]);
+        Route::resource('/messages', 'MessageController', [
+            'only' => ['index', 'destroy'],
+            'names' => ['index' => 'admin.messages.index', 'destroy' => 'admin.messages.destroy']
         ]);
 
         //--Auth routes...

@@ -20,10 +20,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property mixed extension
  * @property string post_code
  * @property mixed authorised
+ * @property mixed currencies
  * @property mixed is_factored
  * @property string profession
  * @property bool is_confirmed
  * @property string description
+ * @property mixed user_settings
  * @property mixed password_reset
  * @property mixed format_full_name
  * @property mixed format_last_name

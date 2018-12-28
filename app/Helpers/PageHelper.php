@@ -137,7 +137,7 @@ if(!function_exists('app_category_pages'))
     function app_category_pages()
     {
         return collect(['categories.index', 'categories.create',
-            'categories.edit', 'categories.report']);
+            'categories.show', 'categories.edit', 'categories.report']);
     }
 }
 
@@ -219,7 +219,18 @@ if(!function_exists('admin_users_pages'))
     function admin_users_pages()
     {
         return collect(['admin.users.index', 'admin.users.create',
-            'admin.users.show', 'admin.wallets.show', 'admin.categories.show',
-            'admin.currencies.show']);
+            'admin.users.show']);
+    }
+}
+
+if(!function_exists('admin_faq_pages'))
+{
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    function admin_faq_pages()
+    {
+        return collect(['admin.faqs.index', 'admin.faqs.create',
+            'admin.faqs.edit', 'admin.faqs.show']);
     }
 }

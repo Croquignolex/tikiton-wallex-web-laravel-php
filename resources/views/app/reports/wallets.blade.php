@@ -40,10 +40,9 @@
                                         <tr class="{{ !$wallet->is_stated ? 'current' : '' }}">
                                             <td>{{ ($loop->index + 1) }}</td>
                                             <td>
-                                                <a href="{{ locale_route('wallets.show', [$wallet]) }}" title="@lang('general.details')"
-                                                   style="color:{{ $wallet->color }};">
-                                                    {{ text_format($wallet->format_name, 20) }}
-                                                </a>
+                                                <span class="text-right" data-content="{{ $wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                    {{ $wallet->table_name }}
+                                                </span>
                                             </td>
                                             <td class="text-right">{{ $wallet->format_balance }}</td>
                                             <td class="text-right">{{ $wallet->format_current_currency_balance }}</td>

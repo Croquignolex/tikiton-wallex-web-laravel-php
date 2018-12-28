@@ -20,10 +20,7 @@ a {
 .account-header {
     padding: 20px 10px 10px 10px;
 }
-.current {
-    background-color: #ddd;
-    font-weight: bold;
-}
+.current {background-color: #e9e9e9;}
 .modal-invisible {
     background: none;
     border: none;

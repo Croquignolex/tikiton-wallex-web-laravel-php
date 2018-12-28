@@ -6,6 +6,7 @@ use App\Traits\NameTrait;
 use App\Utils\FormatBoolean;
 use App\Traits\SlugSaveTrait;
 use App\Traits\SlugRouteTrait;
+use App\Traits\TableNameTrait;
 use App\Traits\DescriptionTrait;
 use App\Traits\LocaleAmountTrait;
 use App\Traits\LocaleDateTimeTrait;
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Wallet extends Model
 {
-    use LocaleDateTimeTrait, NameTrait, SlugRouteTrait,
+    use LocaleDateTimeTrait, NameTrait, SlugRouteTrait, TableNameTrait,
         DescriptionTrait, LocaleAmountTrait, SlugSaveTrait;
 
     /**

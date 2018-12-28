@@ -17,32 +17,38 @@
         @forelse($transactions as $transaction)
             <tr class="{{ !$transaction->is_stated ? 'current' : '' }}">
                 <td>{{ $loop->index + 1 }}</td>
-                <td><a href="{{ locale_route('transactions.show', [$transaction]) }}" title="@lang('general.details')">{{ text_format($transaction->name, 20) }}</a></td>
+                <td>
+                    <span class="text-right" data-content="{{ $transaction->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                        {{ $transaction->table_name }}
+                    </span>
+                </td>
                 <td>
                     @if($transaction->is_a_transfer)
-                        <a href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"
-                           style="color:{{ $transaction->wallet->color }}"
-                           title="@lang('general.details')">
-                            {{ text_format($transaction->wallet->name, 12) }}
+                        <a data-content="{{ $transaction->wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                           href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"
+                           style="color:{{ $transaction->wallet->color }}">
+                            {{ $transaction->wallet->table_name }}
                         </a>
                         <i class="fa fa-long-arrow-right"></i>
-                        <a href="{{ locale_route('wallets.show', [$transaction->transfer_wallet]) }}"
-                           style="color:{{ $transaction->transfer_wallet->color }}"
-                           title="@lang('general.details')">
-                            {{ text_format($transaction->transfer_wallet->name, 12) }}
+                        <a data-content="{{ $transaction->transfer_wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                           href="{{ locale_route('wallets.show', [$transaction->transfer_wallet]) }}"
+                           style="color:{{ $transaction->transfer_wallet->color }}">
+                            {{ $transaction->transfer_wallet->table_name }}
                         </a>
                     @else
-                        <a href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"
-                           style="color:{{ $transaction->wallet->color }}"
-                           title="@lang('general.details')">
-                            {{ text_format($transaction->wallet->name, 20) }}
+                        <a data-content="{{ $transaction->wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                           href="{{ locale_route('wallets.show', [$transaction->wallet]) }}"
+                           style="color:{{ $transaction->wallet->color }}">
+                            {{ $transaction->wallet->table_name }}
                         </a>
                     @endif
                 </td>
-                <td>
-                    <div class="text-center" data-content="{{ $transaction->category->name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                        <i class="fa fa-{{ $transaction->category->icon }}" style="color:{{ $transaction->category->color }};"></i>
-                    </div>
+                <td class="text-center">
+                    <a data-content="{{ $transaction->category->name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                       href="{{ locale_route('categories.show', [$transaction->category]) }}"
+                       style="color:{{ $transaction->category->color }};">
+                        <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                    </a>
                 </td>
                 <td class="text-right">
                     <span class="{{ $transaction->category->format_type->color }}">
@@ -50,13 +56,14 @@
                         {{ $transaction->format_amount }}
                     </span>
                 </td>
-                <td>
-                    <div class="text-right" data-content="{{ $transaction->created_time }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                <td class="text-right">
+                    <span class="text-right" data-content="{{ $transaction->created_time }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                         {{ $transaction->created_date }}
-                    </div>
+                    </span>
                 </td>
                 @if(!isset($no_action))
                     <td class="text-right">
+                        <a href="{{ locale_route('transactions.show', [$transaction]) }}" class="text-theme-1" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
                         <a href="{{ locale_route('transactions.edit', [$transaction]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;
                         @if($transaction->can_be_deleted)
                             <a href="javascript: void(0);" class="text-danger" data-toggle="modal" data-target="#delete-transaction-{{ $transaction->id }}" title="@lang('general.delete')"><i class="fa fa-trash-o"></i></a>

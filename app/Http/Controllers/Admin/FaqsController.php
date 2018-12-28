@@ -3,22 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
+use App\Models\Faq;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Mail\UserRegisterMail;
 use App\Traits\PaginationTrait;
-use App\Traits\LocaleAmountTrait;
-use App\Traits\UserFactoryDataTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\RegisterRequest;
 use App\Traits\ErrorFlashMessagesTrait;
 
-class UserController extends Controller
+class FaqsController extends Controller
 {
-    use ErrorFlashMessagesTrait, PaginationTrait,
-        LocaleAmountTrait, UserFactoryDataTrait;
+    use ErrorFlashMessagesTrait, PaginationTrait;
 
     /**
      * AccountController constructor.
@@ -34,24 +32,19 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = collect();
+        $faqs = collect();
         try
         {
-            $users = User::all()->filter(function (User $user) {
-                if($user->role->type === Role::USER) return true;
-                return false;
-            })->sortByDesc('updated_at')
-                ->load('wallets', 'categories', 'currencies');
+            $faqs = Faq::all()->sortByDesc('updated_at');
         }
         catch (Exception $exception)
         {
             $this->databaseError($exception);
         }
 
-        $this->paginate($request, $users, 10, 3);
+        $this->paginate($request, $faqs, 10, 3);
         $paginationTools = $this->paginationTools;
-
-        return view('admin.users.index', compact('paginationTools'));
+        return view('admin.faqs.index', compact('paginationTools'));
     }
 
     /**
@@ -61,7 +54,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        return view('admin.faqs.create');
     }
 
     /**
@@ -98,29 +91,6 @@ class UserController extends Controller
         }
 
         return redirect(route('admin.users.index'));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Request $request
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, User $user)
-    {
-        try
-        {
-            $user->load('wallets', 'categories', 'currencies');
-            if($user->authorised) return view('admin.users.show', compact('user'));
-            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
-        }
-        catch (Exception $exception)
-        {
-            $this->databaseError($exception);
-        }
-
-        return back();
     }
 
     /**
@@ -172,14 +142,5 @@ class UserController extends Controller
         }
 
         return redirect($this->showRoute($user));
-    }
-
-    /**
-     * @param User $user
-     * @return bool
-     */
-    private function showRoute(User $user)
-    {
-        return route('admin.users.show', [$user]);
     }
 }
