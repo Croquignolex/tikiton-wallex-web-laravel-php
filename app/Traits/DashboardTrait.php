@@ -103,20 +103,20 @@ trait DashboardTrait
     {
         if($type === Transaction::DAILY)
             return Auth::user()->transactions
-                ->where('created_at', '>=', now()->startOfDay())
-                ->where('created_at', '<=', now()->endOfDay());
+                ->where('created_at', '>=', now(session('timezone'))->startOfDay())
+                ->where('created_at', '<=', now(session('timezone'))->endOfDay());
         else if($type === Transaction::WEEKLY)
             return Auth::user()->transactions
-                ->where('created_at', '>=', now()->startOfWeek())
-                ->where('created_at', '<=', now()->endOfWeek());
+                ->where('created_at', '>=', now(session('timezone'))->startOfWeek())
+                ->where('created_at', '<=', now(session('timezone'))->endOfWeek());
         else if($type === Transaction::MONTHLY)
             return Auth::user()->transactions
-                ->where('created_at', '>=', now()->startOfMonth())
-                ->where('created_at', '<=', now()->endOfMonth());
+                ->where('created_at', '>=', now(session('timezone'))->startOfMonth())
+                ->where('created_at', '<=', now(session('timezone'))->endOfMonth());
         else
             return Auth::user()->transactions
-                ->where('created_at', '>=', now()->startOfYear())
-                ->where('created_at', '<=', now()->endOfYear());
+                ->where('created_at', '>=', now(session('timezone'))->startOfYear())
+                ->where('created_at', '<=', now(session('timezone'))->endOfYear());
     }
 
     /**

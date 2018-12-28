@@ -9,7 +9,7 @@ trait TableNameTrait
      */
     public function getTableNameAttribute()
     {
-        return text_format($this->name, 20);
+        return text_format($this->name, 15);
     }
 
     /**

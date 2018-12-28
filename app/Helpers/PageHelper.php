@@ -137,7 +137,8 @@ if(!function_exists('app_category_pages'))
     function app_category_pages()
     {
         return collect(['categories.index', 'categories.create',
-            'categories.show', 'categories.edit', 'categories.report']);
+            'categories.show', 'categories.edit', 'categories.report',
+            'categories.transactions.create']);
     }
 }
 

@@ -57,8 +57,8 @@
                     </span>
                 </td>
                 <td class="text-right">
-                    <span class="text-right" data-content="{{ $transaction->created_time }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                        {{ $transaction->created_date }}
+                    <span class="text-right" data-content="{{ $transaction->long_created_date }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                        {{ $transaction->created_date }}.{{ $transaction->created_time }}
                     </span>
                 </td>
                 @if(!isset($no_action))

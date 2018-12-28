@@ -79,7 +79,7 @@ class TransactionService
     {
         $monthChanger = collect();
         $monthChanger->push($route . '?date=' . $date_range . '&type=' . $type);
-        $date = Carbon::now(session('timezone'));
+        $date = now(session('timezone'));
 
         if($type === Transaction::DAILY)
         {
