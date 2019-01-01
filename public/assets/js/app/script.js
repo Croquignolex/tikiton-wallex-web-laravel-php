@@ -39,10 +39,7 @@ function showNotifications()
     $.ajax({
         method: 'GET', url: '/notifications/viewed', dataType: "json"
     })
-    .fail(function() {
-        notification('Error', 'Request failed',
-            'danger', 'fa fa-remove', 'bounceIn', 'bounceOut', 5000);
-    });
+    .fail(function() { console.warn('Request failed'); });
 }
 
 (function ($) {

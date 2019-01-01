@@ -49,6 +49,7 @@
                                                 <span class="text-right" data-content="{{ $currency->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                     {{ $currency->table_name }}
                                                 </span>
+                                            </td>
                                             <td>{{ $currency->symbol }}</td>
                                             <td class="text-right">{{ $currency->format_devaluation }}</td>
                                             <td class="text-right">

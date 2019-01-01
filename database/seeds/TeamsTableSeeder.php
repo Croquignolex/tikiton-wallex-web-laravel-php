@@ -13,14 +13,32 @@ class TeamsTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 9; $i++)
-        {
-            Team::create([
-                'is_visible' => $i <= 4,
-                'name' => title_case(Lorem::sentence(2)),
-                'en_function' => ucfirst(Lorem::sentence(3)),
-                'fr_function' => ucfirst(Lorem::sentence(3)),
-            ]);
-        }
+        Team::create([
+            'name' => 'Alex NGOMBOL',
+            'en_function' => 'Webmaster',
+            'fr_function' => 'Webmaster',
+            'image' => 'alex'
+        ]);
+
+        Team::create([
+            'name' => 'Cathérine Mango',
+            'en_function' => 'Contributrice',
+            'fr_function' => 'Contributor',
+            'image' => 'catherine'
+        ]);
+
+        Team::create([
+            'name' => 'Célestin WOKGOUE',
+            'en_function' => 'Contributeur',
+            'fr_function' => 'Contributor',
+            'image' => 'celestin'
+        ]);
+
+        Team::create([
+            'name' => 'Gladys NENGSU',
+            'en_function' => 'Designer',
+            'fr_function' => 'Designer',
+            'image' => 'gladys'
+        ]);
     }
 }

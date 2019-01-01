@@ -48,6 +48,7 @@
                                                 <span class="text-right" data-content="{{ $setting->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                     {{ $setting->table_name }}
                                                 </span>
+                                            </td>
                                             <td>
                                                 <small class="text-{{ $setting->format_tips->color }}">
                                                     {{ $setting->format_tips->text }}

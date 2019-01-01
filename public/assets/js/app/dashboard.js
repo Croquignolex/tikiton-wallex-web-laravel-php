@@ -59,10 +59,7 @@ function roundChart(route, loaderID, chartID, chartType)
         else new Chart(chartCanvas, { type: chartType, data: chartData, options: options });
 
     })
-    .fail(function() {
-        notification('Error', 'Request failed',
-            'danger', 'fa fa-remove', 'bounceIn', 'bounceOut', 5000);
-    });
+    .fail(function() { console.warn('Request failed'); });
 }
 
 function inlineChart(route, loaderID, chartID, chartType)
@@ -140,8 +137,5 @@ function inlineChart(route, loaderID, chartID, chartType)
         let chartCanvas = $(chartID).get(0).getContext("2d");
         new Chart(chartCanvas, { type: chartType, data: chartData, options: options });
     })
-    .fail(function() {
-        notification('Error', 'Request failed',
-            'danger', 'fa fa-remove', 'bounceIn', 'bounceOut', 5000);
-    });
+    .fail(function() { console.warn('Request failed'); });
 }

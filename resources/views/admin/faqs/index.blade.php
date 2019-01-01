@@ -41,10 +41,26 @@
                                 @forelse($paginationTools->displayItems as $faq)
                                     <tr>
                                         <td>{{ ($loop->index + 1) + ($paginationTools->itemsPerPage * ($paginationTools->currentPage - 1)) }}</td>
-                                        <td>{{ text_format($faq->fr_question, 15) }}</td>
-                                        <td>{{ text_format($faq->en_question, 15) }}</td>
-                                        <td>{{ text_format($faq->fr_answer, 20) }}</td>
-                                        <td>{{ text_format($faq->en_answer, 20) }}</td>
+                                        <td>
+                                            <span class="text-right" data-content="{{ $faq->fr_question }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                {{ text_format($faq->fr_question, 15) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-right" data-content="{{ $faq->en_question }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                {{ text_format($faq->en_question, 15) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-right" data-content="{{ $faq->fr_answer }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                {{ text_format($faq->fr_answer, 20) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="text-right" data-content="{{ $faq->en_answer }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                                {{ text_format($faq->en_answer, 20) }}
+                                            </span>
+                                        </td>
                                         <td class="text-right">
                                             <a href="{{ route('admin.faqs.show', [$faq]) }}" class="text-theme-2" title="@lang('general.details')"><i class="fa fa-eye"></i></a>&nbsp;
                                             <a href="{{ route('admin.faqs.edit', [$faq]) }}" class="text-warning" title="@lang('general.update')"><i class="fa fa-pencil"></i></a>&nbsp;

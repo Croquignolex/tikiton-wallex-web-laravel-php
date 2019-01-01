@@ -1,17 +1,17 @@
 @extends('layouts.admin.breadcrumb')
 
-@section('breadcrumb.admin.layout.title', admin_page_title('Détail de l\'utilisateur'))
+@section('breadcrumb.admin.layout.title', admin_page_title('Détail du FAQ'))
 
-@section('breadcrumb.title', 'Détail de l\'utilisateur')
+@section('breadcrumb.title', 'Détail du FAQ')
 
 @section('breadcrumb.message')
-    <a href="{{ route('admin.users.index') }}">Utilisateurs</a>
+    <a href="{{ route('admin.faqs.index') }}">FAQs</a>
     <i class="fa fa-caret-right"></i>
-    Détail de l'utilisateur
+    Détail du FAQ
 @endsection
 
 @section('breadcrumb.icon')
-    <i class="fa fa-users"></i>
+    <i class="fa fa-question-circle"></i>
 @endsection
 
 @section('breadcrumb.admin.layout.body')
@@ -22,18 +22,11 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container">
-                            <div class="contact-hd sm-form-hd text-center">
-                                <div class="account-header">
-                                    <strong class="text-uppercase">{{ $user->format_full_name }}</strong>
-                                </div>
-                            </div>
                             <div class="widget-tabs-list">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
-                                    <li><a data-toggle="tab" href="#accounts">@lang('general.accounts')</a></li>
-                                    <li><a data-toggle="tab" href="#categories">@lang('general.categories')</a></li>
-                                    <li><a data-toggle="tab" href="#currencies">@lang('general.currencies')</a></li>
-                                    <li><a data-toggle="tab" href="#description">@lang('general.description')</a></li>
+                                    <li><a data-toggle="tab" href="#question">@lang('general.question')</a></li>
+                                    <li><a data-toggle="tab" href="#answer">@lang('general.answer')</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="details" class="tab-pane fade in active">

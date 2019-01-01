@@ -48,7 +48,7 @@
                         <a href="javascript: void(0);" class="probootstrap-team">
                             <img src="{{ $team->image_path }}" alt="..." class="img-responsive">
                             <div class="probootstrap-team-info">
-                                <h3>
+                                <h3 class="text-white">
                                     <strong>{{ $team->format_name }}</strong>
                                     <span class="position">
                                         <strong>{{ $team->format_function }}</strong>

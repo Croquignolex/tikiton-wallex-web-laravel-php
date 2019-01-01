@@ -13,14 +13,11 @@ class FaqsTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 60; $i++)
-        {
-            Faq::create([
-                'fr_answer' => ucfirst(Lorem::text(300)),
-                'en_answer' => ucfirst(Lorem::text(300)),
-                'fr_question' => ucfirst(Lorem::sentence()),
-                'en_question' => ucfirst(Lorem::sentence()),
-            ]);
-        }
+        Faq::create([
+            'fr_answer' => 'Tout le monde sans exception',
+            'en_answer' => 'Everyone without exception',
+            'fr_question' => 'Qui peut utiliser WALLEX?',
+            'en_question' => 'Who can use WALLEX?',
+        ]);
     }
 }

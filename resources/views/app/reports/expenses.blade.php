@@ -68,6 +68,7 @@
                                             <span class="text-right" data-content="{{ $transaction->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                 {{ $transaction->table_name }}
                                             </span>
+                                        </td>
                                         <td>
                                             <span class="text-right" data-content="{{ $transaction->wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                 {{ $transaction->wallet->table_name }}

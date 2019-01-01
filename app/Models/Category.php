@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\SlugRouteTrait;
+use App\Utils\FormatBoolean;
 use App\Traits\SlugSaveTrait;
+use App\Traits\SlugRouteTrait;
+use App\Traits\TableNameTrait;
 use App\Traits\LocaleAmountTrait;
 use App\Traits\LocaleDateTimeTrait;
-use App\Utils\FormatBoolean;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use LocaleDateTimeTrait, LocaleAmountTrait,
-        SlugSaveTrait, SlugRouteTrait;
+        SlugSaveTrait, SlugRouteTrait, TableNameTrait;
 
     const EXPENSE = 'expense';
     const TRANSFER = 'transfer';

@@ -103,10 +103,11 @@ trait UserFactoryDataTrait
             $transfer_transaction->wallets()->save($saving_account_wallet);
             $expense_transaction->wallets()->save($personal_wallet);
 
-            $user->update(['is_factored' => true]);
             $user->admin_notifications()->create([
                 'type' => AdminNotification::CONFIRMED
             ]);
+            $user->is_factored = true;
+            $user->save();
         }
     }
 }

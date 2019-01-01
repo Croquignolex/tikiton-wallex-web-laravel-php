@@ -13,12 +13,11 @@ class PartnersTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 15; $i++)
-        {
-            Partner::create([
-                'is_visible' => $i <= 4,
-                'name' => title_case(Lorem::word())
-            ]);
-        }
+        Partner::create([
+            'name' => 'BREADCEL',
+            'image' => 'breadcel',
+            'extension' => 'png',
+            'link' => "http:\\\breadcel.ca"
+        ]);
     }
 }

@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Support\Facades\App;
 use App\Traits\LocaleDateTimeTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property mixed fr_answer
  * @property mixed en_answer
+ * @property mixed authorised
  * @property mixed fr_question
  * @property mixed en_question
-*/
+ */
 class Faq extends Model
 {
     use LocaleDateTimeTrait;
@@ -23,7 +24,8 @@ class Faq extends Model
      * @var array
      */
     protected $fillable = [
-        'fr_question', 'fr_answer', 'en_question', 'en_answer'
+        'fr_question', 'fr_answer', 'en_question', 'en_answer',
+        'is_visible',
     ];
 
     /**

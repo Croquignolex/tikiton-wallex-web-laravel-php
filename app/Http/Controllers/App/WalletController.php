@@ -47,7 +47,7 @@ class WalletController extends Controller
             $this->databaseError($exception);
         }
 
-        $this->paginate($request, $wallets, 6, 3);
+        $this->paginate($request, $wallets, 9, 3);
         $paginationTools = $this->paginationTools;
 
         return view('app.wallets.index', compact('paginationTools'));

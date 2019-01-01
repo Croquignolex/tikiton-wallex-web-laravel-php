@@ -79,12 +79,12 @@
                             </div>
                             <div class="probootstrap-image-showcase">
                                 <ul class="probootstrap-images-list">
-                                    <li class="active"><img src="{{ img_asset('app-preview-1', 'jpg') }}" alt="Image" class="img-responsive"></li>
-                                    <li><img src="{{ img_asset('app-preview-2', 'jpg') }}" alt="Image" class="img-responsive"></li>
-                                    <li><img src="{{ img_asset('app-preview-1', 'jpg') }}" alt="Image" class="img-responsive"></li>
-                                    <li><img src="{{ img_asset('app-preview-2', 'jpg') }}" alt="Image" class="img-responsive"></li>
-                                    <li><img src="{{ img_asset('app-preview-1', 'jpg') }}" alt="Image" class="img-responsive"></li>
-                                    <li><img src="{{ img_asset('app-preview-2', 'jpg') }}" alt="Image" class="img-responsive"></li>
+                                    <li class="active"><img src="{{ img_asset('app-preview-1', 'jpg') }}" alt="..." class="img-responsive"></li>
+                                    <li><img src="{{ img_asset('app-preview-2', 'jpg') }}" alt="..." class="img-responsive"></li>
+                                    <li><img src="{{ img_asset('app-preview-3', 'jpg') }}" alt="..." class="img-responsive"></li>
+                                    <li><img src="{{ img_asset('app-preview-4', 'jpg') }}" alt="..." class="img-responsive"></li>
+                                    <li><img src="{{ img_asset('app-preview-5', 'jpg') }}" alt="..." class="img-responsive"></li>
+                                    <li><img src="{{ img_asset('app-preview-6', 'jpg') }}" alt="..." class="img-responsive"></li>
                                 </ul>
                             </div>
                         </div>
@@ -211,7 +211,9 @@
             <div class="row">
                 @forelse($partners as $partner)
                     <div class="col-md-3 col-sm-6 col-xs-6 text-center client-logo probootstrap-animate" data-animate-effect="fadeIn">
-                        <img src="{{ $partner->image_path }}" class="img-responsive" alt="...">
+                        <a href="{{ $partner->link }}" data-content="{{ $partner->name }}" data-trigger="hover" data-toggle="popover" data-placement="top" target="_blank">
+                            <img src="{{ $partner->image_path }}" class="img-responsive" alt="...">
+                        </a>
                     </div>
                 @empty
                     <div class="col-sm-12 fix alert alert-info text-center">

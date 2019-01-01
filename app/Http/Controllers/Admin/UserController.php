@@ -145,7 +145,7 @@ class UserController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->showRoute($user));
+        return back();
     }
 
     /**
@@ -171,7 +171,7 @@ class UserController extends Controller
             $this->databaseError($exception);
         }
 
-        return redirect($this->showRoute($user));
+        return back();
     }
 
     /**

@@ -94,6 +94,28 @@ class FaqsController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param Request $request
+     * @param Faq $faq
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, Faq $faq)
+    {
+        try
+        {
+            if($faq->authorised) return view('admin.faqs.show', compact('faq'));
+            else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
+        }
+        catch (Exception $exception)
+        {
+            $this->databaseError($exception);
+        }
+
+        return back();
+    }
+
+    /**
      * @param Request $request
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
