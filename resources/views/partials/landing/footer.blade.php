@@ -57,7 +57,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 copyright">
-                <p><small>&copy; 2019 <a href="{{ config('company.web_site') }}">{{ config('company.name') }}</a>. @lang('general.right'). <br> @lang('general.designed_developed_with') <i class="fa fa-heart"></i> @lang('general.by') <a href="{{ config('company.developer_web_site') }}">{{ config('company.developer_name') }}</a></small></p>
+                <p><small>&copy; 2019 <a href="{{ config('company.web_site') }}" target="_blank">{{ config('company.name') }}</a>. @lang('general.right'). <br> @lang('general.designed_developed_with') <i class="fa fa-heart"></i> @lang('general.by') <a href="{{ config('company.developer_web_site') }}" target="_blank">{{ config('company.developer_name') }}</a></small></p>
             </div>
         </div>
     </div>

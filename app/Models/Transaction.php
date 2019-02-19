@@ -179,7 +179,7 @@ class Transaction extends Model
      */
     public function getWalletAttribute()
     {
-        return $this->wallets->sortBy('created_at')->first();
+        return $this->wallets->first();
     }
 
     /**
@@ -187,7 +187,7 @@ class Transaction extends Model
      */
     public function getTransferWalletAttribute()
     {
-        return $this->wallets->sortBy('created_at')->last();
+        return $this->wallets->last();
     }
 
     /**

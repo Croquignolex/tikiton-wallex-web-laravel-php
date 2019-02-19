@@ -63,7 +63,7 @@ class Notification extends Model
     public function getDetailsAttribute()
     {
         $wallet_name = $this->wallet->name;
-        if ($this->type === Notification::NEW) return trans('notification.wallet_created', ['name' => $wallet_name]);
+        if ($this->type == Notification::NEW) return trans('notification.wallet_created', ['name' => $wallet_name]);
         elseif ($this->type == Notification::REACHED) return trans('notification.threshold_reached', ['name' => $wallet_name]);
         elseif ($this->type == Notification::PASSED) return trans('notification.threshold_passed', ['name' => $wallet_name]);
         elseif ($this->type == Notification::EMPTY) return trans('notification.wallet_empty', ['name' => $wallet_name]);

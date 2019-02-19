@@ -57,15 +57,15 @@ class Wallet extends Model
 
         static::updated(function ($wallet) {
             $user = $wallet->currency->user;
-            if ($wallet->balance === $wallet->threshold) {
+            if ($wallet->balance === 0.0) {
                 $user->notifications()->create([
-                    'type' => Notification::REACHED,
+                    'type' => Notification::EMPTY,
                     'wallet_id' => $wallet->id
                 ]);
             }
-            elseif ($wallet->balance === 0.0) {
+            elseif ($wallet->balance === $wallet->threshold) {
                 $user->notifications()->create([
-                    'type' => Notification::EMPTY,
+                    'type' => Notification::REACHED,
                     'wallet_id' => $wallet->id
                 ]);
             }
