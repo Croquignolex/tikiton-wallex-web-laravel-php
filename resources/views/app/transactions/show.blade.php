@@ -35,11 +35,6 @@
                     </div>
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="white-container">
-                            <div class="contact-hd sm-form-hd text-center">
-                                <div class="account-header">
-                                    <strong class="text-uppercase">{{ $transaction->name }}</strong>
-                                </div>
-                            </div>
                             <div class="widget-tabs-list">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a data-toggle="tab" href="#details">@lang('general.details')</a></li>
@@ -65,10 +60,17 @@
                                                 <li>
                                                     <i class="fa fa-caret-right"></i>
                                                     <strong>@lang('general.category') :</strong>
-                                                    <span style="color: {{ $transaction->category->color }};">
-                                                    <i class="fa fa-{{ $transaction->category->icon }}"></i>
-                                                        {{ $transaction->category->name }}
-                                                    </span>
+                                                    @if($transaction->category === null)
+                                                        <span class="text-primary">
+                                                            <i class="fa fa-exchange"></i>
+                                                            @lang('general.transfer')
+                                                        </span>
+                                                    @else
+                                                        <span style="color: {{ $transaction->category->color }};">
+                                                            <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                                                            {{ $transaction->category->name }}
+                                                        </span>
+                                                    @endif
                                                 </li>
                                                 @if($transaction->is_a_transfer)
                                                     <li>

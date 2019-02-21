@@ -52,7 +52,6 @@
                                 <thead>
                                 <tr class="text-uppercase">
                                     <th><span class="text-danger">#</span></th>
-                                    <th><span class="text-danger">@lang('general.name')</span></th>
                                     <th><span class="text-danger">@lang('general.account')</span></th>
                                     <th><span class="text-danger">@lang('general.category')</span></th>
                                     <th><span class="text-danger">@lang('general.date')</span></th>
@@ -65,23 +64,19 @@
                                     <tr class="{{ !$transaction->is_stated ? 'current' : '' }}">
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>
-                                            <span class="text-right" data-content="{{ $transaction->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                                                {{ $transaction->table_name }}
-                                            </span>
-                                        </td>
-                                        <td>
                                             <span class="text-right" data-content="{{ $transaction->wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                 {{ $transaction->wallet->table_name }}
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="text-center" data-content="{{ $transaction->category->name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
+                                            <div data-content="{{ $transaction->category->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                 <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                                                {{ $transaction->category->table_name }}
                                             </div>
                                         </td>
                                         <td>
                                             <div class="text-right" data-content="{{ $transaction->created_time }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                                                {{ $transaction->created_date }}
+                                                {{ $transaction->created_date }} {{ $transaction->created_time }}
                                             </div>
                                         </td>
                                         <td class="text-right">{{ $transaction->format_amount }}</td>
@@ -99,7 +94,7 @@
                                 </tbody>
                                 <thead>
                                 <tr class="text-uppercase">
-                                    <th colspan="6"><span class="text-danger">@lang('general.total')</span></th>
+                                    <th colspan="5"><span class="text-danger">@lang('general.total')</span></th>
                                     <th class="text-right"><span class="text-danger">{{ $total }}</span></th>
                                 </tr>
                                 </thead>

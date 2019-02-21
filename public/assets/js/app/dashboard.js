@@ -1,5 +1,5 @@
 function pieChart(route, loaderID, chartID) { roundChart(route, loaderID, chartID, 'pie'); }
-function doughnutChart(route, loaderID, chartID) { roundChart(route, loaderID, chartID, 'doughnut'); }
+// function doughnutChart(route, loaderID, chartID) { roundChart(route, loaderID, chartID, 'doughnut'); }
 function polarChart(route, loaderID, chartID) { roundChart(route, loaderID, chartID, 'polar'); }
 function lineChart(route, loaderID, chartID) { inlineChart(route, loaderID, chartID, 'line'); }
 function barChart(route, loaderID, chartID) { inlineChart(route, loaderID, chartID, 'bar'); }

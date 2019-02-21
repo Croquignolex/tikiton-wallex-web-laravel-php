@@ -52,7 +52,6 @@
                             <div class="widget-tabs-list">
                                 @component('components.app.types-progress-bar', [
                                     'incomesPercent' => $incomesPercent,
-                                    'transfersPercent' => $transfersPercent,
                                     'expensesPercent' => $expensesPercent
                                 ])
                                 @endcomponent

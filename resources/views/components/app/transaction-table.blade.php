@@ -3,9 +3,8 @@
     <thead>
         <tr class="text-uppercase">
             <th class="text-theme-1">#</th>
-            <th class="text-theme-1">@lang('general.name')</th>
-            <th class="text-theme-1">@lang('general.account')</th>
             <th class="text-theme-1">@lang('general.category')</th>
+            <th class="text-theme-1">@lang('general.account')</th>
             <th class="text-theme-1">@lang('general.amount')</th>
             <th class="text-theme-1">@lang('general.date')</th>
             @if(!isset($no_action))
@@ -18,9 +17,12 @@
             <tr class="{{ !$transaction->is_stated ? 'current' : '' }}">
                 <td>{{ $loop->index + 1 }}</td>
                 <td>
-                    <span class="text-right" data-content="{{ $transaction->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                        {{ $transaction->table_name }}
-                    </span>
+                    <a data-content="{{ $transaction->category->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                       href="{{ locale_route('categories.show', [$transaction->category]) }}"
+                       style="color:{{ $transaction->category->color }};">
+                        <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                        {{ $transaction->category->table_name }}
+                    </a>
                 </td>
                 <td>
                     @if($transaction->is_a_transfer)
@@ -43,13 +45,6 @@
                         </a>
                     @endif
                 </td>
-                <td class="text-center">
-                    <a data-content="{{ $transaction->category->name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
-                       href="{{ locale_route('categories.show', [$transaction->category]) }}"
-                       style="color:{{ $transaction->category->color }};">
-                        <i class="fa fa-{{ $transaction->category->icon }}"></i>
-                    </a>
-                </td>
                 <td class="text-right">
                     <span class="{{ $transaction->category->format_type->color }}">
                         <i class="fa fa-{{ $transaction->category->format_type->icon }}"></i>
@@ -58,7 +53,7 @@
                 </td>
                 <td class="text-right">
                     <span class="text-right" data-content="{{ $transaction->long_created_date }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
-                        {{ $transaction->created_date }}.{{ $transaction->created_time }}
+                        {{ $transaction->created_date }} {{ $transaction->created_time }}
                     </span>
                 </td>
                 @if(!isset($no_action))
@@ -84,9 +79,8 @@
     <thead>
         <tr class="text-uppercase">
             <th class="text-theme-1">#</th>
-            <th class="text-theme-1">@lang('general.name')</th>
-            <th class="text-theme-1">@lang('general.account')</th>
             <th class="text-theme-1">@lang('general.category')</th>
+            <th class="text-theme-1">@lang('general.account')</th>
             <th class="text-theme-1">@lang('general.amount')</th>
             <th class="text-theme-1">@lang('general.date')</th>
             @if(!isset($no_action))

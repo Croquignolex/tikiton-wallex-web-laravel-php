@@ -23,9 +23,9 @@ $(function () {
     }
 });
 
-let dailyChartRoute = '/dashboard/incomes/daily/fill';
-let weeklyChartRoute = '/dashboard/incomes/weekly/fill';
-let monthlyChartRoute = '/dashboard/incomes/monthly/fill';
-let yearlyChartRoute = '/dashboard/incomes/yearly/fill';
-let daysChartRoute = '/dashboard/incomes/days/fill';
-let monthsChartRoute = '/dashboard/incomes/months/fill';
+let currentDayChartRoute = '/dashboard/incomes/current/day';
+let currentWeekChartRoute = '/dashboard/incomes/current/week';
+let currentMonthChartRoute = '/dashboard/incomes/current/month';
+let currentYearChartRoute = '/dashboard/incomes/current/year';
+let currentWeekDaysChartRoute = '/dashboard/incomes/current/year/months';
+let currentYearMonthsChartRoute = '/dashboard/incomes/current/week/days';

@@ -18,7 +18,7 @@ class CurrencyRequest extends FormRequest
     {
         return [
             'name' => $this->required_string_2_255,
-            'description' => $this->required_string_2_510,
+            'description' => $this->string_510,
             'symbol' => $this->required_string_1_10,
             'devaluation' => $this->required_numeric
         ];

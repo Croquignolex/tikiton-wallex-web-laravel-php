@@ -23,9 +23,9 @@ $(function () {
     }
 });
 
-let dailyChartRoute = '/dashboard/transfers/daily/fill';
-let weeklyChartRoute = '/dashboard/transfers/weekly/fill';
-let monthlyChartRoute = '/dashboard/transfers/monthly/fill';
-let yearlyChartRoute = '/dashboard/transfers/yearly/fill';
-let daysChartRoute = '/dashboard/transfers/days/fill';
-let monthsChartRoute = '/dashboard/transfers/months/fill';
+let currentDayChartRoute = '/dashboard/transfers/current/day';
+let currentWeekChartRoute = '/dashboard/transfers/current/week';
+let currentMonthChartRoute = '/dashboard/transfers/current/month';
+let currentYearChartRoute = '/dashboard/transfers/current/year';
+let currentWeekDaysChartRoute = '/dashboard/transfers/current/year/months';
+let currentYearMonthsChartRoute = '/dashboard/transfers/current/week/days';

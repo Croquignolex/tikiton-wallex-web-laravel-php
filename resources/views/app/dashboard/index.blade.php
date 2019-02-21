@@ -59,9 +59,9 @@
                        'report_route' => locale_route('wallets.report'),
                        'title' => trans('general.accounts_balance_chart'),
                        'title_date' => $transactionService->getDayFormatDate(now()),
-                       'loader_id' => 'accounts-loader',
-                       'chart_id' => 'accounts-chart',
-                       'event_function_name' => 'accounts_refresh'
+                       'loader_id' => 'accounts-balance-loader',
+                       'chart_id' => 'accounts-balance-chart',
+                       'event_function_name' => 'accounts_balance_refresh'
                     ])
                     @endcomponent
                 </div>
@@ -69,22 +69,22 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                             'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::DAILY,
-                            'title' => trans('general.daily_category_chart'),
+                            'title' => trans('general.current_day_category_chart'),
                             'title_date' => $transactionService->getDayFormatDate(now()),
-                            'loader_id' => 'daily-category-loader',
-                            'chart_id' => 'daily-category-chart',
-                            'event_function_name' => 'daily_category_refresh'
+                            'loader_id' => 'current-day-category-loader',
+                            'chart_id' => 'current-day-category-chart',
+                            'event_function_name' => 'current_day_category_refresh'
                         ])
                         @endcomponent
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::WEEKLY,
-                           'title' => trans('general.weekly_category_chart'),
+                           'title' => trans('general.current_week_category_chart'),
                            'title_date' => $transactionService->getWeekFormatDate(now()),
-                           'loader_id' => 'weekly-category-loader',
-                           'chart_id' => 'weekly-category-chart',
-                           'event_function_name' => 'weekly_category_refresh'
+                           'loader_id' => 'current-week-category-loader',
+                           'chart_id' => 'current-week-category-chart',
+                           'event_function_name' => 'current_week_category_refresh'
                         ])
                         @endcomponent
                     </div>
@@ -93,22 +93,22 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::MONTHLY,
-                           'title' => trans('general.monthly_category_chart'),
+                           'title' => trans('general.current_month_category_chart'),
                            'title_date' => $transactionService->getMonthFormatDate(now()),
-                           'loader_id' => 'monthly-category-loader',
-                           'chart_id' => 'monthly-category-chart',
-                           'event_function_name' => 'monthly_category_refresh'
+                           'loader_id' => 'current-month-category-loader',
+                           'chart_id' => 'current-month-category-chart',
+                           'event_function_name' => 'current_month_category_refresh'
                         ])
                         @endcomponent
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::YEARLY,
-                           'title' => trans('general.yearly_category_chart'),
+                           'title' => trans('general.current_year_category_chart'),
                            'title_date' => now()->year,
-                           'loader_id' => 'yearly-category-loader',
-                           'chart_id' => 'yearly-category-chart',
-                           'event_function_name' => 'yearly_category_refresh'
+                           'loader_id' => 'current-year-category-loader',
+                           'chart_id' => 'current-year-category-chart',
+                           'event_function_name' => 'current_year_category_refresh'
                         ])
                         @endcomponent
                     </div>
@@ -116,22 +116,22 @@
                 <div class="col-xs-12">
                     @component('components.app.dashboard-chart', [
                        'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::WEEKLY,
-                       'title' => trans('general.details_daily_category_chart'),
+                       'title' => trans('general.current_week_days_category_chart'),
                        'title_date' => $transactionService->getWeekFormatDate(now()),
-                       'loader_id' => 'days-category-loader',
-                       'chart_id' => 'days-category-chart',
-                       'event_function_name' => 'days_category_refresh'
+                       'loader_id' => 'current-week-days-category-loader',
+                       'chart_id' => 'current-week-days-category-chart',
+                       'event_function_name' => 'current_week_days_category_refresh'
                     ])
                     @endcomponent
                 </div>
                 <div class="col-xs-12">
                     @component('components.app.dashboard-chart', [
                        'report_route' => locale_route('categories.report') . '?type=' . \App\Models\Transaction::YEARLY,
-                       'title' => trans('general.details_yearly_category_chart'),
+                       'title' => trans('general.current_year_months_category_chart'),
                        'title_date' => now()->year,
-                       'loader_id' => 'months-category-loader',
-                       'chart_id' => 'months-category-chart',
-                       'event_function_name' => 'months_category_refresh'
+                       'loader_id' => 'current-year-months-category-loader',
+                       'chart_id' => 'current-year-months-category-chart',
+                       'event_function_name' => 'current_year_months_category_refresh'
                     ])
                     @endcomponent
                 </div>

@@ -15,12 +15,12 @@
                             @lang('general.getting_started')
                         </a>
                     </p>
-                    <p>
+                    <!--<p>
                         <a href="javascript: void(0);">
                             <i class="fa fa-play"></i>
                             @lang('general.watch_video')
                         </a>
-                    </p>
+                    </p>-->
                 </div>
             </div>
 

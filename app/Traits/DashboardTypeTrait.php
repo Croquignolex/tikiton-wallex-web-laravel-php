@@ -19,10 +19,10 @@ trait DashboardTypeTrait
         try
         {
             $currency = $this->getCurrency();
-            $daily = $this->transactions_amount(Transaction::DAILY, $this->type);
-            $weekly = $this->transactions_amount(Transaction::WEEKLY, $this->type);
-            $monthly = $this->transactions_amount(Transaction::MONTHLY, $this->type);
-            $yearly= $this->transactions_amount(Transaction::YEARLY, $this->type);
+            $daily = $this->formattedTransactionsIntoPeriodRangePerCategoryAmount(Transaction::DAILY);
+            $weekly = $this->formattedTransactionsIntoPeriodRangePerCategoryAmount(Transaction::WEEKLY);
+            $monthly = $this->formattedTransactionsIntoPeriodRangePerCategoryAmount(Transaction::MONTHLY);
+            $yearly= $this->formattedTransactionsIntoPeriodRangePerCategoryAmount(Transaction::YEARLY);
         }
         catch (Exception $exception)
         {
@@ -36,7 +36,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function dailyAjax()
+    public function currentDayAjax()
     {
         $chartData = $this->getPieChartData(Transaction::DAILY);
         return response()->json(compact('chartData'));
@@ -45,7 +45,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function weeklyAjax()
+    public function currentWeekAjax()
     {
         $chartData = $this->getPieChartData(Transaction::WEEKLY);
         return response()->json(compact('chartData'));
@@ -54,7 +54,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function monthlyAjax()
+    public function currentMonthAjax()
     {
         $chartData = $this->getPieChartData(Transaction::MONTHLY);
         return response()->json(compact('chartData'));
@@ -63,7 +63,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function yearlyAjax()
+    public function currentYearAjax()
     {
         $chartData = $this->getPieChartData(Transaction::YEARLY);
         return response()->json(compact('chartData'));
@@ -72,7 +72,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function monthsAjax()
+    public function currentYearMonthsAjax()
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.months');
@@ -84,7 +84,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function daysAjax()
+    public function currentWeekDaysAjax()
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.days');
@@ -94,35 +94,35 @@ trait DashboardTypeTrait
     }
 
     /**
-     * @param $transaction_type
+     * @param $transaction_period_range
      * @return \Illuminate\Support\Collection
      */
-    private function getPieChartData($transaction_type)
+    private function getPieChartData($transaction_period_range)
     {
-        return $this->chartData(DashboardController::PIE, $transaction_type);
+        return $this->chartData(DashboardController::PIE, $transaction_period_range);
     }
 
     /**
-     * @param $transaction_type
+     * @param $transaction_period_range
      * @return \Illuminate\Support\Collection
      */
-    private function getLineChartData($transaction_type)
+    private function getLineChartData($transaction_period_range)
     {
-        return $this->chartData(DashboardController::LINE, $transaction_type);
+        return $this->chartData(DashboardController::LINE, $transaction_period_range);
     }
 
     /**
      * @param $chart_type
-     * @param $transaction_type
+     * @param $transaction_period_range
      * @return \Illuminate\Support\Collection
      */
-    private function chartData($chart_type, $transaction_type)
+    private function chartData($chart_type, $transaction_period_range)
     {
         $categories = $this->getCategories(); $chartData = collect();
         foreach ($categories as $category)
         {
-            if($chart_type === DashboardController::PIE) $data = $this->category_amount($transaction_type, $category);
-            else $data = $transaction_type === Transaction::DAILY ? $this->daysData($category) : $this->monthsData($category);
+            if($chart_type === DashboardController::PIE) $data = $this->transactionsIntoPeriodRangePerCategoryAmount($transaction_period_range, $category);
+            else $data = $transaction_period_range === Transaction::DAILY ? $this->currentWeekDaysData($category) : $this->currentYearMonthsData($category);
             $chartData->push([
                 'name' => $category->name,
                 'color' => $category->color, 'data' => $data,
@@ -136,6 +136,15 @@ trait DashboardTypeTrait
      */
     private function getCategories()
     {
-        return Auth::user()->categories->where('type', $this->type);
+        return Auth::user()->categories->where('type', $this->category_type);
+    }
+
+    /**
+     * @param $transaction_period_range
+     * @return mixed
+     */
+    private function formattedTransactionsIntoPeriodRangePerCategoryAmount($transaction_period_range)
+    {
+        return $this->formatNumber($this->transactionsIntoPeriodRangePerCategoryTypeAmount($transaction_period_range, $this->category_type));
     }
 }

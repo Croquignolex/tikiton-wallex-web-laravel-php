@@ -44,18 +44,6 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group">
-                                            @component('components.app.label-input', ['name' => 'name'])
-                                                <div class="nk-int-st">
-                                                    @component('components.input', [
-                                                       'name' => 'name',
-                                                       'class' => 'form-control', 'value' => old('name') ?? $transaction->name,
-                                                       'placeholder'  => trans('general.name') . '*'
-                                                       ])
-                                                    @endcomponent
-                                                </div>
-                                            @endcomponent
-                                        </div>
-                                        <div class="form-group">
                                             @component('components.app.label-input', ['name' => 'date'])
                                                 <div class="nk-int-st">
                                                     @component('components.input', [
@@ -70,9 +58,9 @@
                                             @component('components.app.label-input', ['name' => 'description'])
                                                 <div class="nk-int-st">
                                                     @component('components.textarea', [
-                                                       'name' => 'description',
+                                                       'name' => 'description', 'min_length' => 0,
                                                        'class' => 'form-control', 'value' => old('description') ?? $transaction->description,
-                                                       'placeholder'  => trans('general.description') . '*'
+                                                       'placeholder'  => trans('general.description')
                                                        ])
                                                     @endcomponent
                                                 </div>
@@ -96,10 +84,17 @@
                                         <div class="form-group mg-b-15 text-left">
                                             <i class="fa fa-caret-right"></i>
                                             <strong class="text-theme-1"><small>@lang('general.category') :</small></strong>
-                                            <span style="color: {{ $transaction->category->color }};">
-                                                <i class="fa fa-{{ $transaction->category->icon }}"></i>
-                                                {{ $transaction->category->name }}
-                                            </span>
+                                            @if($transaction->category === null)
+                                                <span class="text-primary">
+                                                    <i class="fa fa-exchange"></i>
+                                                    @lang('general.transfer')
+                                                </span>
+                                            @else
+                                                <span style="color: {{ $transaction->category->color }};">
+                                                    <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                                                    {{ $transaction->category->name }}
+                                                </span>
+                                            @endif
                                         </div>
                                         @if($transaction->is_a_transfer)
                                             <div class="form-group mg-b-15 text-left">

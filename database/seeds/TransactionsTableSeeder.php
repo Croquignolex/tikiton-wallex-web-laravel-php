@@ -2,7 +2,6 @@
 
 use App\Models\Category;
 use Faker\Provider\Lorem;
-use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 
 class TransactionsTableSeeder extends Seeder
@@ -17,32 +16,20 @@ class TransactionsTableSeeder extends Seeder
         $categories = Category::all();
         foreach($categories as $category)
         {
-            $category->transactions()->create([
-                'name' => ucfirst($this->getUniqueName()),
-                'description' => ucfirst(Lorem::text()),
-                'amount' => rand(100000, 999999),
-                'currency_id' => $category->user->currencies->random()->id
-            ]);
-
-            $category->transactions()->create([
-                'name' => ucfirst($this->getUniqueName()),
-                'description' => ucfirst(Lorem::text()),
-                'amount' => rand(100000, 999999),
-                'currency_id' => $category->user->currencies->random()->id
-            ]);
+            for($i = 0; $i <= 12; $i++)
+            {
+                for($j = 0; $j <= 7; $j++)
+                {
+                    $category->transactions()->create([
+                        'description' => ucfirst(Lorem::text()),
+                        'amount' => rand(100000, 999999),
+                        'currency_id' => $category->user->currencies->random()->id,
+                        'created_at' => now()->startOfWeek()
+                            ->addMonth($i)->addDay($j)
+                            ->addSecond(rand(0, 1000))
+                    ]);
+                }
+            }
         }
-    }
-
-    /**
-     * @return string
-     */
-    private function getUniqueName()
-    {
-        $name = Lorem::sentence(3);
-
-        if(Transaction::where(['name' => strtoupper($name)])->count() > 0)
-            return $this->getUniqueName();
-
-        return $name;
     }
 }

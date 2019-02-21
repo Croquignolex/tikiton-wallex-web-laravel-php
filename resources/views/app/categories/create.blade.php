@@ -88,8 +88,6 @@
                                                     <option value="{{ \App\Models\Category::INCOME }}"
                                                             data-content="<i class='fa fa-arrow-up text-success'></i> {{ trans('general.income') }}"
                                                             {{ \App\Models\Category::INCOME === old('type') ? 'selected' : '' }}></option>
-                                                    <option value="{{ \App\Models\Category::TRANSFER }}" data-content="<i class='fa fa-exchange text-info'></i> {{ trans('general.transfer') }}"
-                                                            {{ \App\Models\Category::TRANSFER === old('type') ? 'selected' : '' }}></option>
                                                     <option value="{{ \App\Models\Category::EXPENSE }}" data-content="<i class='fa fa-arrow-down text-danger'></i> {{ trans('general.expense') }}"
                                                             {{ \App\Models\Category::EXPENSE === old('type') ? 'selected' : '' }}></option>
                                                 @endcomponent
@@ -99,9 +97,9 @@
                                             @component('components.app.label-input', ['name' => 'description'])
                                             <div class="nk-int-st">
                                                 @component('components.textarea', [
-                                                   'name' => 'description',
+                                                   'name' => 'description', 'min_length' => 0,
                                                    'class' => 'form-control', 'value' => old('description'),
-                                                   'placeholder'  => trans('general.description') . '*'
+                                                   'placeholder'  => trans('general.description')
                                                    ])
                                                 @endcomponent
                                             </div>

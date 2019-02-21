@@ -15,7 +15,7 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        $types = [Category::EXPENSE, Category::TRANSFER, Category::INCOME];
+        $types = [Category::EXPENSE, Category::INCOME];
         $users = User::all()->filter(function (User $user) {
                 if($user->role->type === Role::USER) return true;
                 return false;
@@ -30,9 +30,16 @@ class CategoriesTableSeeder extends Seeder
                     'color' => '#' . str_shuffle('ABCDEF'),
                     'name' => ucfirst($this->getUniqueName()),
                     'icon' => icons()->random(),
-                    'type' => $types[rand(0, 2)]
+                    'type' => $types[rand(0, 1)]
                 ]);
             }
+            $user->categories()->create([
+                'description' => ucfirst(Lorem::text()),
+                'color' => '#2196F3',
+                'name' => 'transfer',
+                'icon' => 'exchange',
+                'type' => Category::TRANSFER
+            ]);
         }
     }
 

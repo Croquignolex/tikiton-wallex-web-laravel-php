@@ -17,8 +17,7 @@ class TransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => $this->required_string_2_255,
-            'description' => $this->required_string_2_510,
+            'description' => $this->string_510,
             'transaction_amount' => $this->required_numeric,
             'date' => $this->required_string_2_30
         ];

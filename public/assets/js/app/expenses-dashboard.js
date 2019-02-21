@@ -23,9 +23,9 @@ $(function () {
     }
 });
 
-let dailyChartRoute = '/dashboard/expenses/daily/fill';
-let weeklyChartRoute = '/dashboard/expenses/weekly/fill';
-let monthlyChartRoute = '/dashboard/expenses/monthly/fill';
-let yearlyChartRoute = '/dashboard/expenses/yearly/fill';
-let daysChartRoute = '/dashboard/expenses/days/fill';
-let monthsChartRoute = '/dashboard/expenses/months/fill';
+let currentDayChartRoute = '/dashboard/expenses/current/day';
+let currentWeekChartRoute = '/dashboard/expenses/current/week';
+let currentMonthChartRoute = '/dashboard/expenses/current/month';
+let currentYearChartRoute = '/dashboard/expenses/current/year';
+let currentWeekDaysChartRoute = '/dashboard/expenses/current/year/months';
+let currentYearMonthsChartRoute = '/dashboard/expenses/current/week/days';

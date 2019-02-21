@@ -59,8 +59,7 @@ class TransactionController extends Controller
             $end_date->setTimezone(session('timezone'));
 
             $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
-            $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);;
-            $expensesPercent = $this->getTransactionTypePercentage($transactions, Category::EXPENSE);;
+            $expensesPercent = $this->getTransactionTypePercentage($transactions, Category::EXPENSE);
         }
         catch (Exception $exception)
         {
@@ -68,7 +67,7 @@ class TransactionController extends Controller
         }
 
         return view('app.transactions.index', compact('transactions',
-            'begin_date', 'end_date', 'incomesPercent', 'transfersPercent', 'expensesPercent'));
+            'begin_date', 'end_date', 'incomesPercent', 'expensesPercent'));
     }
 
     /**
@@ -191,11 +190,18 @@ class TransactionController extends Controller
         }
         try
         {
-            $category = Category::where('id', intval($request->input('category')))->first();
-            if(Hash::check(Category::TRANSFER, $type)) $wallet = Wallet::where('id', intval($request->input('debit_account')))->first();
-            else $wallet = Wallet::where('id', intval($request->input('account')))->first();
+            if(Hash::check(Category::TRANSFER, $type))
+            {
+                $category = Auth::user()->categories->where('type', Category::TRANSFER)->first();
+                $debit_account_input_name = 'debit_account';
+            }
+            else
+            {
+                $category = Category::where('id', intval($request->input('category')))->first();
+                $debit_account_input_name = 'account';
+            }
 
-            $response = $this->transactionStore($request, $type, $category, $wallet);
+            $response = $this->transactionStore($request, $type, $category, Wallet::where('id', intval($request->input($debit_account_input_name)))->first());
             if($response !== null) return redirect($this->indexRoute());
         }
         catch (Exception $exception)
@@ -224,7 +230,9 @@ class TransactionController extends Controller
         }
         try
         {
-            $category = Category::where('id', intval($request->input('category')))->first();
+            if(Hash::check(Category::TRANSFER, $type)) $category = Auth::user()->categories->where('type', Category::TRANSFER)->first();
+            else $category = Category::where('id', intval($request->input('category')))->first();
+
             $response = $this->transactionStore($request, $type, $category, $wallet);
             if($response !== null) return redirect(locale_route('wallets.show', [$wallet]));
         }
@@ -326,7 +334,6 @@ class TransactionController extends Controller
      */
     public function update(TransactionUpdateRequest $request, $language, Transaction $transaction)
     {
-        $name = $request->input('name');
         $creation_date = $this->carbonFormatDate($request->input('date'));
         $creation_date->setTimezone('UTC');
         try
@@ -334,12 +341,11 @@ class TransactionController extends Controller
             if($transaction->authorised)
             {
                 $transaction->update([
-                    'name' => $name,
                     'description' => $request->input('description'),
                     'created_at' => $creation_date
                 ]);
 
-                success_flash_message(trans('auth.success'), trans('general.update_successful', ['name' => $name]));
+                success_flash_message(trans('auth.success'), trans('general.update_successful', ['name' => $transaction->category->name]));
                 return redirect(locale_route('transactions.show', [$transaction]));
             }
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
@@ -519,7 +525,7 @@ class TransactionController extends Controller
         try
         {
             $transactionsAmount = $transactions->sum(function (Transaction $transaction) {
-                if($transaction->is_stated) return $transaction->amount;
+                if($transaction->is_stated && $transaction->category->type !== Category::TRANSFER) return $transaction->amount;
                 return 0;
             });
             $percentage = ($transactions->sum(function (Transaction $transaction) use ($type) {
@@ -553,7 +559,7 @@ class TransactionController extends Controller
     /**
      *
      */
-    protected function getCurrency()
+    private function getCurrency()
     {
         return Auth::user()->currencies
             ->where('is_current', true)->first();
@@ -581,30 +587,28 @@ class TransactionController extends Controller
      */
     private function transactionStore(Request $request, $type, Category $category, Wallet $wallet)
     {
-        $name = $request->input('name');
         $description = $request->input('description');
         $creation_date = $this->carbonFormatDate($request->input('date'));
         $creation_date->setTimezone('UTC');
 
-        if(Hash::check(Category::TRANSFER, $type)) return $this->transferTransactionStore($request, $name, $description, $creation_date, $category, $wallet);
+        if(Hash::check(Category::TRANSFER, $type)) return $this->transferTransactionStore($request, $description, $creation_date, $category, $wallet);
         else
         {
             $amount = doubleval($request->input('transaction_amount')) * $wallet->currency->devaluation;
-            if(Hash::check(Category::INCOME, $type)) return $this->incomeTransactionStore($name, $description, $amount, $creation_date, $category, $wallet);
-            else return $this->expenseTransactionStore($name, $description, $amount, $creation_date, $category, $wallet);
+            if(Hash::check(Category::INCOME, $type)) return $this->incomeTransactionStore($description, $amount, $creation_date, $category, $wallet);
+            else return $this->expenseTransactionStore($description, $amount, $creation_date, $category, $wallet);
         }
     }
 
     /**
      * @param Request $request
-     * @param $name
      * @param $description
      * @param $creation_date
      * @param Category $category
      * @param Wallet $wallet
      * @return Wallet|\Illuminate\Http\RedirectResponse
      */
-    private function transferTransactionStore(Request $request, $name, $description, Carbon $creation_date, Category $category, Wallet $wallet)
+    private function transferTransactionStore(Request $request, $description, Carbon $creation_date, Category $category, Wallet $wallet)
     {
         $transaction = null;
         $debit_wallet = $wallet;
@@ -638,7 +642,6 @@ class TransactionController extends Controller
 
                 //save
                 $transaction = Auth::user()->transactions()->create([
-                    'name' => $name,
                     'description' => $description,
                     'amount' => $amount,
                     'category_id' => $category->id,
@@ -660,13 +663,12 @@ class TransactionController extends Controller
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             return null;
         }
-        success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $name]));
+        success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $category->name]));
 
         return $transaction;
     }
 
     /**
-     * @param $name
      * @param $description
      * @param Carbon $creation_date
      * @param $amount
@@ -674,7 +676,7 @@ class TransactionController extends Controller
      * @param Wallet $wallet
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    private function incomeTransactionStore($name, $description, $amount, Carbon $creation_date, Category $category, Wallet $wallet)
+    private function incomeTransactionStore($description, $amount, Carbon $creation_date, Category $category, Wallet $wallet)
     {
         $transaction = null;
         if($category->authorised && $wallet->authorised)
@@ -683,7 +685,6 @@ class TransactionController extends Controller
             $wallet->update(['balance' =>  $wallet->balance + $amount]);
             //Save
             $transaction = $wallet->transactions()->create([
-                'name' => $name,
                 'description' => $description,
                 'amount' => $amount,
                 'category_id' => $category->id,
@@ -696,13 +697,12 @@ class TransactionController extends Controller
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             return null;
         }
-        success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $name]));
+        success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $category->name]));
 
         return $transaction;
     }
 
     /**
-     * @param $name
      * @param $description
      * @param Carbon $creation_date
      * @param $amount
@@ -710,7 +710,7 @@ class TransactionController extends Controller
      * @param Wallet $wallet
      * @return \Illuminate\Database\Eloquent\Model
      */
-    private function expenseTransactionStore($name, $description, $amount, Carbon $creation_date, Category $category, Wallet $wallet)
+    private function expenseTransactionStore($description, $amount, Carbon $creation_date, Category $category, Wallet $wallet)
     {
         $transaction = null;
         if($category->authorised && $wallet->authorised)
@@ -723,7 +723,6 @@ class TransactionController extends Controller
             }
             //Save
             $transaction = $wallet->transactions()->create([
-                'name' => $name,
                 'description' => $description,
                 'amount' => $amount,
                 'category_id' => $category->id,
@@ -736,7 +735,7 @@ class TransactionController extends Controller
             warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
             return null;
         }
-        success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $name]));
+        success_flash_message(trans('auth.success'), trans('general.add_successful', ['name' => $category->name]));
 
         return $transaction;
     }

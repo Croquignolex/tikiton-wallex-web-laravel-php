@@ -11,7 +11,7 @@ use App\Traits\ErrorFlashMessagesTrait;
 class DashboardExpensesController extends Controller
 {
     use ErrorFlashMessagesTrait, LocaleAmountTrait, DashboardTypeTrait;
-    protected $type; protected $view_name;
+    private $category_type; private $view_name;
 
     /**
      * DashboardExpensesController constructor.
@@ -19,9 +19,8 @@ class DashboardExpensesController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('ajax')->only(['dailyAjax', 'weeklyAjax',
-            'monthlyAjax', 'yearlyAjax', 'monthlyAjax', 'monthsAjax', 'daysAjax']);
-        $this->type = Category::EXPENSE;
+        $this->middleware('ajax')->except(['index']);
+        $this->category_type = Category::EXPENSE;
         $this->view_name = 'app.dashboard.expenses';
     }
 }

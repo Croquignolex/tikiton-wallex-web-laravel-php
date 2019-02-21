@@ -18,7 +18,7 @@ class WalletRequest extends FormRequest
     {
         return [
             'name' => $this->required_string_2_255,
-            'description' => $this->required_string_2_510,
+            'description' => $this->string_510,
             'threshold' => $this->required_numeric,
             'balance' => $this->required_numeric,
             'color' => $this->required_string_2_7

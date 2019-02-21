@@ -24,12 +24,6 @@
                                             @lang('general.incomes')
                                         </a>
                                     </li>
-                                    <li class="{{ active_page(collect(['dashboard.transfers'])) }} waves-effect">
-                                        <a href="{{ locale_route('dashboard.transfers') }}">
-                                            <i class="fa fa-bar-chart-o text-info"></i>
-                                            @lang('general.transfers')
-                                        </a>
-                                    </li>
                                     <li class="{{ active_page(collect(['dashboard.expenses'])) }} waves-effect">
                                         <a href="{{ locale_route('dashboard.expenses') }}">
                                             <i class="fa fa-bar-chart-o text-danger"></i>

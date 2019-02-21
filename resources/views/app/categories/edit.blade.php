@@ -92,9 +92,9 @@
                                             @component('components.app.label-input', ['name' => 'description'])
                                             <div class="nk-int-st">
                                                 @component('components.textarea', [
-                                                   'name' => 'description',
+                                                   'name' => 'description', 'min_length' => 0,
                                                    'class' => 'form-control', 'value' => old('description') ?? $category->description,
-                                                   'placeholder'  => trans('general.description') . '*'
+                                                   'placeholder'  => trans('general.description')
                                                    ])
                                                 @endcomponent
                                             </div>

@@ -68,22 +68,22 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                             'report_route' => locale_route('transactions.expense.report') . '?type=' . \App\Models\Transaction::DAILY,
-                            'title' => trans('general.daily_expense_chart'),
+                            'title' => trans('general.current_day_expense_chart'),
                             'title_date' => $transactionService->getDayFormatDate(now()),
-                            'loader_id' => 'daily-loader',
-                            'chart_id' => 'daily-chart',
-                            'event_function_name' => 'daily_refresh'
+                            'loader_id' => 'current-day-loader',
+                            'chart_id' => 'current-day-chart',
+                            'event_function_name' => 'current_day_refresh'
                         ])
                         @endcomponent
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('transactions.expense.report') . '?type=' . \App\Models\Transaction::WEEKLY,
-                           'title' => trans('general.weekly_expense_chart'),
+                           'title' => trans('general.current_week_expense_chart'),
                            'title_date' => $transactionService->getDayFormatDate(now()),
-                           'loader_id' => 'weekly-loader',
-                           'chart_id' => 'weekly-chart',
-                           'event_function_name' => 'weekly_refresh'
+                           'loader_id' => 'current-week-loader',
+                           'chart_id' => 'current-week-chart',
+                           'event_function_name' => 'current_week_refresh'
                         ])
                         @endcomponent
                     </div>
@@ -92,22 +92,22 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('transactions.expense.report') . '?type=' . \App\Models\Transaction::MONTHLY,
-                           'title' => trans('general.monthly_expense_chart'),
+                           'title' => trans('general.current_month_expense_chart'),
                            'title_date' => $transactionService->getMonthFormatDate(now()),
-                           'loader_id' => 'monthly-loader',
-                           'chart_id' => 'monthly-chart',
-                           'event_function_name' => 'monthly_refresh'
+                           'loader_id' => 'current-month-loader',
+                           'chart_id' => 'current-month-chart',
+                           'event_function_name' => 'current_month_refresh'
                         ])
                         @endcomponent
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         @component('components.app.dashboard-chart', [
                            'report_route' => locale_route('transactions.expense.report') . '?type=' . \App\Models\Transaction::YEARLY,
-                           'title' => trans('general.yearly_expense_chart'),
+                           'title' => trans('general.current_year_expense_chart'),
                            'title_date' => now()->year,
-                           'loader_id' => 'yearly-loader',
-                           'chart_id' => 'yearly-chart',
-                           'event_function_name' => 'yearly_refresh'
+                           'loader_id' => 'current-year-loader',
+                           'chart_id' => 'current-year-chart',
+                           'event_function_name' => 'current_year_refresh'
                         ])
                         @endcomponent
                     </div>
@@ -115,22 +115,22 @@
                 <div class="col-xs-12">
                     @component('components.app.dashboard-chart', [
                        'report_route' => locale_route('transactions.expense.report') . '?type=' . \App\Models\Transaction::WEEKLY,
-                       'title' => trans('general.details_daily_expense_chart'),
+                       'title' => trans('general.current_week_days_expense_chart'),
                        'title_date' => $transactionService->getWeekFormatDate(now()),
-                       'loader_id' => 'days-loader',
-                       'chart_id' => 'days-chart',
-                       'event_function_name' => 'days_refresh'
+                       'loader_id' => 'current-week-days-loader',
+                       'chart_id' => 'current-week-days-chart',
+                       'event_function_name' => 'current_week_days_refresh'
                     ])
                     @endcomponent
                 </div>
                 <div class="col-xs-12">
                     @component('components.app.dashboard-chart', [
                        'report_route' => locale_route('transactions.expense.report') . '?type=' . \App\Models\Transaction::YEARLY,
-                       'title' => trans('general.details_yearly_expense_chart'),
+                       'title' => trans('general.current_year_months_expense_chart'),
                        'title_date' => now()->year,
-                       'loader_id' => 'months-loader',
-                       'chart_id' => 'months-chart',
-                       'event_function_name' => 'months_refresh'
+                       'loader_id' => 'current-year-months-loader',
+                       'chart_id' => 'current-year-months-chart',
+                       'event_function_name' => 'current_year_months_refresh'
                     ])
                     @endcomponent
                 </div>

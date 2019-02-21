@@ -43,32 +43,14 @@
                                 <input type="hidden" name="token" value="{{ \Illuminate\Support\Facades\Hash::make($type) }}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <div class="form-group">
-                                            @component('components.app.label-input', ['name' => 'name'])
-                                                <div class="nk-int-st">
-                                                    @component('components.input', [
-                                                       'name' => 'name',
-                                                       'class' => 'form-control', 'value' => old('name'),
-                                                       'placeholder'  => trans('general.name') . '*'
-                                                       ])
-                                                    @endcomponent
-                                                </div>
-                                            @endcomponent
-                                        </div>
-                                        <div class="form-group">
-                                            @component('components.app.label-input', ['name' => 'category'])
-                                                @component('components.app.select', [
-                                                   'name' => 'category', 'header' => trans('general.select_category')
-                                                ])
-                                                    @foreach($categories as $category)
-                                                        <option value="{{ $category->id }}"
-                                                                data-content="<i class='fa fa-{{ $category->icon }}' style='color: {{ $category->color }};'></i> {{ $category->name }}"
-                                                                {{ $category->id === intval(old('category')) ? 'selected' : '' }}></option>
-                                                    @endforeach
-                                                @endcomponent
-                                            @endcomponent
-                                        </div>
                                         @if($type === \App\Models\Category::TRANSFER)
+                                            <div class="form-group mg-b-40 text-left">
+                                                <strong class="text-theme-1"><small>@lang('general.category') :</small></strong>
+                                                <span class="{{ $transactionService->getFormatType($type)->color }}">
+                                                    <i class="fa fa-{{ $transactionService->getFormatType($type)->icon }}"></i>
+                                                    {{ $transactionService->getFormatType($type)->text }}
+                                                </span>
+                                            </div>
                                             <div class="form-group">
                                                 @component('components.app.label-input', ['name' => 'debit_account'])
                                                     @component('components.app.select', [
@@ -95,6 +77,19 @@
                                                 @endcomponent
                                             </div>
                                         @else
+                                            <div class="form-group">
+                                                @component('components.app.label-input', ['name' => 'category'])
+                                                    @component('components.app.select', [
+                                                       'name' => 'category', 'header' => trans('general.select_category')
+                                                    ])
+                                                        @foreach($categories as $category)
+                                                            <option value="{{ $category->id }}"
+                                                                    data-content="<i class='fa fa-{{ $category->icon }}' style='color: {{ $category->color }};'></i> {{ $category->name }}"
+                                                                    {{ $category->id === intval(old('category')) ? 'selected' : '' }}></option>
+                                                        @endforeach
+                                                    @endcomponent
+                                                @endcomponent
+                                            </div>
                                             <div class="form-group">
                                                 @component('components.app.label-input', ['name' => 'account'])
                                                     @component('components.app.select', [
@@ -160,9 +155,9 @@
                                             @component('components.app.label-input', ['name' => 'description'])
                                             <div class="nk-int-st">
                                                 @component('components.textarea', [
-                                                   'name' => 'description',
+                                                   'name' => 'description', 'min_length' => 0,
                                                    'class' => 'form-control', 'value' => old('description'),
-                                                   'placeholder'  => trans('general.description') . '*'
+                                                   'placeholder'  => trans('general.description')
                                                    ])
                                                 @endcomponent
                                             </div>

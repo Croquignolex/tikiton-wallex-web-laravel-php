@@ -179,11 +179,10 @@ class WalletController extends Controller
             $end_date->setTimezone(session('timezone'));
 
             $incomesPercent = $this->getTransactionTypePercentage($transactions, Category::INCOME);
-            $transfersPercent = $this->getTransactionTypePercentage($transactions, Category::TRANSFER);
             $expensesPercent = $this->getTransactionTypePercentage($transactions, Category::EXPENSE);
 
             if($wallet->authorised) return view('app.wallets.show', compact('wallet', 'transactions',
-                'begin_date', 'end_date', 'tab', 'incomesPercent', 'transfersPercent', 'expensesPercent'));
+                'begin_date', 'end_date', 'tab', 'incomesPercent', 'expensesPercent'));
             else warning_flash_message(trans('auth.warning'), trans('general.not_authorise'));
         }
         catch (Exception $exception)

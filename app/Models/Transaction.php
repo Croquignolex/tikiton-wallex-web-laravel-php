@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed pivot
  * @property mixed amount
  * @property mixed wallet
- * @property mixed wallets
+ * @property mixed wallets-
  * @property mixed category
  * @property mixed currency
  * @property mixed is_stated
@@ -35,8 +35,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Transaction extends Model
 {
-    use LocaleDateTimeTrait, NameTrait, SlugRouteTrait, TableNameTrait,
-        DescriptionTrait, LocaleAmountTrait, SlugSaveTrait;
+    use LocaleDateTimeTrait, NameTrait,
+        DescriptionTrait, LocaleAmountTrait;
 
     const DAILY = 'daily';
     const WEEKLY = 'weekly';
@@ -49,7 +49,7 @@ class Transaction extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'amount', 'category_id',
+        'description', 'amount', 'category_id',
         'currency_id', 'created_at'
     ];
 
@@ -61,17 +61,6 @@ class Transaction extends Model
     protected $hidden = [
         'slug', 'category_id'
     ];
-
-    /**
-     * @param Transaction $transaction
-     * @return string
-     */
-    protected static function formatSlug(Transaction $transaction)
-    {
-        return $transaction->category->user->id . '-' .
-            str_slug($transaction->name) . '-' .
-            str_slug(now());
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -18,7 +18,7 @@ class CategoryTypeRequest extends FormRequest
     {
         return [
             'name' => $this->required_string_2_255,
-            'description' => $this->required_string_2_510,
+            'description' => $this->string_510,
             'icon' => $this->required_string_2_255,
             'color' => $this->required_string_2_7
         ];

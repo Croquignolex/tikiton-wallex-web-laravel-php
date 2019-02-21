@@ -64,7 +64,7 @@
                                         </td>
                                         <td class="text-right">{{ $incomes_amount }}</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="current">
                                         <td>2</td>
                                         <td class="text-info">
                                             <i class="fa fa-exchange text-info"></i>
@@ -84,7 +84,16 @@
                                 <thead>
                                     <tr class="text-uppercase">
                                         <th colspan="2" class="text-theme-1">@lang('general.total')</th>
-                                        <th class="text-theme-1 text-right">{{ $total }}</th>
+                                        <th class="text-right">
+                                            @if($total > 0)
+                                                <span class="text-success">{{ $total }}</span>
+                                            @elseif($total < 0)
+                                                <span class="text-danger">{{ $total }}</span>
+                                            @else
+                                                <span class="text-primary">{{ $total }}</span>
+                                            @endif
+
+                                        </th>
                                     </tr>
                                 </thead>
                             </table>

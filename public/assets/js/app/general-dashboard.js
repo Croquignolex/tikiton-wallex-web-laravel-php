@@ -2,27 +2,27 @@ new Vue({
     el: '#chart-refresh',
     data: {},
     methods: {
-        accounts_refresh: function () { loadAccountsBalanceChart(); },
-        daily_category_refresh: function () { loadDailyCategoriesChart(); },
-        weekly_category_refresh: function () { loadWeeklyCategoriesChart(); },
-        monthly_category_refresh: function () { loadMonthlyCategoriesChart(); },
-        yearly_category_refresh: function () { loadYearlyCategoriesChart(); },
-        days_category_refresh: function () { loadDaysCategoriesChart(); },
-        months_category_refresh: function () { loadMonthsCategoriesChart(); },
+        accounts_balance_refresh: function () { loadAccountsBalanceChart(); },
+        current_day_category_refresh: function () { loadCurrentDayCategoriesChart(); },
+        current_week_category_refresh: function () { loadCurrentWeekCategoriesChart(); },
+        current_month_category_refresh: function () { loadCurrentMonthCategoriesChart(); },
+        current_year_category_refresh: function () { loadCurrentYearCategoriesChart(); },
+        current_week_days_category_refresh: function () { loadCurrentWeekDaysCategoriesChart(); },
+        current_year_months_category_refresh: function () { loadCurrentYearMonthsCategoriesChart(); },
     }
 });
 
-loadAccountsBalanceChart(); loadDailyCategoriesChart();
-loadWeeklyCategoriesChart(); loadMonthlyCategoriesChart(); loadYearlyCategoriesChart();
-loadDaysCategoriesChart(); loadMonthsCategoriesChart();
+loadAccountsBalanceChart(); loadCurrentDayCategoriesChart();
+loadCurrentWeekCategoriesChart(); loadCurrentMonthCategoriesChart(); loadCurrentYearCategoriesChart();
+loadCurrentYearMonthsCategoriesChart(); loadCurrentWeekDaysCategoriesChart();
 
-function loadAccountsBalanceChart() { barChart('/dashboard/general/accounts/fill', '#accounts-loader', '#accounts-chart'); }
-function loadDailyCategoriesChart() { polarChart('/dashboard/general/categories/daily/fill', '#daily-category-loader', '#daily-category-chart'); }
-function loadWeeklyCategoriesChart() { polarChart('/dashboard/general/categories/weekly/fill', '#weekly-category-loader', '#weekly-category-chart'); }
-function loadMonthlyCategoriesChart() { polarChart('/dashboard/general/categories/monthly/fill', '#monthly-category-loader', '#monthly-category-chart'); }
-function loadYearlyCategoriesChart() { polarChart('/dashboard/general/categories/yearly/fill', '#yearly-category-loader', '#yearly-category-chart'); }
-function loadDaysCategoriesChart() { lineChart('/dashboard/general/categories/days/fill', '#days-category-loader', '#days-category-chart'); }
-function loadMonthsCategoriesChart() { lineChart('/dashboard/general/categories/months/fill', '#months-category-loader', '#months-category-chart'); }
+function loadAccountsBalanceChart() { barChart('/dashboard/general/accounts/balance', '#accounts-balance-loader', '#accounts-balance-chart'); }
+function loadCurrentDayCategoriesChart() { polarChart('/dashboard/general/categories/current/day', '#current-day-category-loader', '#current-day-category-chart'); }
+function loadCurrentWeekCategoriesChart() { polarChart('/dashboard/general/categories/current/week', '#current-week-category-loader', '#current-week-category-chart'); }
+function loadCurrentMonthCategoriesChart() { polarChart('/dashboard/general/categories/current/month', '#current-month-category-loader', '#current-month-category-chart'); }
+function loadCurrentYearCategoriesChart() { polarChart('/dashboard/general/categories/current/year', '#current-year-category-loader', '#current-year-category-chart'); }
+function loadCurrentWeekDaysCategoriesChart() { lineChart('/dashboard/general/categories/current/week/days', '#current-week-days-category-loader', '#current-week-days-category-chart'); }
+function loadCurrentYearMonthsCategoriesChart() { lineChart('/dashboard/general/categories/current/year/months', '#current-year-months-category-loader', '#current-year-months-category-chart'); }
 
 $(function () {
     //Widgets

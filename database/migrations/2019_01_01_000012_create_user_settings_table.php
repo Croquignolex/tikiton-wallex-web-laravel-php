@@ -17,7 +17,7 @@ class CreateUserSettingsTable extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('name', 255);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('tips')->default(true);
             $table->boolean('is_current')->default(false);
             $table->unsignedInteger('user_id');

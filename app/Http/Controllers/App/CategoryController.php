@@ -40,12 +40,11 @@ class CategoryController extends Controller
         if(!$this->isType($type)) $type = Category::INCOME;
 
         $categories = collect(); $incomeCategories = collect();
-        $transferCategories = collect(); $expenseCategories = collect();
+        $expenseCategories = collect();
         try
         {
             $categories = Auth::user()->categories;
             $incomeCategories = $categories->where('type', Category::INCOME)->sortByDesc('updated_at');
-            $transferCategories = $categories->where('type', Category::TRANSFER)->sortByDesc('updated_at');
             $expenseCategories = $categories->where('type', Category::EXPENSE)->sortByDesc('updated_at');
         }
         catch (Exception $exception)
@@ -54,7 +53,7 @@ class CategoryController extends Controller
         }
 
         return view('app.categories.index', compact('incomeCategories',
-            'transferCategories', 'expenseCategories', 'categories', 'type'));
+            'expenseCategories', 'categories', 'type'));
     }
 
     /**

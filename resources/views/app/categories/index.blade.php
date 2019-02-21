@@ -36,15 +36,6 @@
                                             ({{ $incomeCategories->count() }})
                                         </a>
                                     </li>
-                                    <li class="{{ $type == \App\Models\Category::TRANSFER ? 'active' : '' }}">
-                                        <a data-toggle="tab" href="#transfer">
-                                            <span class="text-info">
-                                                <i class="fa fa-exchange"></i>
-                                                @lang('general.transfer')
-                                            </span>
-                                            ({{ $transferCategories->count() }})
-                                        </a>
-                                    </li>
                                     <li class="{{ $type == \App\Models\Category::EXPENSE ? 'active' : '' }}">
                                         <a data-toggle="tab" href="#expense">
                                             <span class="text-danger">
@@ -61,15 +52,6 @@
                                             @component('components.app.category-accordion', [
                                                 'id' => 'incomeCategories',
                                                 'categories' => $incomeCategories
-                                            ])
-                                            @endcomponent
-                                        </div>
-                                    </div>
-                                    <div id="transfer" class="tab-pane fade {{ $type == \App\Models\Category::TRANSFER ? 'in active' : '' }}">
-                                        <div class="tab-ctn">
-                                            @component('components.app.category-accordion', [
-                                              'id' => 'transferCategories',
-                                              'categories' => $transferCategories
                                             ])
                                             @endcomponent
                                         </div>

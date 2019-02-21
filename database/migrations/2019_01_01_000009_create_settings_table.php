@@ -16,7 +16,7 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->increments('id');
             $table->string('label', 255)->unique();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->boolean('receive_email_from_contact')->default(true);
             $table->boolean('receive_email_from_register')->default(true);
             $table->boolean('is_activated')->default(false);

@@ -17,7 +17,7 @@ class DashboardController extends Controller
     use ErrorFlashMessagesTrait, LocaleAmountTrait, DashboardTrait;
 
     const PIE = 'pie'; const LINE = 'line';
-    const BAR = 'bar'; const POLAR = 'polar';
+    const POLAR = 'polar';
 
     /**
      * DashboardController constructor.
@@ -25,7 +25,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('ajax')->only(['accountsAjax', 'categoriesAjax']);
+        $this->middleware('ajax')->except(['index']);
     }
 
     /**
@@ -59,10 +59,11 @@ class DashboardController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function accountsAjax()
+    public function accountsBalanceAjax()
     {
-        $yLabel = trans('general.balance') . ' (' . $this->getCurrency()->symbol . ')';
-        $xLabel = trans('general.accounts');
+        $currency = $this->getCurrency();
+        $yLabel = trans('general.balance') . ' (' . $currency->symbol . ')';
+        $xLabel = trans('general.stated_accounts');
         $wallets = Auth::user()->wallets->where('is_stated', true);
         $chartData = collect(); 
 		foreach ($wallets as $wallet)
@@ -72,7 +73,7 @@ class DashboardController extends Controller
 				'color' => $wallet->color,
 				'data' => collect([[
 					'label' => '',
-					'amount' => round($wallet->balance / $this->getCurrency()->devaluation, 2)
+					'amount' => round($wallet->balance / $currency->devaluation, 2)
 				]]),
 			]);
 		} 
@@ -83,56 +84,47 @@ class DashboardController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function categoriesAjax()
+    public function currentDayCategoryAjax()
     {
-        $chartData = $this->chartTypeData(DashboardController::POLAR);
+        $chartData = $this->getCategoryTypePolarChartData(Transaction::DAILY);
         return response()->json(compact('chartData'));
     }
 
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function dailyCategoryAjax()
+    public function currentWeekCategoryAjax()
     {
-        $chartData = $this->getTypeBarChartData(Transaction::DAILY);
+        $chartData = $this->getCategoryTypePolarChartData(Transaction::WEEKLY);
         return response()->json(compact('chartData'));
     }
 
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function weeklyCategoryAjax()
+    public function currentMonthCategoryAjax()
     {
-        $chartData = $this->getTypeBarChartData(Transaction::WEEKLY);
+        $chartData = $this->getCategoryTypePolarChartData(Transaction::MONTHLY);
         return response()->json(compact('chartData'));
     }
 
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function monthlyCategoryAjax()
+    public function currentYearCategoryAjax()
     {
-        $chartData = $this->getTypeBarChartData(Transaction::MONTHLY);
+        $chartData = $this->getCategoryTypePolarChartData(Transaction::YEARLY);
         return response()->json(compact('chartData'));
     }
 
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function yearlyCategoryAjax()
-    {
-        $chartData = $this->getTypeBarChartData(Transaction::YEARLY);
-        return response()->json(compact('chartData'));
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function daysCategoryAjax()
+    public function currentWeekDaysCategoryAjax()
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.days');
-        $chartData = $this->getTypeLineChartData(Transaction::DAILY);
+        $chartData = $this->getCategoryTypeLineChartData(Transaction::DAILY);
         return response()->json(compact('chartData',
             'xLabel', 'yLabel'));
     }
@@ -140,83 +132,69 @@ class DashboardController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function monthsCategoryAjax()
+    public function currentYearMonthsCategoryAjax()
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.months');
-        $chartData = $this->getTypeLineChartData(Transaction::YEARLY);
+        $chartData = $this->getCategoryTypeLineChartData(Transaction::YEARLY);
         return response()->json(compact('chartData',
             'xLabel', 'yLabel'));
     }
 
 
     /**
-     * @param $transaction_type
+     * @param $transaction_period_range
      * @return \Illuminate\Support\Collection
      */
-    private function getTypeBarChartData($transaction_type)
+    private function getCategoryTypePolarChartData($transaction_period_range)
     {
-        return $this->chartTypeData(DashboardController::BAR, $transaction_type);
+        return $this->chartTypeData(DashboardController::POLAR, $transaction_period_range);
     }
 
     /**
-     * @param $transaction_type
+     * @param $transaction_period_range
      * @return \Illuminate\Support\Collection
      */
-    private function getTypeLineChartData($transaction_type)
+    private function getCategoryTypeLineChartData($transaction_period_range)
     {
-        return $this->chartTypeData(DashboardController::LINE, $transaction_type);
+        return $this->chartTypeData(DashboardController::LINE, $transaction_period_range);
     }
 
     /**
      * @param $chart_type
-     * @param $transaction_type
+     * @param $transaction_period_range
      * @return \Illuminate\Support\Collection
      */
-    private function chartTypeData($chart_type, $transaction_type = '')
+    private function chartTypeData($chart_type, $transaction_period_range)
     {
-        if($chart_type === DashboardController::BAR)
+        $incomes_data = 0; $expenses_data = 0;
+        if($chart_type === DashboardController::POLAR)
         {
-            $incomes_data = $this->category_type_amount($transaction_type, Category::INCOME);
-            $transfers_data = $this->category_type_amount($transaction_type, Category::TRANSFER);
-            $expenses_data = $this->category_type_amount($transaction_type, Category::EXPENSE);
+            $incomes_data = $this->transactionsIntoPeriodRangePerCategoryTypeAmount($transaction_period_range, Category::INCOME);
+            // $transfers_data = $this->category_type_amount($transaction_type, Category::TRANSFER);
+            $expenses_data = $this->transactionsIntoPeriodRangePerCategoryTypeAmount($transaction_period_range, Category::EXPENSE);
         }
         else if($chart_type === DashboardController::LINE)
         {
-            $incomes_data = $transaction_type === Transaction::DAILY ? $this->daysTypeData(Category::INCOME) : $this->monthsTypeData(Category::INCOME);
-            $transfers_data = $transaction_type === Transaction::DAILY ? $this->daysTypeData(Category::TRANSFER) : $this->monthsTypeData(Category::TRANSFER);
-            $expenses_data = $transaction_type === Transaction::DAILY ? $this->daysTypeData(Category::EXPENSE) : $this->monthsTypeData(Category::EXPENSE);
-        }
-        else
-        {
-            $incomes_data = $this->getTypeCategories(Category::INCOME)->count();
-            $transfers_data = $this->getTypeCategories(Category::TRANSFER)->count();
-            $expenses_data = $this->getTypeCategories(Category::EXPENSE)->count();
+            $incomes_data = $transaction_period_range === Transaction::DAILY ? $this->currentWeekDaysCategoryTypeData(Category::INCOME) : $this->currentYearMonthsCategoryTypeData(Category::INCOME);
+            // $transfers_data = $transaction_type === Transaction::DAILY ? $this->daysTypeData(Category::TRANSFER) : $this->monthsTypeData(Category::TRANSFER);
+            $expenses_data = $transaction_period_range === Transaction::DAILY ? $this->currentWeekDaysCategoryTypeData(Category::EXPENSE) : $this->currentYearMonthsCategoryTypeData(Category::EXPENSE);
         }
 
-        $chartData = collect();
-        $chartData->push([
+        $chart_type_data = collect();
+        $chart_type_data->push([
             'name' => trans('general.incomes'),
             'data' => $incomes_data, 'color' => '#00c292',
         ]);
-        $chartData->push([
+        /*$chartData->push([
             'name' => trans('general.transfers'),
             'data' => $transfers_data, 'color' => '#2196F3',
-        ]);
-        $chartData->push([
+        ]);*/
+        $chart_type_data->push([
             'name' => trans('general.expenses'),
             'data' => $expenses_data, 'color' => '#F44336',
         ]);
 
-        return $chartData;
-    }
-
-    /**
-     * @param $type
-     * @return mixed
-     */
-    private function getTypeCategories($type)
-    {
-        return Auth::user()->categories->where('type', $type);
+        return $chart_type_data;
     }
 }

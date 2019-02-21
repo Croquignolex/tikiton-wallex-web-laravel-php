@@ -36,7 +36,6 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         @component('components.app.types-progress-bar', [
                             'incomesPercent' => $incomesPercent,
-                            'transfersPercent' => $transfersPercent,
                             'expensesPercent' => $expensesPercent
                         ])
                         @endcomponent

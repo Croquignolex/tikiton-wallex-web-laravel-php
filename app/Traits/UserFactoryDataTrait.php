@@ -69,7 +69,7 @@ trait UserFactoryDataTrait
                 'description' => trans('dummy.transfer_order_desc'),
                 'color' => '#2196F3',
                 'name' => trans('dummy.transfer_order'),
-                'icon' => 'bank',
+                'icon' => 'exchange',
                 'type' => Category::TRANSFER
             ]);
             $expense = $user->categories()->create([
@@ -81,19 +81,16 @@ trait UserFactoryDataTrait
             ]);
             //Default transactions
             $income_transaction = $income->transactions()->create([
-                'name' => trans('dummy.income'),
                 'description' => trans('dummy.income_desc'),
                 'amount' => 0,
                 'currency_id' => $currency->id
             ]);
             $transfer_transaction = $transfer->transactions()->create([
-                'name' => trans('dummy.transfer'),
                 'description' => trans('dummy.transfer_desc'),
                 'amount' => 0,
                 'currency_id' => $currency->id
             ]);
             $expense_transaction = $expense->transactions()->create([
-                'name' => trans('dummy.expense'),
                 'description' => trans('dummy.expense_desc'),
                 'amount' => 0,
                 'currency_id' => $currency->id

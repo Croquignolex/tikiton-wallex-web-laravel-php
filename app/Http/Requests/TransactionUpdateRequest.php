@@ -18,7 +18,7 @@ class TransactionUpdateRequest extends FormRequest
     {
         return [
             'name' => $this->required_string_2_255,
-            'description' => $this->required_string_2_510,
+            'description' => $this->string_510,
             'date' => $this->required_string_2_30
         ];
     }

@@ -17,7 +17,7 @@ class CreateWalletsTable extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('name', 255);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->double('balance')->unsigned();
             $table->double('threshold')->unsigned();
             $table->string('color', 7);

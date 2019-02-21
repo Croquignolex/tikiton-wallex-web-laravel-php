@@ -17,7 +17,7 @@ class CreateCurrenciesTable extends Migration
             $table->increments('id');
             $table->string('slug')->unique();
             $table->string('name', 255);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('symbol', 10);
             $table->double('devaluation');
             $table->boolean('is_current')->default(false);
