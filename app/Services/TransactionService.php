@@ -46,7 +46,7 @@ class TransactionService
      */
     public function getMediumFormatDate(Carbon $date)
     {
-        return $this->dateMediumFormat(App::getLocale(), $this->getTimezoneDate($date));
+        return $this->dateMediumFormat(App::getLocale(), $date);
     }
 
     /**

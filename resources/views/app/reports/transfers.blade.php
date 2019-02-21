@@ -52,7 +52,8 @@
                                 <thead>
                                 <tr class="text-uppercase">
                                     <th><span class="text-info">#</span></th>
-                                    <th><span class="text-info">@lang('general.account')</span></th>
+                                    <th><span class="text-info">@lang('general.debit_account')</span></th>
+                                    <th><span class="text-info">@lang('general.credit_account')</span></th>
                                     <th><span class="text-info">@lang('general.date')</span></th>
                                     <th><span class="text-info">@lang('general.amount')</span></th>
                                     <th><span class="text-info">@lang('general.amount') ({{ $current_currency->symbol }})</span></th>
@@ -66,7 +67,8 @@
                                                 <span class="text-right" data-content="{{ $transaction->wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                     {{ $transaction->wallet->table_name }}
                                                 </span>
-                                                <i class="fa fa-long-arrow-right"></i>
+                                            </td>
+                                            <td>
                                                 <span class="text-right" data-content="{{ $transaction->transfer_wallet->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom">
                                                     {{ $transaction->transfer_wallet->table_name }}
                                                 </span>
@@ -91,7 +93,7 @@
                                 </tbody>
                                 <thead>
                                     <tr class="text-uppercase">
-                                        <th colspan="4"><span class="text-info">@lang('general.total')</span></th>
+                                        <th colspan="5"><span class="text-info">@lang('general.total')</span></th>
                                         <th class="text-right"><span class="text-info">{{ $total }}</span></th>
                                     </tr>
                                 </thead>

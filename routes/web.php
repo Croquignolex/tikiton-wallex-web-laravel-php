@@ -46,7 +46,7 @@ Route::group(['namespace' => 'App'], function() {
     Route::get('/dashboard/general/categories/current/week/days', 'DashboardController@currentWeekDaysCategoryAjax');
     Route::get('/dashboard/incomes/current/day', 'DashboardIncomesController@currentDayAjax');
     Route::get('/dashboard/incomes/current/week', 'DashboardIncomesController@currentWeekAjax');
-    Route::get('/dashboard/incomes/current/month', 'DashboardIncomesController@currentMonthlyAjax');
+    Route::get('/dashboard/incomes/current/month', 'DashboardIncomesController@currentMonthAjax');
     Route::get('/dashboard/incomes/current/year', 'DashboardIncomesController@currentYearAjax');
     Route::get('/dashboard/incomes/current/year/months', 'DashboardIncomesController@currentYearMonthsAjax');
     Route::get('/dashboard/incomes/current/week/days', 'DashboardIncomesController@currentWeekDaysAjax');

@@ -72,7 +72,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function currentYearMonthsAjax()
+    public function currentWeekDaysAjax()
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.months');
@@ -84,7 +84,7 @@ trait DashboardTypeTrait
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function currentWeekDaysAjax()
+    public function currentYearMonthsAjax()
     {
         $yLabel = trans('general.amount') . ' (' . $this->getCurrency()->symbol . ')';
         $xLabel = trans('general.days');

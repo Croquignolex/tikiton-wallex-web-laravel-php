@@ -17,12 +17,19 @@
             <tr class="{{ !$transaction->is_stated ? 'current' : '' }}">
                 <td>{{ $loop->index + 1 }}</td>
                 <td>
-                    <a data-content="{{ $transaction->category->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
-                       href="{{ locale_route('categories.show', [$transaction->category]) }}"
-                       style="color:{{ $transaction->category->color }};">
-                        <i class="fa fa-{{ $transaction->category->icon }}"></i>
-                        {{ $transaction->category->table_name }}
-                    </a>
+                    @if($transaction->is_a_transfer)
+                        <span style="color:{{ $transaction->category->color }};">
+                            <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                            {{ $transaction->category->name }}
+                        </span>
+                    @else
+                        <a data-content="{{ $transaction->category->popover_name }}" data-trigger="hover" data-toggle="popover" data-placement="bottom"
+                           href="{{ locale_route('categories.show', [$transaction->category]) }}"
+                           style="color:{{ $transaction->category->color }};">
+                            <i class="fa fa-{{ $transaction->category->icon }}"></i>
+                            {{ $transaction->category->table_name }}
+                        </a>
+                    @endif
                 </td>
                 <td>
                     @if($transaction->is_a_transfer)

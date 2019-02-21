@@ -36,7 +36,7 @@ class CategoriesTableSeeder extends Seeder
             $user->categories()->create([
                 'description' => ucfirst(Lorem::text()),
                 'color' => '#2196F3',
-                'name' => 'transfer',
+                'name' => 'Transfer',
                 'icon' => 'exchange',
                 'type' => Category::TRANSFER
             ]);

@@ -66,9 +66,9 @@ trait UserFactoryDataTrait
                 'type' => Category::INCOME
             ]);
             $transfer = $user->categories()->create([
-                'description' => trans('dummy.transfer_order_desc'),
+                'description' => trans('dummy.transfer_desc'),
                 'color' => '#2196F3',
-                'name' => trans('dummy.transfer_order'),
+                'name' => trans('dummy.transfer'),
                 'icon' => 'exchange',
                 'type' => Category::TRANSFER
             ]);
