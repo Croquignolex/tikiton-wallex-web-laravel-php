@@ -6,7 +6,7 @@
                 <div class="footer-copy-right">
                     <p>
                         &copy; 2019 <a href="{{ config('company.web_site') }}">{{ config('company.name') }}</a>, @lang('general.right').
-                        (<small>{{ config('app.name') }} 1.0</small>)
+                        (<small>{{ config('app.name') }} 1.1</small>)
                     </p>
                 </div>
             </div>

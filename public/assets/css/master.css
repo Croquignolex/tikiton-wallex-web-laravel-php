@@ -10,9 +10,11 @@ body {
 #loader {
     position: fixed;
     z-index: 99999;
-    background: url('../img/loader.gif') 100% 100% no-repeat;
-    height: 100%;
-    width: 100%;
+    background: url('../img/loader.gif') no-repeat;
+    height: 200px;
+    width: 230px;
+    bottom: 0;
+    right: 0;
     cursor: wait;
 }
 
