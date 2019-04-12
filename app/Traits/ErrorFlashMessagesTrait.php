@@ -25,6 +25,14 @@ trait ErrorFlashMessagesTrait
     /**
      * @param Exception $exception
      */
+    protected function scriptError(Exception $exception)
+    {
+        $this->flashError('script_error', $exception);
+    }
+
+    /**
+     * @param Exception $exception
+     */
     protected function imageError(Exception $exception)
     {
         $this->flashError('image_error', $exception);

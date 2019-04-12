@@ -41,5 +41,6 @@
         <script src="{{ js_asset('master') }}" type="text/javascript"></script>
         @stack('script.page')
         @include('partials.popup-alert')
+        <script src="{{ js_asset('timezone-detect') }}" type="text/javascript"></script>
     </body>
 </html>

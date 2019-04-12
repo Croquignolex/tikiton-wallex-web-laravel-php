@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Setting;
 use App\Models\Contact;
+use Illuminate\Http\Request;
 use App\Mail\ContactFormMail;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ContactRequest;
@@ -13,6 +14,14 @@ use App\Traits\ErrorFlashMessagesTrait;
 class ContactController extends Controller
 {
     use ErrorFlashMessagesTrait;
+
+    /**
+     * AccountController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('ajax')->only(['timezoneAjax']);
+    }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -61,5 +70,15 @@ class ContactController extends Controller
         }
 
         return redirect(locale_route('contact'));
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function timezoneAjax(Request $request)
+    {
+        session(['timezone' => $request->input('timezone')]);
+        return response()->json();
     }
 }

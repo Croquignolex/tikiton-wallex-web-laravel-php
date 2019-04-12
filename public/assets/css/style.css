@@ -266,7 +266,7 @@ only screen and (min-resolution: 2dppx) {
     top: 5px;
     width: 121px;
     height: 43px;
-    background: url(../img/logo@2x.png) no-repeat left center;
+    background: url(../img/logo.png) no-repeat left center;
     background-size: cover;
   }
 }

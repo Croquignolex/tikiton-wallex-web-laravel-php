@@ -77,6 +77,6 @@ $.ajax({
     method: 'POST', url: '/user/timezone', data: { 'timezone' : getTimezoneName() }, dataType: "json",
 })
 .fail(function() {
-    notification('Error', 'Request failed',
-        'danger', 'fa fa-remove', 'bounceIn', 'bounceOut', 5000);
+    notification('Error', 'Timezone request failed',
+        'danger', 'fa fa-remove', 'bounceIn', 'bounceOut', 3000);
 });

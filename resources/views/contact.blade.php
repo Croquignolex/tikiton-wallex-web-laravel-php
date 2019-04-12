@@ -25,21 +25,21 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-xs-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
+                <div class="col-sm-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
                     <h2 class="text-theme-1"><i class="fa fa-map-marker"></i></h2>
                     <p>
                         {{ config('company.address_1') }} <br>
                         {{ config('company.address_2') }}
                     </p>
                 </div>
-                <div class="col-xs-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
+                <div class="col-sm-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
                     <h2 class="text-theme-1"><i class="fa fa-phone"></i></h2>
                     <p>
                         {{ config('company.phone_1') }} <br>
                         {{ config('company.phone_2') }}
                     </p>
                 </div>
-                <div class="col-xs-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
+                <div class="col-sm-4 probootstrap-animate text-center" data-animate-effect="fadeInUp">
                     <h2 class="text-theme-1"><i class="fa fa-envelope-o"></i></h2>
                     <p>
                         {{ config('company.email_1') }} <br>

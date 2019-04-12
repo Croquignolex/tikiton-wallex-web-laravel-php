@@ -23,6 +23,7 @@ Route::get('/policy', function () { return redirect(locale_route('policy')); });
 Route::get('/about', function () { return redirect(locale_route('about')); });
 Route::get('/faqs', function () { return redirect(locale_route('faqs')); });
 Route::get('/contact', function () { return redirect(locale_route('contact')); });
+Route::post('/user/timezone', 'ContactController@timezoneAjax');
 
 //--Localized landing routes...
 Route::get('/{language?}', 'HomeController')->name('home');
@@ -137,7 +138,6 @@ Route::group(['namespace' => 'App'], function() {
         Route::get('/register', function () { return redirect(locale_route('register')); });
 
         //--Account routes...
-        Route::post('/user/timezone', 'AccountController@timezoneAjax');
         Route::get('/account/validation/{email}/{token}', function ($email, $token) { return redirect(locale_route('account.validation', compact('email', 'token'))); });
         Route::get('/account', function () { return redirect(locale_route('account.index')); });
         Route::get('/account/email', function () { return redirect(locale_route('account.email')); });

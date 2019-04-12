@@ -29,8 +29,7 @@ class AccountController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->only(['validation']);
-        $this->middleware('auth')->except(['validation', 'timezoneAjax']);
-        $this->middleware('ajax')->only(['timezoneAjax']);
+        $this->middleware('auth')->except(['validation']);
     }
 
     /**
@@ -198,16 +197,6 @@ class AccountController extends Controller
         }
 
         return redirect(locale_route('login'));
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function timezoneAjax(Request $request)
-    {
-        session(['timezone' => $request->input('timezone')]);
-        return response()->json();
     }
 
     /**

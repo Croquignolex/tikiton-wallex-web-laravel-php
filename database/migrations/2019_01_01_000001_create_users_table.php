@@ -31,8 +31,6 @@ class CreateUsersTable extends Migration
             $table->text('description')->nullable();
             $table->boolean('is_factored')->default(false);
             $table->boolean('is_confirmed')->default(false);
-            $table->boolean('is_admin')->default(false);
-            $table->boolean('is_super_admin')->default(false);
             $table->unsignedInteger('role_id');
             $table->rememberToken();
             $table->timestamps();
