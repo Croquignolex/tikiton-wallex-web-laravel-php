@@ -15,7 +15,7 @@
                         <tr>
                             <td style="vertical-align: top; padding-bottom:30px;" align="center">
                                 <a href="{{ locale_route('home') }}" target="_blank">
-                                    <img src="{{ external_img_asset('logo') }}" alt="..." style="border:none;"><br/>
+                                    <img src="{{ external_img_asset('mail_logo') }}" alt="..." style="border:none;" width="100px"><br/>
                                 </a>
                             </td>
                         </tr>
